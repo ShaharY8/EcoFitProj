@@ -17,5 +17,5 @@ public class ModuleLogIn {
         return rep.CheckIfExist(phone,pass);
     }
 
-
+    public String GetName(String phone) { return rep.GetNameByPhone(phone);}
 }

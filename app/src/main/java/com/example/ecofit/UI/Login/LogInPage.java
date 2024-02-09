@@ -23,11 +23,14 @@ public class LogInPage extends AppCompatActivity {
     private  ModuleLogIn moduleLogIn;
     private EditText editTextPhoneNumber,editTextPassword;
 
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in_page);
 
+        sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         tvSignUpLink = findViewById(R.id.tvSignUpLink);
         btnLogin = findViewById(R.id.btnLogIn);
         moduleLogIn = new ModuleLogIn(this);
@@ -43,15 +46,15 @@ public class LogInPage extends AppCompatActivity {
             public void onClick(View view) {
                 boolean b = moduleLogIn.CheckIfExist(editTextPhoneNumber.getText().toString(), editTextPassword.getText().toString());
                 if(b){
-//                    SharedPreferences sharedPreferences = getSharedPreferences("yosi", MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//                    String phoneNumber = editTextPhoneNumber.getText().toString();
-//
-//                    editor.putString(phoneNumber, "");
-//                    editor.putString("password", "idsadas");
-//                    editor.apply();
 
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    String phoneNumber = editTextPhoneNumber.getText().toString();
+                    String userName = moduleLogIn.GetName(phoneNumber);
+                    editor.putString("UserPhone", phoneNumber);
+                    editor.putString("UserName", userName);
+                    editor.apply();
+                    Toast.makeText(LogInPage.this, "" + userName, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LogInPage.this, HomePage.class);
                     startActivity(intent);
                 }

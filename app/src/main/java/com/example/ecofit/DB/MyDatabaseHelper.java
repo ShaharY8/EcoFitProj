@@ -111,6 +111,18 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         return cursor.getString(0);
     }
+    public String getNameByPhone(String phone)
+    {
+        String query = "SELECT " + COLUMN_NAME + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        if(cursor.getCount() == 0){
+            return "";
+        }
+        return cursor.getString(0);
+    }
 
     public void updateData(String row_id, String name, double price)
     {
