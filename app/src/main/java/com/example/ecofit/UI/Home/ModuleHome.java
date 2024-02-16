@@ -1,9 +1,12 @@
 package com.example.ecofit.UI.Home;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.provider.Telephony;
 import android.telephony.SmsManager;
@@ -15,9 +18,13 @@ import androidx.core.app.ActivityCompat;
 
 public class ModuleHome {
     private Context context;
-
+    private SharedPreferences sharedPreferences;
     public ModuleHome(Context c){
         context = c;
+        sharedPreferences = context.getSharedPreferences("UserInfo", MODE_PRIVATE);
+    }
+    public String getPhoneNumber(){
+        return sharedPreferences.getString("UserPhone", "0000000");
     }
 
     public void Button1(){
@@ -42,9 +49,9 @@ public class ModuleHome {
         public void onClick(DialogInterface dialogInterface, int i) {
             if(i == -1){
                 ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.SEND_SMS},1);
-                String str = "שלום ותודה שברחרת להשתתף במשימה";
+                String str = "שלום ותודה שברחרת להשתתף במשימה ...";
                 SmsManager smsManager = SmsManager.getDefault();
-                String phone = "0502143627";
+                String phone = getPhoneNumber();
                 smsManager.sendTextMessage(phone,null,str,null,null);
 
             }

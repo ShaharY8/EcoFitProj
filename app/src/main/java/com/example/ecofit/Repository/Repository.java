@@ -21,6 +21,7 @@ public class Repository {
     {
         return myDatabaseHelper.CheckIfExist(myDatabaseHelper.getIDByPhone(phone), pass);
     }
+
     public String GetNameByPhone(String phone)
     {
         return myDatabaseHelper.getNameByPhone(phone);

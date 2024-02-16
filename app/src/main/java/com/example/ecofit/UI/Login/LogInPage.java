@@ -19,11 +19,9 @@ public class LogInPage extends AppCompatActivity {
 
     private Button btnLogin;
     private TextView tvSignUpLink;
-//    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     private  ModuleLogIn moduleLogIn;
     private EditText editTextPhoneNumber,editTextPassword;
-
-    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,6 @@ public class LogInPage extends AppCompatActivity {
             public void onClick(View view) {
                 boolean b = moduleLogIn.CheckIfExist(editTextPhoneNumber.getText().toString(), editTextPassword.getText().toString());
                 if(b){
-
                     SharedPreferences.Editor editor = sharedPreferences.edit();
 
                     String phoneNumber = editTextPhoneNumber.getText().toString();
@@ -54,7 +51,6 @@ public class LogInPage extends AppCompatActivity {
                     editor.putString("UserPhone", phoneNumber);
                     editor.putString("UserName", userName);
                     editor.apply();
-                    Toast.makeText(LogInPage.this, "" + userName, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LogInPage.this, HomePage.class);
                     startActivity(intent);
                 }
