@@ -8,12 +8,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.ecofit.R;
+import com.example.ecofit.UI.Home.HomePage;
 import com.example.ecofit.UI.Login.LogInPage;
 import com.example.ecofit.UI.SignUp.SignUpPage;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnLogIn,btnSignUp;
+    private ModuleMainActivity moduleMainActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnLogIn = findViewById(R.id.btnLogIn);
         btnSignUp = findViewById(R.id.btnSignUp);
+        moduleMainActivity = new ModuleMainActivity(this);
 
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,5 +40,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        CheckIfUserLoggedIn();
+    }
+
+    public void CheckIfUserLoggedIn(){
+        if(moduleMainActivity.CheckIfUserLoggedIn()){
+            Intent intent = new Intent(MainActivity.this, HomePage.class);
+            startActivity(intent);
+        }
     }
 }

@@ -48,7 +48,7 @@
 
 
     //// מה שאני הוספתי ידני///
-    <string name="open" > Open Navigation Drawer </string>
-    <string name="close" > Close Navigation Drawer </string>
+    <string name="open"> Open Navigation Drawer </string>
+    <string name="close"> Close Navigation Drawer </string>
 
 </resources>

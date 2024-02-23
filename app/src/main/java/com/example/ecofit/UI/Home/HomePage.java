@@ -7,16 +7,20 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.ecofit.R;
+import com.example.ecofit.UI.Login.LogInPage;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
@@ -25,6 +29,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView menu;
+    private TextView nameOfUser;
+    private SharedPreferences sharedPreferences;
 
 
 
@@ -33,12 +39,16 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
+
+
         btn1 = findViewById(R.id.btn1);
         btn1.setOnClickListener(this);
         btn2 = findViewById(R.id.btn2);
         btn2.setOnClickListener(this);
         btn3 = findViewById(R.id.btn3);
         btn3.setOnClickListener(this);
+        nameOfUser = findViewById(R.id.nameOfUser);
 
         moduleHome = new ModuleHome(this);
 
@@ -54,9 +64,21 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        // מתחיל את הפעולות
+        ChangeName();
 
 
 
+
+    }
+    public void ChangeName(){
+        String name = sharedPreferences.getString("UserName", null);
+        if(name != null){
+            nameOfUser.setText(name + "");
+        }
+        else {
+            nameOfUser.setText("Error");
+        }
     }
 
     @Override
@@ -78,10 +100,10 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         if (id == R.id.profile) {
             Toast.makeText(this, "Profile Clicked", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.logOut) {
-            Toast.makeText(this, "Log Out Clicked", Toast.LENGTH_SHORT).show();
+           moduleHome.LogOut();
+           Intent intent = new Intent(HomePage.this, LogInPage.class);
+           startActivity(intent);
         }
-
-
 
         return false; // Return true to indicate that the item click has been handled
     }

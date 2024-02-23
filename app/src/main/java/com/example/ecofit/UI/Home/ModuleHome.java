@@ -60,5 +60,12 @@ public class ModuleHome {
             }
         }
     }
+    public void LogOut(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+        Toast.makeText(context, "Log Out successfully", Toast.LENGTH_SHORT).show();
+    }
+
 }
 
