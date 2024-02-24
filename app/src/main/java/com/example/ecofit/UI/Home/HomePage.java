@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.ecofit.R;
 import com.example.ecofit.UI.Login.LogInPage;
+import com.example.ecofit.UI.Main.MainActivity;
+import com.example.ecofit.UI.UpdateUser.UpdateUserInfo;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
@@ -98,10 +100,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         int id = item.getItemId();
 
         if (id == R.id.profile) {
-            Toast.makeText(this, "Profile Clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomePage.this, UpdateUserInfo.class);
+            startActivity(intent);
         } else if (id == R.id.logOut) {
            moduleHome.LogOut();
-           Intent intent = new Intent(HomePage.this, LogInPage.class);
+           Intent intent = new Intent(HomePage.this, MainActivity.class);
            startActivity(intent);
         }
 

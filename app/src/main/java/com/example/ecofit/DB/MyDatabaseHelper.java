@@ -123,14 +123,41 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor.getString(0);
     }
+    public String getPassByPhone(String phone)
+    {
+        String query = "SELECT " + COLUMN_PASS + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
 
-    public void updateData(String row_id, String name, double price)
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        if(cursor.getCount() == 0){
+            return "";
+        }
+        return cursor.getString(0);
+    }
+    public String getlLnameByPhone(String phone)
+    {
+        String query = "SELECT " + COLUMN_LASTNAME + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        if(cursor.getCount() == 0){
+            return "";
+        }
+        return cursor.getString(0);
+    }
+
+    public void updateUser(String row_id,String name, String Lname, String pass, String phone, int price)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
 
         cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_LASTNAME,Lname);
+        cv.put(COLUMN_PASS,pass);
+        cv.put(COLUMN_PHONE,phone);
         cv.put(COLUMN_PRICE, price);
 
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});

@@ -13,20 +13,22 @@ import android.widget.Toast;
 
 import com.example.ecofit.DB.MyDatabaseHelper;
 import com.example.ecofit.R;
+import com.example.ecofit.UI.Home.HomePage;
 import com.example.ecofit.UI.Login.LogInPage;
 
 public class SignUpPage extends AppCompatActivity {
 
     private EditText editTextFirstName , editTextLastName , editTextPassword , editTextConfirmPassword,editTextID,editTextPhoneNumber   ;
     private Button btnSignUp;
-    TextView tvLoginLink;
-    MyDatabaseHelper db = new MyDatabaseHelper(this);
+    private TextView tvLoginLink;
+
+    private ModuleSignUp moduleSignUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_page);
 
-
+        moduleSignUp = new ModuleSignUp(this);
         editTextFirstName = findViewById(R.id.editTextFirstName);
         editTextLastName = findViewById(R.id.editTextLastName);
         editTextPassword = findViewById(R.id.editTextPassword);
@@ -41,12 +43,17 @@ public class SignUpPage extends AppCompatActivity {
                 if (isValidInput()) {
                     Toast.makeText(SignUpPage.this, "123", Toast.LENGTH_SHORT).show();
                     // If all checks pass, proceed with sign-up logic
-                    db.addUser(editTextFirstName.getText().toString(),editTextLastName.getText().toString()
+
+                    moduleSignUp.addUser(editTextFirstName.getText().toString(),editTextLastName.getText().toString()
                             , editTextPassword.getText().toString()
                             ,editTextPhoneNumber.getText().toString(),0);
+
+                    moduleSignUp.saveAtSharedPreferences(editTextPhoneNumber.getText().toString());
+                    Intent intent = new Intent(SignUpPage.this, HomePage.class);
+                    startActivity(intent);
                 }
                 else{
-                    Toast.makeText(SignUpPage.this, "qwe", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpPage.this, "something wrong", Toast.LENGTH_SHORT).show();
                 }
             }
         });

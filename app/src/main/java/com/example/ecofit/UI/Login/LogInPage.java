@@ -44,13 +44,7 @@ public class LogInPage extends AppCompatActivity {
             public void onClick(View view) {
                 boolean b = moduleLogIn.CheckIfExist(editTextPhoneNumber.getText().toString(), editTextPassword.getText().toString());
                 if(b){
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                    String phoneNumber = editTextPhoneNumber.getText().toString();
-                    String userName = moduleLogIn.GetName(phoneNumber);
-                    editor.putString("UserPhone", phoneNumber);
-                    editor.putString("UserName", userName);
-                    editor.apply();
+                    moduleLogIn.saveAtSharedPreferences(editTextPhoneNumber.getText().toString());
                     Intent intent = new Intent(LogInPage.this, HomePage.class);
                     startActivity(intent);
                 }
