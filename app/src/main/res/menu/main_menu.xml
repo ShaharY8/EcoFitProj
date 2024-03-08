@@ -2,12 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="Profile"
-        android:id="@+id/profile"
+        android:id="@+id/_profile"
         android:icon="@drawable/default_profile_image"
         />
     <item
+        android:title="Shop"
+        android:id="@+id/_Shop"
+        android:icon="@drawable/baseline_shopping_cart_24"
+        />
+
+    <item
         android:title="Log Out"
-        android:id="@+id/logOut"
+        android:id="@+id/_logOut"
         android:icon="@drawable/baseline_logout_24"
         />
 
