@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Shop.WorkoutPlanHomeFragment">
-
+    tools:context=".UI.Shop.Home_gymWorkoutPlanFragment">
 
     <RelativeLayout
 
@@ -38,13 +37,12 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- יום 1: אימון כוח וסיבולת -->
                 <TextView
                     android:id="@+id/textViewDay1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="יום 1: אימון כוח וסיבולת"
+                    android:text="יום 1: אימון ביתי"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -52,41 +50,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="1. מתח: 5 סטים, 10 פעמים בכל סט.(אם קשה מידי אפשר אפשר וריאציות קלות יותר כמו עם גומיה או רק ירידה בעזרת כיסא)" />
+                    android:text=" סקוואט: 4 סטים, 12 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="2. שכיבות סמיכה: 4 סטים, 12 חזרות בכל סט.(אם קשה מידי אפשר וריאציות קלות יותר כמו לעשות על הברכיים או לשים ידיים על כיסא)" />
+                    android:text="שכיבות שמיכה: 4 סטים, 10 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="3. פלנק: 3 סטים עד כשל." />
-
-                <!-- המשך רשימת התרגילים ליום 1 -->
+                    android:text="לאנגים: 3 סטים, 12 חזרות לכל רגל" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="4. לאנגים: 4 סטים, 8 פעמים בכל סט." />
+                    android:text="פלאנק: 3 סטים, לחזור מספר שניות בכל סט" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="5. סקוואטים: 3 סטים, 12 חזרות בכל סט." />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:text="6. ספרינטים: 5 סטים, 15 שניות בכל סט." />
-
-                <!-- וכן הלאה עבור יום 1 -->
+                    android:text="כפיפות בטן: 3 סטים, 15 חזרות לכל צד" />
 
                 ////////////////////////////////////////////////////////////////////////////////////
                 <!-- יום 2: אימון לידיים וכתפיים -->
@@ -95,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="יום 2: אימון לידיים וכתפיים"
+                    android:text="יום 2: אימון ביתי"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -103,42 +91,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="1. מתח בסופינציה: 4 סטים, 10 פעמים בכל סט." />
+                    android:text="גאמפינג גאק: 3 סטים, 1 דקה" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="2.  שכיבות סמיכה פייק: 3 סטים, 12 חזרות בכל סט." />
+                    android:text="כפיפות בטן(אופניים): 4 סטים, 20 חזרות לרגל" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="3. עמידת ידיים בעזרת קיר: 3 סטים, 10 פעמים בכל סט." />
-
-                <!-- המשך רשימת התרגילים ליום 2 -->
+                    android:text="כפיפות בטן לצדדים: 3 סטים, 15 חזרות לצד" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="4. שכיבות סמיכה צמודות: 4 סטים, 8 פעמים בכל סט." />
+                    android:text="גלוטס ברידג: 4 סטים, 12 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:text="5. כפיפות ידיים: 3 סטים, 12 חזרות בכל סט(אם אין משקולות תמלא תיק בפסרים או בקבוקי מים)." />
+                    android:layout_marginBottom="8dp"
+                    android:text="סופרמן: 3 סטים, לחזור להחזיק 30 שניות" />
 
                 /////////////////////////////////////////////////////////////////////
 
+
+                <!-- Day 3: Gym Workout -->
                 <TextView
                     android:id="@+id/textViewDay3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="יום 3: אימון לרגליים וטורסו"
+                    android:text="יום 3: אימון בחדר כושר"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -146,43 +134,40 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="1. סקוואטים: 5 סטים, 10 פעמים בכל סט." />
+                    android:text="סקוואטים במוט: 4 סטים, 8 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="2. כפיפות ברכיים: 4 סטים, 12 חזרות בכל סט." />
+                    android:text="בנץ פרס: 4 סטים, 10 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="3. שכיבות לפתיחת הרגליים: 3 סטים, 15 פעמים בכל סט." />
-
-                <!-- המשך רשימת התרגילים ליום 3 -->
+                    android:text="מתח בפולי עליון: 4 סטים, 10 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="4. דרימבלס: 4 סטים, 8 פעמים בכל סט." />
+                    android:text="דדליפ רומני: 3 סטים, 12 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="25dp"
-                    android:text="5. פתיחות לשיפוע של 60 מעלות: 3 סטים, 12 חזרות בכל סט." />
+                    android:layout_marginBottom="8dp"
+                    android:text="לחיצת כתפיים: 3 סטים, 10 חזרות" />
 
-                <!-- וכן הלאה עבור יום 3 -->
-
+                //////////////////////////////////////////////////////////////////////////////////////
 
                 <TextView
                     android:id="@+id/textViewDay4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="יום 4: אימון כללי ופעילות קרוספיט"
+                    android:text="יום 4: אימון בחדר כושר"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -190,77 +175,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="1. ריצה למרחק: 3 סטים, 800 מטר בכל סט." />
+                    android:text="דדליפט: 4 סטים, 8 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="2. ספרינטים: 4 סטים, 100 מטר בכל סט." />
+                    android:text="מתח: 4 סטים, 10 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="4. תרגילי איזון: 3 סטים, 10 פעמים בכל סט." />
+                    android:text="לחיצת רגליים: 4 סטים, 10 חזרות" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="5. קפיצות לקופסה/מדרגה: 4 סטים, 15 פעמים בכל סט." />
+                    android:text="חתירה במכונה: 3 סטים, 12 חזרות" />
 
-                <!-- וכן הלאה עבור יום 4 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="בטן: 3 סטים, 10 חזרות" />
             </LinearLayout>
 
 
         </ScrollView>
-
-
-        <!-- וכן הלאה עבור יום 2 -->
-
-        <!--        </LinearLayout>-->
-
-        <!--        &lt;!&ndash; חלק שלישי: יום 3 &ndash;&gt;-->
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/day3_layout"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="vertical"-->
-        <!--            android:padding="16dp"-->
-        <!--            android:layout_below="@id/day2_layout">-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="יום 3: אימון לרגליים וטורסו"-->
-        <!--                android:textSize="20sp"-->
-        <!--                android:textStyle="bold"/>-->
-
-        <!--            &lt;!&ndash; כאן תוכנית אימון ליום 3 &ndash;&gt;-->
-
-        <!--        </LinearLayout>-->
-
-        <!--        &lt;!&ndash; חלק רביעי: יום 4 &ndash;&gt;-->
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/day4_layout"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="vertical"-->
-        <!--            android:padding="16dp"-->
-        <!--            android:layout_below="@id/day3_layout">-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="יום 4: אימון כללי ופעילות קרוספיט"-->
-        <!--                android:textSize="20sp"-->
-        <!--                android:textStyle="bold"/>-->
-
-        <!--            &lt;!&ndash; כאן תוכנית אימון ליום 4 &ndash;&gt;-->
-
-        <!--        </LinearLayout>-->
-
 
     </RelativeLayout>
 
