@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "250782414037",
+    "project_id": "fir-ex-7f23d",
+    "storage_bucket": "fir-ex-7f23d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250782414037:android:fffba8067ee853dee91e5c",
+        "android_client_info": {
+          "package_name": "com.example.ecofit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250782414037-nu3i067f9guhg7bpjklnjv5bsl7v5sjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4g3cnbyoiSrTXb-BH0VMMtns9PZ3ow2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250782414037-nu3i067f9guhg7bpjklnjv5bsl7v5sjs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250782414037:android:7433f349113601e0e91e5c",
+        "android_client_info": {
+          "package_name": "com.example.firebaseex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250782414037-nu3i067f9guhg7bpjklnjv5bsl7v5sjs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4g3cnbyoiSrTXb-BH0VMMtns9PZ3ow2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250782414037-nu3i067f9guhg7bpjklnjv5bsl7v5sjs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

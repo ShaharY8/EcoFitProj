@@ -26,7 +26,10 @@ public class ModuleHome {
     public String getPhoneNumber(){
         return sharedPreferences.getString("UserPhone", "0000000");
     }
-
+    public String GetNameByPhone(String phone)
+    {
+        return sharedPreferences.getString("UserPhone", "0000000");
+    }
     public void Button1(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("האם אתה רוצה להגיע?");
@@ -43,7 +46,6 @@ public class ModuleHome {
         dialog.getButton(-2).setTextColor(Color.RED);
     }
 
-
     private class AAA implements DialogInterface.OnClickListener {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
@@ -53,6 +55,7 @@ public class ModuleHome {
                 SmsManager smsManager = SmsManager.getDefault();
                 String phone = getPhoneNumber();
                 smsManager.sendTextMessage(phone,null,str,null,null);
+
 
             }
             if(i == -2){
