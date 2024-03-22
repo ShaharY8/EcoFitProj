@@ -3,10 +3,13 @@ package com.example.ecofit.UI.Home;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,11 +23,14 @@ import android.widget.Toast;
 
 
 import com.example.ecofit.R;
+import com.example.ecofit.Repository.Repository;
 import com.example.ecofit.UI.Login.LogInPage;
 import com.example.ecofit.UI.Main.MainActivity;
 import com.example.ecofit.UI.Shop.Shop;
 import com.example.ecofit.UI.UpdateUser.UpdateUserInfo;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Firebase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
     private ModuleHome moduleHome;
@@ -70,7 +76,10 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         // מתחיל את הפעולות
         ChangeName();
 
+        Repository rep = new Repository(this);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        rep.ReadDocument(db,"CleanForest");
 
 
     }
@@ -87,6 +96,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         if(btn1 == view){
+            ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.SEND_SMS},1);
             moduleHome.Button1();
         }
         if (menu == view)

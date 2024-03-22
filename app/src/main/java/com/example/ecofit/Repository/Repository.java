@@ -5,15 +5,24 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.ecofit.DB.MyDatabaseHelper;
+import com.example.ecofit.DB.MyFireBaseHelper;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.net.ContentHandler;
+import java.util.Map;
 
 public class Repository {
+
+
+
+    ////////////////////////   SQLite
     MyDatabaseHelper myDatabaseHelper;
+    MyFireBaseHelper myFireBaseHelper;
 
     public Repository(Context context)
     {
         myDatabaseHelper = new MyDatabaseHelper(context);
+        myFireBaseHelper = new MyFireBaseHelper(context);
     }
 
     public void addUser(  String name, String Lname, String pass, String phone, int price) { myDatabaseHelper.addUser(name, Lname, pass, phone, price);}
@@ -44,4 +53,15 @@ public class Repository {
         return myDatabaseHelper.getIDByPhone(phone);
     }
 
+
+    //////////////////////////  FireBase
+    public void AddDocument(FirebaseFirestore db, Map<String,Object> taskUser, String whichTask)
+    {
+        myFireBaseHelper.AddDocument(db,taskUser,whichTask);
+    }
+
+    public void ReadDocument(FirebaseFirestore db, String whichTask)
+    {
+        myFireBaseHelper.ReadDocument(db,whichTask);
+    }
 }

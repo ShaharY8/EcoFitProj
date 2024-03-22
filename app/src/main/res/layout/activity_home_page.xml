@@ -53,7 +53,7 @@
             android:layout_below="@+id/Top"
             android:layout_marginTop="20dp"
             android:background="@drawable/fix_button"
-            android:text="משימה מספר 1" />
+            android:text="ניקוי יערות" />
 
         <Button
             android:id="@+id/btn2"
