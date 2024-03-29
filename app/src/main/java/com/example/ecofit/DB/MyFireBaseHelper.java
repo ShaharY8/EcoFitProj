@@ -18,6 +18,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TooManyListenersException;
 
@@ -25,6 +27,8 @@ public class MyFireBaseHelper {
 
 
     private Context context;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public MyFireBaseHelper(Context context){
         this.context = context;
@@ -50,18 +54,67 @@ public class MyFireBaseHelper {
 
     }
 
-    public void ReadDocument(FirebaseFirestore db, String whichTask){
+
+    public interface gotUser
+    {
+        void onGotUser(LinkedList<String> name, LinkedList<String> phone);
+    }
+
+    public void ReadDocument(String whichTask, gotUser callback) {
 
         db.collection(whichTask)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> taskUserList) {
+                        LinkedList<String> tempList1, tempList2;
+                        tempList1 = new LinkedList<>();
+                        tempList2 = new LinkedList<>();
                         if (taskUserList.isSuccessful()) {
                             for (QueryDocumentSnapshot document : taskUserList.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Toast.makeText(context, "" + document.getString("name") + ", " + document.getString("phone") , Toast.LENGTH_SHORT).show();
+                                tempList1.add(document.getData().get("name").toString());
+                                tempList2.add(document.getData().get("phone").toString());
+//                                דוגמא למחיקה
+//                                db.collection("users").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//
+//                                    }
+//                                });
 
+                            }
+                            callback.onGotUser(tempList1, tempList2);
+                        } else {
+                            Log.w(TAG, "Error getting documents.", taskUserList.getException());
+                        }
+                    }
+                });
+
+
+    }
+
+    public void DelFromFireStor(String whichTask, int idToDel){
+        db.collection(whichTask)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> taskUserList) {
+
+                        if (taskUserList.isSuccessful()) {
+                            int i = 0;
+                            for (QueryDocumentSnapshot document : taskUserList.getResult()) {
+//        ..................................................DeleteUser
+
+                                if (i == idToDel){
+                                    db.collection(whichTask).document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                        }
+                                    });
+                                }
+
+                                i++;
                             }
                         } else {
                             Log.w(TAG, "Error getting documents.", taskUserList.getException());
@@ -69,5 +122,6 @@ public class MyFireBaseHelper {
                     }
                 });
     }
+
 
 }

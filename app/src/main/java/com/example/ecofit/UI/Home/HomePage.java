@@ -18,10 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.ecofit.Approval.ApprovalPage;
 import com.example.ecofit.R;
 import com.example.ecofit.Repository.Repository;
 import com.example.ecofit.UI.Login.LogInPage;
@@ -39,7 +41,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     private NavigationView navigationView;
     private ImageView menu;
     private TextView nameOfUser;
-    private SharedPreferences sharedPreferences;
+
 
 
 
@@ -47,8 +49,6 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
-        sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
 
 
         btn1 = findViewById(R.id.btn1);
@@ -76,15 +76,24 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         // מתחיל את הפעולות
         ChangeName();
 
-        Repository rep = new Repository(this);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        AddApprovalButton();
 
-        rep.ReadDocument(db,"CleanForest");
 
 
     }
+    public void AddApprovalButton(){
+        String phone = moduleHome.GetNameByPhone();
+        Intent intent = new Intent(HomePage.this, ApprovalPage.class);
+        startActivity(intent);
+
+        if("0549044534" == "0549044534"){
+            Button helpBtn1 = new Button(this);
+
+        }
+    }
     public void ChangeName(){
-        String name = sharedPreferences.getString("UserName", null);
+
+        String name = moduleHome.GetNameByPhone();
         if(name != null){
             nameOfUser.setText(name + "");
         }

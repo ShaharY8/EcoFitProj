@@ -19,6 +19,9 @@
         android:theme="@style/Theme.EcoFit"
         tools:targetApi="31">
         <activity
+            android:name=".Approval.ApprovalPage"
+            android:exported="false" />
+        <activity
             android:name=".UI.UpdateUser.UpdateUserInfo"
             android:exported="false" />
         <activity

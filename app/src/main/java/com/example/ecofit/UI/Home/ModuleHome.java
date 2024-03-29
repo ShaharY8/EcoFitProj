@@ -37,7 +37,7 @@ public class ModuleHome {
     public String getPhoneNumber(){
         return sharedPreferences.getString("UserPhone", "0000000");
     }
-    public String GetNameByPhone(String phone)
+    public String GetNameByPhone()
     {
         return sharedPreferences.getString("UserPhone", "0000000");
     }
