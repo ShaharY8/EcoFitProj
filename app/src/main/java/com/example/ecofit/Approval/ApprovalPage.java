@@ -18,6 +18,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.R;
@@ -147,10 +149,12 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         moduleApproval.ReadDocument(task, new MyFireBaseHelper.gotUser() {
             @Override
             public void onGotUser(LinkedList<String> name, LinkedList<String> phone) {
-                tableLayout = findViewById(R.id.tableLayout);
-                for (int i = 0; i < name.size(); i++) {
-                    AddRow(name.get(i),phone.get(i),i);
-                }
+//                tableLayout = findViewById(R.id.tableLayout);
+////                for (int i = 0; i < name.size(); i++) {
+////                    AddRow(name.get(i),phone.get(i),i);
+////                }
+                RecyclerView rcview = new RecyclerView(ApprovalPage.this);
+                rcview.setLayoutManager(new LinearLayoutManager(ApprovalPage.this));
             }
         });
     }

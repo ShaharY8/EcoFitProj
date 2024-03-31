@@ -49,7 +49,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/task1"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:layout_below="@+id/Top"
@@ -58,22 +58,33 @@
             android:text="ניקוי יערות" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/task2"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:layout_below="@+id/btn1"
+            android:layout_below="@+id/task1"
             android:layout_marginTop="20dp"
             android:background="@drawable/fix_button"
             android:text="משימה מספר 2" />
 
         <Button
-            android:id="@+id/btn3"
+            android:id="@+id/task3"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:layout_below="@+id/btn2"
+            android:layout_below="@+id/task2"
             android:layout_marginTop="20dp"
             android:background="@drawable/fix_button"
             android:text="משימה מספר 3" />
+
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="57dp"
+            android:layout_height="61dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="354dp"
+            android:background="@drawable/round_button"
+            android:text="+"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
     <include layout="@layout/nav_drawer"/>

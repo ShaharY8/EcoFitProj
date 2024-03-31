@@ -36,7 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
     private ModuleHome moduleHome;
-    private Button btn1, btn2, btn3;
+    private Button task1, task2, task3;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView menu;
@@ -51,12 +51,12 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         setContentView(R.layout.activity_home_page);
 
 
-        btn1 = findViewById(R.id.btn1);
-        btn1.setOnClickListener(this);
-        btn2 = findViewById(R.id.btn2);
-        btn2.setOnClickListener(this);
-        btn3 = findViewById(R.id.btn3);
-        btn3.setOnClickListener(this);
+        task1 = findViewById(R.id.task1);
+        task1.setOnClickListener(this);
+        task2 = findViewById(R.id.task2);
+        task2.setOnClickListener(this);
+        task3 = findViewById(R.id.task3);
+        task3.setOnClickListener(this);
         nameOfUser = findViewById(R.id.nameOfUser);
 
         moduleHome = new ModuleHome(this);
@@ -104,7 +104,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-        if(btn1 == view){
+        if(task1 == view){
             ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.SEND_SMS},1);
             moduleHome.Button1();
         }
