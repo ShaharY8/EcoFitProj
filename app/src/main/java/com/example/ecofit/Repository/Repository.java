@@ -53,15 +53,17 @@ public class Repository {
 
 
     //////////////////////////  FireBase
-    public void AddDocument(FirebaseFirestore db, Map<String, Object> taskUser, String whichTask) {
-        myFireBaseHelper.AddDocument(db, taskUser, whichTask);
+    public void AddDocument(Map<String, Object> taskUser, String whichTask) {
+        myFireBaseHelper.AddDocument(taskUser, whichTask);
     }
 
     public void ReadDocument(String whichTask, MyFireBaseHelper.gotUser callback) {
         myFireBaseHelper.ReadDocument(whichTask, callback);
     }
 
-    public void DelFromFireStor(String whichTask, int idToDel){
-        myFireBaseHelper.DelFromFireStor(whichTask,idToDel);
+    public void DelFromFireStore(String whichTask, int idToDel){
+        myFireBaseHelper.DelFromFireStore(whichTask,idToDel);
     }
+
+    public boolean checkIfUserExists(String whichTask, String phone){return myFireBaseHelper.checkIfUserExists(whichTask,phone);}
 }

@@ -24,7 +24,7 @@ public class ModuleApproval {
         rep.ReadDocument(whichTask, callback);
     }
 
-    public void DelFromFireStor(String whichTask, int idToDel){
-        rep.DelFromFireStor(whichTask,idToDel);
+    public void DelFromFireStore(String whichTask, int idToDel){
+        rep.DelFromFireStore(whichTask,idToDel);
     }
 }

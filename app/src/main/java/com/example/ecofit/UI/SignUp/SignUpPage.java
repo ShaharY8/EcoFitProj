@@ -16,6 +16,9 @@ import com.example.ecofit.R;
 import com.example.ecofit.UI.Home.HomePage;
 import com.example.ecofit.UI.Login.LogInPage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SignUpPage extends AppCompatActivity {
 
     private EditText editTextFirstName , editTextLastName , editTextPassword , editTextConfirmPassword,editTextID,editTextPhoneNumber   ;
@@ -41,7 +44,6 @@ public class SignUpPage extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (isValidInput()) {
-                    Toast.makeText(SignUpPage.this, "123", Toast.LENGTH_SHORT).show();
                     // If all checks pass, proceed with sign-up logic
 
                     moduleSignUp.addUser(editTextFirstName.getText().toString(),editTextLastName.getText().toString()
@@ -49,6 +51,11 @@ public class SignUpPage extends AppCompatActivity {
                             ,editTextPhoneNumber.getText().toString(),0);
 
                     moduleSignUp.saveAtSharedPreferences(editTextPhoneNumber.getText().toString());
+
+                    moduleSignUp.AddDocument(editTextFirstName.getText().toString(),editTextLastName.getText().toString()
+                            , editTextPassword.getText().toString()
+                            ,editTextPhoneNumber.getText().toString(),0);
+
                     Intent intent = new Intent(SignUpPage.this, HomePage.class);
                     startActivity(intent);
                 }
@@ -75,33 +82,46 @@ public class SignUpPage extends AppCompatActivity {
         // Add your validation checks here
         boolean isValid = true;
 
-        if (TextUtils.isEmpty(editTextFirstName.getText().toString())) {
-            editTextFirstName.setError("Please enter your first name");
+        String name = editTextFirstName.getText().toString();
+        String lname = editTextLastName.getText().toString();
+        String pass = editTextPassword.getText().toString();
+        String confirmPass = editTextConfirmPassword.getText().toString();
+        String phone = editTextPhoneNumber.getText().toString();
+
+        if (name.isEmpty()) {
+            editTextFirstName.setError("תמלא שם פרטי");
+            isValid = false;
+        }
+        if (name.length() >10) {
+            editTextFirstName.setError("שם פרטי ארוך מידי");
             isValid = false;
         }
 
-        if (TextUtils.isEmpty(editTextLastName.getText().toString())) {
-            editTextLastName.setError("Please enter your last name");
+        if (lname.isEmpty()) {
+            editTextLastName.setError("תמלא שם משפחה");
+            isValid = false;
+        }
+        if (lname.length() >10) {
+            editTextLastName.setError("שם משפחה ארוך מידי");
+            isValid = false;
+        }
+        if (pass.length() < 3 || pass.length() > 20) {
+            editTextPassword.setError("סיסמא צריכה להיות בין 3-20 תווים");
             isValid = false;
         }
 
-        if (TextUtils.isEmpty(editTextPassword.getText().toString())) {
-            editTextPassword.setError("Please enter a password");
+        if (pass.equals(confirmPass) == false) {
+            editTextConfirmPassword.setError("הסיסמאות לא תואמות");
             isValid = false;
         }
 
-        if (TextUtils.isEmpty(editTextConfirmPassword.getText().toString())) {
-            editTextConfirmPassword.setError("Please confirm your password");
+
+        if (phone.length() == 0) {
+            editTextPhoneNumber.setError("תכניס מספר טלפון");
             isValid = false;
         }
-
-        if (!editTextPassword.getText().toString().equals(editTextConfirmPassword.getText().toString())) {
-            editTextConfirmPassword.setError("Passwords do not match");
-            isValid = false;
-        }
-
-        if (TextUtils.isEmpty(editTextPhoneNumber.getText().toString())) {
-            editTextPhoneNumber.setError("Please enter your phone number");
+        if(moduleSignUp.checkIfUserExists("UsersList",phone)) {
+            editTextPhoneNumber.setError("טלפון זה כבר קיים במערכת");
             isValid = false;
         }
 

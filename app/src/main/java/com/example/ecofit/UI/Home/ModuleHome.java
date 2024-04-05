@@ -39,7 +39,7 @@ public class ModuleHome {
     }
     public String GetNameByPhone()
     {
-        return sharedPreferences.getString("UserPhone", "0000000");
+        return sharedPreferences.getString("UserName", "0000000");
     }
     public void Button1(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -78,7 +78,7 @@ public class ModuleHome {
                 Map<String, Object> taskUserList = new HashMap<>();
                 taskUserList.put("name", name);
                 taskUserList.put("phone", phone);
-                rep.AddDocument(db,taskUserList,"CleanForest");
+                rep.AddDocument(taskUserList,"CleanForest");
 
 
 

@@ -28,14 +28,14 @@ public class MyFireBaseHelper {
 
     private Context context;
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public MyFireBaseHelper(Context context){
         this.context = context;
     }
 
     // Add a new document with a generated ID
-    public void AddDocument(FirebaseFirestore db, Map<String,Object> taskUserList,String whichTask){
+    public void AddDocument(Map<String,Object> taskUserList,String whichTask){
 
         db.collection(whichTask)
                 .add(taskUserList)
@@ -74,14 +74,6 @@ public class MyFireBaseHelper {
                             for (QueryDocumentSnapshot document : taskUserList.getResult()) {
                                 tempList1.add(document.getData().get("name").toString());
                                 tempList2.add(document.getData().get("phone").toString());
-//                                דוגמא למחיקה
-//                                db.collection("users").document(document.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//
-//                                    }
-//                                });
-
                             }
                             callback.onGotUser(tempList1, tempList2);
                         } else {
@@ -90,10 +82,30 @@ public class MyFireBaseHelper {
                     }
                 });
 
-
     }
+    public boolean checkIfUserExists(String whichTask, String phone) {
 
-    public void DelFromFireStor(String whichTask, int idToDel){
+        boolean[] degel = {false};
+        db.collection(whichTask)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> taskUserList) {
+                        if (taskUserList.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : taskUserList.getResult()) {
+                                if(document.getData().get("phone").toString() == phone){
+                                    degel[0] = true;
+                                }
+                            }
+
+                        } else {
+                            Log.w(TAG, "Error getting documents.", taskUserList.getException());
+                        }
+                    }
+                });
+        return degel[0];
+    }
+    public void DelFromFireStore(String whichTask, int idToDel){
         db.collection(whichTask)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

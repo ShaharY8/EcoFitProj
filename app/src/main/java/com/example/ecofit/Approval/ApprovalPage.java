@@ -42,12 +42,14 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout mainRelativeLayout;
     private String whichTask;
     private TextView textView;
+    private int indexForDel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_approval_page);
 
+        indexForDel = 1;
         scrollView = findViewById(R.id.UserList);
         mainRelativeLayout = findViewById(R.id.mainRelativeLayout);
         mainRelativeLayout.removeView(scrollView);
@@ -67,16 +69,15 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
 
 
     private TableLayout tableLayout;
-    private List<Button> btnUpdate = new ArrayList<>();
+    private List<Button> btnUpdateCoin = new ArrayList<>();
     private List<Button> btnDelete = new ArrayList<>();
 
     public void AddRow(String name, String phone, int id) {
 
+        TableRow existingRow = tableLayout.findViewWithTag(id);
 
         TextView _name = new TextView(this);
-        _name.setTag("name");
         TextView _price = new TextView(this);
-        _price.setTag("price");
 
         TableRow tbRow = new TableRow(this);
         tbRow.setTag(id);
@@ -102,7 +103,7 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         btnUp.setText("מאושר");
         btnUp.setId(id);
         btnUp.setOnClickListener(this);
-        btnUpdate.add(btnUp);
+        btnUpdateCoin.add(btnUp);
         btnUp.setLayoutParams(paramsForButton);
 
         _name.setText(name);
@@ -113,8 +114,14 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         tbRow.addView(btnUp);
         tbRow.addView(btnDel);
 
+        if(phone == "-1"){
+            TableRow tbRowToDel = existingRow.findViewWithTag(id);
+            tableLayout.removeView(tbRowToDel);
+        }
+        else{
+            tableLayout.addView(tbRow);
+        }
 
-        tableLayout.addView(tbRow);
     }
 
 
@@ -131,15 +138,37 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         }
         for (int i = 0; i < btnDelete.size(); i++) {
             if(btnDelete.get(i) == view){
+                Toast.makeText(this, "" + btnDelete.size(), Toast.LENGTH_SHORT).show();
+                if(i == btnDelete.size()-indexForDel){
+                    btnDelete.remove(i);
+                    btnUpdateCoin.remove(i);
+                    moduleApproval.DelFromFireStore(whichTask,i);
 
-                moduleApproval.DelFromFireStor(whichTask,i);
+                    AddRow("","-1",i);
+                    indexForDel++;
+
+                }
+                else{
+                    Toast.makeText(this, "תתחיל מהבנאדם האחרון", Toast.LENGTH_SHORT).show();
+                }
 
             }
         }
-        for (int i = 0; i < btnUpdate.size(); i++) {
+        for (int i = 0; i < btnUpdateCoin.size(); i++) {
 
-            if(btnUpdate.get(i) == view){
-                Toast.makeText(this, "" + i, Toast.LENGTH_SHORT).show();
+            if(btnUpdateCoin.get(i) == view){
+                Toast.makeText(this, "" + btnDelete.size(), Toast.LENGTH_SHORT).show();
+                if(i == btnDelete.size()-indexForDel){
+                    btnDelete.remove(i);
+                    btnUpdateCoin.remove(i);
+                    moduleApproval.DelFromFireStore(whichTask,i);
+                    AddRow("","-1",i);
+                    indexForDel++;
+
+                }
+                else{
+                    Toast.makeText(this, "תתחיל מהבנאדם האחרון", Toast.LENGTH_SHORT).show();
+                }
 
             }
 
@@ -149,12 +178,10 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         moduleApproval.ReadDocument(task, new MyFireBaseHelper.gotUser() {
             @Override
             public void onGotUser(LinkedList<String> name, LinkedList<String> phone) {
-//                tableLayout = findViewById(R.id.tableLayout);
-////                for (int i = 0; i < name.size(); i++) {
-////                    AddRow(name.get(i),phone.get(i),i);
-////                }
-                RecyclerView rcview = new RecyclerView(ApprovalPage.this);
-                rcview.setLayoutManager(new LinearLayoutManager(ApprovalPage.this));
+                tableLayout = findViewById(R.id.tableLayout);
+                for (int i = 0; i < name.size(); i++) {
+                    AddRow(name.get(i),phone.get(i),i);
+                }
             }
         });
     }

@@ -76,7 +76,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         // מתחיל את הפעולות
         ChangeName();
 
-        AddApprovalButton();
+        //AddApprovalButton();
 
 
 
@@ -96,6 +96,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         String name = moduleHome.GetNameByPhone();
         if(name != null){
             nameOfUser.setText(name + "");
+            Toast.makeText(this, " " + name, Toast.LENGTH_SHORT).show();
         }
         else {
             nameOfUser.setText("Error");

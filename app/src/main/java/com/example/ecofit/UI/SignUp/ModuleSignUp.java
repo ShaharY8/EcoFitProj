@@ -6,6 +6,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.ecofit.Repository.Repository;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ModuleSignUp {
     private Context context;
@@ -27,5 +31,19 @@ public class ModuleSignUp {
     }
     public void addUser(String name,String Lname,String pass, String phone, int price){
         rep.addUser(name,Lname,pass ,phone,0);
+    }
+    public void AddDocument(String name,String Lname,String pass, String phone, int price) {
+
+        ////////Add to fireStore
+        Map<String, Object> UsersList = new HashMap<>();
+        UsersList.put("name", name);
+        UsersList.put("Lname", Lname);
+        UsersList.put("pass", pass);
+        UsersList.put("phone", phone);
+        UsersList.put("price", 0);
+        rep.AddDocument(UsersList,"UsersList");
+    }
+    public boolean checkIfUserExists(String whichTask, String phone){
+        return rep.checkIfUserExists(whichTask,phone);
     }
 }
