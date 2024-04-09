@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.net.ContentHandler;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class Repository {
 
@@ -65,5 +66,11 @@ public class Repository {
         myFireBaseHelper.DelFromFireStore(whichTask,idToDel);
     }
 
-    public boolean checkIfUserExists(String whichTask, String phone){return myFireBaseHelper.checkIfUserExists(whichTask,phone);}
+    public void checkIfUserExists(String phone,MyFireBaseHelper.UserExistenceCallback callback) {
+        myFireBaseHelper.checkIfUserExists(phone, callback);
+    }
+
+//    public int GetNumberOfCoinsByPhone(String phone) {
+//
+//    }
 }

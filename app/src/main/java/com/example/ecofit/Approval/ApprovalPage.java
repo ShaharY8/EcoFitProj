@@ -175,7 +175,7 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         }
     }
     public void TakeListOfUsers(String task){
-        moduleApproval.ReadDocument(task, new MyFireBaseHelper.gotUser() {
+        moduleApproval.ReadDocument("UsersList", new MyFireBaseHelper.gotUser() {
             @Override
             public void onGotUser(LinkedList<String> name, LinkedList<String> phone) {
                 tableLayout = findViewById(R.id.tableLayout);

@@ -12,19 +12,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ecofit.DB.MyDatabaseHelper;
+import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.R;
 import com.example.ecofit.UI.Home.HomePage;
 import com.example.ecofit.UI.Login.LogInPage;
+import com.google.common.base.MoreObjects;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class SignUpPage extends AppCompatActivity {
 
-    private EditText editTextFirstName , editTextLastName , editTextPassword , editTextConfirmPassword,editTextID,editTextPhoneNumber   ;
+    private EditText editTextFirstName , editTextLastName , editTextPassword , editTextConfirmPassword,editTextPhoneNumber   ;
     private Button btnSignUp;
     private TextView tvLoginLink;
-
     private ModuleSignUp moduleSignUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,32 +41,59 @@ public class SignUpPage extends AppCompatActivity {
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         btnSignUp = findViewById(R.id.btnSignUp);
         tvLoginLink = findViewById(R.id.tvLoginLink);
+//        btnSignUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (isValidInput()) {
+//
+//
+//                    moduleSignUp.addUser(editTextFirstName.getText().toString().trim(),editTextLastName.getText().toString().trim()
+//                            , editTextPassword.getText().toString().trim()
+//                            ,editTextPhoneNumber.getText().toString().trim(),0);
+//
+//                    moduleSignUp.saveAtSharedPreferences(editTextPhoneNumber.getText().toString().trim());
+//
+//                    moduleSignUp.AddDocument(editTextFirstName.getText().toString().trim(),editTextLastName.getText().toString().trim()
+//                            , editTextPassword.getText().toString().trim()
+//                            ,editTextPhoneNumber.getText().toString().trim(),0);
+//
+//                    Intent intent = new Intent(SignUpPage.this, HomePage.class);
+//                    startActivity(intent);
+//                }
+//                else{
+//                   Toast.makeText(SignUpPage.this, "something wrong", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                validateInputAndCheckUserExistence(new ValidationCallback() {
+                    @Override
+                    public void onValidationResult(boolean isValid) {
+                        // Handle the final result of validation here
+                        if (isValid) {
+                            moduleSignUp.addUser(editTextFirstName.getText().toString().trim(),editTextLastName.getText().toString().trim()
+                            , editTextPassword.getText().toString().trim()
+                            ,editTextPhoneNumber.getText().toString().trim(),0);
 
-                if (isValidInput()) {
-                    // If all checks pass, proceed with sign-up logic
+                            moduleSignUp.saveAtSharedPreferences(editTextPhoneNumber.getText().toString().trim());
 
-                    moduleSignUp.addUser(editTextFirstName.getText().toString(),editTextLastName.getText().toString()
-                            , editTextPassword.getText().toString()
-                            ,editTextPhoneNumber.getText().toString(),0);
+                            moduleSignUp.AddDocument(editTextFirstName.getText().toString().trim(),editTextLastName.getText().toString().trim()
+                            , editTextPassword.getText().toString().trim()
+                            ,editTextPhoneNumber.getText().toString().trim(),0);
 
-                    moduleSignUp.saveAtSharedPreferences(editTextPhoneNumber.getText().toString());
-
-                    moduleSignUp.AddDocument(editTextFirstName.getText().toString(),editTextLastName.getText().toString()
-                            , editTextPassword.getText().toString()
-                            ,editTextPhoneNumber.getText().toString(),0);
-
-                    Intent intent = new Intent(SignUpPage.this, HomePage.class);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(SignUpPage.this, "something wrong", Toast.LENGTH_SHORT).show();
-                }
+                            Intent intent = new Intent(SignUpPage.this, HomePage.class);
+                            startActivity(intent);
+                        } else {
+                           Toast.makeText(SignUpPage.this, "something wrong", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
-
 
         tvLoginLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,69 +105,140 @@ public class SignUpPage extends AppCompatActivity {
         });
 
 
-    }
-
-    private boolean isValidInput() {
-        // Add your validation checks here
-        boolean isValid = true;
-
-        String name = editTextFirstName.getText().toString();
-        String lname = editTextLastName.getText().toString();
-        String pass = editTextPassword.getText().toString();
-        String confirmPass = editTextConfirmPassword.getText().toString();
-        String phone = editTextPhoneNumber.getText().toString();
-
-        if (name.isEmpty()) {
-            editTextFirstName.setError("תמלא שם פרטי");
-            isValid = false;
-        }
-        if (name.length() >10) {
-            editTextFirstName.setError("שם פרטי ארוך מידי");
-            isValid = false;
-        }
-
-        if (lname.isEmpty()) {
-            editTextLastName.setError("תמלא שם משפחה");
-            isValid = false;
-        }
-        if (lname.length() >10) {
-            editTextLastName.setError("שם משפחה ארוך מידי");
-            isValid = false;
-        }
-        if (pass.length() < 3 || pass.length() > 20) {
-            editTextPassword.setError("סיסמא צריכה להיות בין 3-20 תווים");
-            isValid = false;
-        }
-
-        if (pass.equals(confirmPass) == false) {
-            editTextConfirmPassword.setError("הסיסמאות לא תואמות");
-            isValid = false;
-        }
-
-
-        if (phone.length() == 0) {
-            editTextPhoneNumber.setError("תכניס מספר טלפון");
-            isValid = false;
-        }
-        if(moduleSignUp.checkIfUserExists("UsersList",phone)) {
-            editTextPhoneNumber.setError("טלפון זה כבר קיים במערכת");
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    private void performSignUp() {
-        // Implement your sign-up logic here
-        // For simplicity, you can print the values for now
-//        System.out.println("First Name: " + editTextFirstName.getText().toString());
-//        System.out.println("Last Name: " + editTextLastName.getText().toString());
-//        System.out.println("Password: " + editTextPassword.getText().toString());
-//        System.out.println("Confirm Password: " + editTextConfirmPassword.getText().toString());
-//        System.out.println("ID: " + editTextID.getText().toString());
-//        System.out.println("Phone Number: " + editTextPhoneNumber.getText().toString());
 
     }
 
+    boolean isValid = true;
+
+    interface ValidationCallback {
+        void onValidationResult(boolean isValid);
+    }
+
+    private void validateInputAndCheckUserExistence(ValidationCallback callback) {
+        String name = editTextFirstName.getText().toString().trim();
+        String lname = editTextLastName.getText().toString().trim();
+        String pass = editTextPassword.getText().toString().trim();
+        String confirmPass = editTextConfirmPassword.getText().toString().trim();
+        String phone = editTextPhoneNumber.getText().toString().trim();
+
+        // Reset isValid to true before performing checks
+        isValid = true;
+        // Check if user exists
+        moduleSignUp.checkIfUserExists(phone, new MyFireBaseHelper.UserExistenceCallback() {
+            @Override
+            public void onUserExistenceChecked(boolean userExists) {
+                if (userExists) {
+                    editTextPhoneNumber.setError("מספר טלפון זה כבר קיים במערכת");
+                    isValid = false; // Set isValid to false if user exists
+                }
+
+                // Perform other validations
+                if (name.isEmpty()) {
+                    editTextFirstName.setError("תמלא שם פרטי");
+                    isValid = false;
+                }
+                if (name.length() > 10) {
+                    editTextFirstName.setError("שם פרטי ארוך מידי");
+                    isValid = false;
+                }
+                if (lname.isEmpty()) {
+                    editTextLastName.setError("תמלא שם משפחה");
+                    isValid = false;
+                }
+                if (lname.length() > 10) {
+                    editTextLastName.setError("שם משפחה ארוך מידי");
+                    isValid = false;
+                }
+                if (pass.length() < 3 || pass.length() > 20) {
+                    editTextPassword.setError("סיסמא צריכה להיות בין 3-20 תווים");
+                    isValid = false;
+                }
+                if (!pass.equals(confirmPass)) {
+                    editTextConfirmPassword.setError("הסיסמאות לא תואמות");
+                    isValid = false;
+                }
+                if (phone.length() == 0) {
+                    editTextPhoneNumber.setError("תכניס מספר טלפון");
+                    isValid = false;
+                }
+
+                // Pass the validation result to the callback
+                callback.onValidationResult(isValid);
+            }
+        });
+    }
+
+    // Call this method to initiate the validation process
+    private void initiateValidation() {
+        validateInputAndCheckUserExistence(new ValidationCallback() {
+            @Override
+            public void onValidationResult(boolean isValid) {
+                // Handle the final result of validation here
+                if (isValid) {
+                    // Proceed with your application logic here
+                } else {
+                    // User input is not valid, take appropriate action
+                }
+            }
+        });
+    }
+
+//    private boolean isValidInput() {
+//        // Add your validation checks here
+//
+//
+//        String name = editTextFirstName.getText().toString().trim();
+//        String lname = editTextLastName.getText().toString().trim();
+//        String pass = editTextPassword.getText().toString().trim();
+//        String confirmPass = editTextConfirmPassword.getText().toString().trim();
+//        String phone = editTextPhoneNumber.getText().toString().trim();
+//
+//
+//        moduleSignUp.checkIfUserExists(phone, new MyFireBaseHelper.UserExistenceCallback() {
+//            @Override
+//            public void onUserExistenceChecked(boolean userExists) {
+//                if (userExists) {editTextPhoneNumber.setError("מספר טלפון זה כבר קיים במערכת");
+//                    isValid = false;
+//                }
+//            }
+//        });
+//
+//
+//        if (name.isEmpty()) {
+//            editTextFirstName.setError("תמלא שם פרטי");
+//            isValid = false;
+//        }
+//        if (name.length() >10) {
+//            editTextFirstName.setError("שם פרטי ארוך מידי");
+//            isValid = false;
+//        }
+//
+//        if (lname.isEmpty()) {
+//            editTextLastName.setError("תמלא שם משפחה");
+//            isValid = false;
+//        }
+//        if (lname.length() >10) {
+//            editTextLastName.setError("שם משפחה ארוך מידי");
+//            isValid = false;
+//        }
+//        if (pass.length() < 3 || pass.length() > 20) {
+//            editTextPassword.setError("סיסמא צריכה להיות בין 3-20 תווים");
+//            isValid = false;
+//        }
+//
+//        if (pass.equals(confirmPass) == false) {
+//            editTextConfirmPassword.setError("הסיסמאות לא תואמות");
+//            isValid = false;
+//        }
+//
+//
+//        if (phone.length() == 0) {
+//            editTextPhoneNumber.setError("תכניס מספר טלפון");
+//            isValid = false;
+//        }
+//
+//
+//        return isValid;
+//    }
 
 }

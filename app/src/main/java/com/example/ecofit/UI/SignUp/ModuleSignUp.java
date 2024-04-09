@@ -5,11 +5,13 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.Repository.Repository;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class ModuleSignUp {
     private Context context;
@@ -43,7 +45,11 @@ public class ModuleSignUp {
         UsersList.put("price", 0);
         rep.AddDocument(UsersList,"UsersList");
     }
-    public boolean checkIfUserExists(String whichTask, String phone){
-        return rep.checkIfUserExists(whichTask,phone);
+    public void checkIfUserExists(String phone, MyFireBaseHelper.UserExistenceCallback callback){
+        rep.checkIfUserExists(phone,callback);
+    }
+
+    public void ReadDocument(String whichTask, MyFireBaseHelper.gotUser callback) {
+        rep.ReadDocument(whichTask, callback);
     }
 }

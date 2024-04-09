@@ -41,6 +41,10 @@ public class ModuleHome {
     {
         return sharedPreferences.getString("UserName", "0000000");
     }
+//    public int GetNumberOfCoinsByPhone(String phone)
+//    {
+//        return rep.GetNumberOfCoinsByPhone(phone);
+//    }
     public void Button1(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("האם אתה רוצה להגיע?");

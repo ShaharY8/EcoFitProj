@@ -96,13 +96,21 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         String name = moduleHome.GetNameByPhone();
         if(name != null){
             nameOfUser.setText(name + "");
-            Toast.makeText(this, " " + name, Toast.LENGTH_SHORT).show();
         }
         else {
             nameOfUser.setText("Error");
         }
     }
+    public void changeNamberOfCoins(){
 
+        String name = moduleHome.GetNameByPhone();
+        if(name != null){
+            nameOfUser.setText(name + "");
+        }
+        else {
+            nameOfUser.setText("Error");
+        }
+    }
     @Override
     public void onClick(View view) {
         if(task1 == view){
