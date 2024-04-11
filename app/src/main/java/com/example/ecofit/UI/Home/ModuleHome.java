@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 
+import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.Repository.Repository;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -41,10 +42,10 @@ public class ModuleHome {
     {
         return sharedPreferences.getString("UserName", "0000000");
     }
-//    public int GetNumberOfCoinsByPhone(String phone)
-//    {
-//        return rep.GetNumberOfCoinsByPhone(phone);
-//    }
+    public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback)
+    {
+         rep.GetNumberOfCoinsByPhone(phone, callback);
+    }
     public void Button1(){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("האם אתה רוצה להגיע?");

@@ -158,10 +158,11 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
 
             if(btnUpdateCoin.get(i) == view){
                 Toast.makeText(this, "" + btnDelete.size(), Toast.LENGTH_SHORT).show();
-                if(i == btnDelete.size()-indexForDel){
+                if(i == btnUpdateCoin.size()-indexForDel){
                     btnDelete.remove(i);
                     btnUpdateCoin.remove(i);
                     moduleApproval.DelFromFireStore(whichTask,i);
+
                     AddRow("","-1",i);
                     indexForDel++;
 
@@ -175,7 +176,7 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         }
     }
     public void TakeListOfUsers(String task){
-        moduleApproval.ReadDocument("UsersList", new MyFireBaseHelper.gotUser() {
+        moduleApproval.ReadDocument(task, new MyFireBaseHelper.gotUser() {
             @Override
             public void onGotUser(LinkedList<String> name, LinkedList<String> phone) {
                 tableLayout = findViewById(R.id.tableLayout);

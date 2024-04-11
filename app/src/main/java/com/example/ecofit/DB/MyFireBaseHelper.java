@@ -99,7 +99,7 @@ public class MyFireBaseHelper {
     public void checkIfUserExists( String phone, UserExistenceCallback callback) {
 
 
-        Query query = db.collection("UsersList").whereEqualTo("phone",phone);
+        Query query = db.collection("UsersList").whereEqualTo("phone", phone);
 
 
         query.get().addOnCompleteListener(task -> {
@@ -123,98 +123,7 @@ public class MyFireBaseHelper {
             }
         });
 
-//        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (DocumentSnapshot document : task.getResult()) {
-//                        if (document.exists()) {
-//                            Toast.makeText(context, "phone already exists", Toast.LENGTH_SHORT).show();
-//                            callback.onUserExistenceChecked(true);
-//                        } else {
-//                            Toast.makeText(context, "phone not exists", Toast.LENGTH_SHORT).show();
-//                            callback.onUserExistenceChecked(false);
-//                        }
-//                    }
-//                } else {
-//                    Toast.makeText(context, "somenofds", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
-
-//        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-//        CollectionReference allUsersRef = rootRef.collection("all_users");
-//        Query userNameQuery = allUsersRef.whereEqualTo("username", "userNameToCompare");
-//        userNameQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    for (DocumentSnapshot document : task.getResult()) {
-//                        if (document.exists()) {
-//                            String userName = document.getString("username");
-//                            Log.d(TAG, "username already exists");
-//                        } else {
-//                            Log.d(TAG, "username does not exists");
-//                        }
-//                    }
-//                } else {
-//                    Log.d("TAG", "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
     }
-//    private boolean degel = false;
-//
-//    public boolean checkIfUserExists(String whichTask, String phone) {
-//        CompletableFuture<Boolean> future = new CompletableFuture<>();
-//        db.collection(whichTask)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> taskUserList) {
-//                        if (taskUserList.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : taskUserList.getResult()) {
-//
-//                                String checkPhone = document.getData().get("phone").toString();
-//                                if(checkPhone.equals(phone)){
-//                                    Toast.makeText(context, "12345", Toast.LENGTH_SHORT).show();
-//                                    degel = true;
-//                                }
-//                            }
-//
-//                        } else {
-//                            Log.w(TAG, "Error getting documents.", taskUserList.getException());
-//                        }
-//                    }
-//                });
-//
-//        Toast.makeText(context, "123", Toast.LENGTH_SHORT).show();
-//        return degel;
-//    }
-//    public int GetNumberOfCoinsByPhone(String phone) {
-//        db.collection("UsersList")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> taskUserList) {
-//
-//                        if (taskUserList.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : taskUserList.getResult()) {
-//                                String checkPhone = document.getData().get("phone").toString();
-//                                if(checkPhone.equals(phone)){
-//                                    Toast.makeText(context, "12345", Toast.LENGTH_SHORT).show();
-//                                    degel = true;
-//                                }
-//                            }
-//
-//                        } else {
-//                            Log.w(TAG, "Error getting documents.", taskUserList.getException());
-//                        }
-//                    }
-//                });
-//    }
-
     public void DelFromFireStore(String whichTask, int idToDel){
         db.collection(whichTask)
                 .get()
@@ -244,6 +153,34 @@ public class MyFireBaseHelper {
                     }
                 });
     }
+    private int coin = 0;
+    public interface gotCoin
+    {
+        public void onGotCoin(int coin);
+    }
+    public void GetNumberOfCoinsByPhone(String phone, gotCoin callback) {
+        db.collection("UsersList").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+
+                                if(document.getData().get("phone").toString().equals(phone)){
+                                    callback.onGotCoin(Integer.valueOf(document.getData().get("price").toString()));
+                                }
+
+                            }
+                            callback.onGotCoin(0000);
+                        } else {
+                            callback.onGotCoin(0000);
+                        }
+
+                    }
+                });
+    }
+
 
 
 }

@@ -41,31 +41,6 @@ public class SignUpPage extends AppCompatActivity {
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         btnSignUp = findViewById(R.id.btnSignUp);
         tvLoginLink = findViewById(R.id.tvLoginLink);
-//        btnSignUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (isValidInput()) {
-//
-//
-//                    moduleSignUp.addUser(editTextFirstName.getText().toString().trim(),editTextLastName.getText().toString().trim()
-//                            , editTextPassword.getText().toString().trim()
-//                            ,editTextPhoneNumber.getText().toString().trim(),0);
-//
-//                    moduleSignUp.saveAtSharedPreferences(editTextPhoneNumber.getText().toString().trim());
-//
-//                    moduleSignUp.AddDocument(editTextFirstName.getText().toString().trim(),editTextLastName.getText().toString().trim()
-//                            , editTextPassword.getText().toString().trim()
-//                            ,editTextPhoneNumber.getText().toString().trim(),0);
-//
-//                    Intent intent = new Intent(SignUpPage.this, HomePage.class);
-//                    startActivity(intent);
-//                }
-//                else{
-//                   Toast.makeText(SignUpPage.this, "something wrong", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override

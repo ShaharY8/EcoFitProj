@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 
 import com.example.ecofit.Approval.ApprovalPage;
+import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.R;
 import com.example.ecofit.Repository.Repository;
 import com.example.ecofit.UI.Login.LogInPage;
@@ -40,7 +41,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView menu;
-    private TextView nameOfUser;
+    private TextView nameOfUser,tvCoinNumber;
 
 
 
@@ -51,6 +52,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         setContentView(R.layout.activity_home_page);
 
 
+        tvCoinNumber = findViewById(R.id.tvCoinNumber);
         task1 = findViewById(R.id.task1);
         task1.setOnClickListener(this);
         task2 = findViewById(R.id.task2);
@@ -75,6 +77,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
         // מתחיל את הפעולות
         ChangeName();
+        changeNumberOfCoins();
 
         //AddApprovalButton();
 
@@ -101,15 +104,14 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
             nameOfUser.setText("Error");
         }
     }
-    public void changeNamberOfCoins(){
+    public void changeNumberOfCoins(){
+        moduleHome.GetNumberOfCoinsByPhone(moduleHome.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
+            @Override
+            public void onGotCoin(int coin) {
 
-        String name = moduleHome.GetNameByPhone();
-        if(name != null){
-            nameOfUser.setText(name + "");
-        }
-        else {
-            nameOfUser.setText("Error");
-        }
+                tvCoinNumber.setText("your coins \n number is: " + coin);
+            }
+        });
     }
     @Override
     public void onClick(View view) {

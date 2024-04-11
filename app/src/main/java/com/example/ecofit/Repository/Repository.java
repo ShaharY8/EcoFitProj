@@ -70,7 +70,7 @@ public class Repository {
         myFireBaseHelper.checkIfUserExists(phone, callback);
     }
 
-//    public int GetNumberOfCoinsByPhone(String phone) {
-//
-//    }
+    public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback) {
+        myFireBaseHelper.GetNumberOfCoinsByPhone( phone, callback);
+    }
 }
