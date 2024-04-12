@@ -92,9 +92,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public boolean CheckIfExist(String id, String pass)
+    public boolean CheckIfExist(String phone, String pass)
     {
-        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " = '" + id + "' AND " + COLUMN_PASS + " = '" + pass +"'";
+        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "' AND " + COLUMN_PASS + " = '" + pass +"'";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);

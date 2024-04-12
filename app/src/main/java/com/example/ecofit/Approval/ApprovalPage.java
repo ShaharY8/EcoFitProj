@@ -43,6 +43,7 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
     private String whichTask;
     private TextView textView;
     private int indexForDel;
+    private  LinkedList<String> UsersPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +139,6 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         }
         for (int i = 0; i < btnDelete.size(); i++) {
             if(btnDelete.get(i) == view){
-                Toast.makeText(this, "" + btnDelete.size(), Toast.LENGTH_SHORT).show();
                 if(i == btnDelete.size()-indexForDel){
                     btnDelete.remove(i);
                     btnUpdateCoin.remove(i);
@@ -157,12 +157,13 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < btnUpdateCoin.size(); i++) {
 
             if(btnUpdateCoin.get(i) == view){
-                Toast.makeText(this, "" + btnDelete.size(), Toast.LENGTH_SHORT).show();
                 if(i == btnUpdateCoin.size()-indexForDel){
                     btnDelete.remove(i);
                     btnUpdateCoin.remove(i);
-                    moduleApproval.DelFromFireStore(whichTask,i);
-
+                    Toast.makeText(this, "" + UsersPhone.get(i), Toast.LENGTH_SHORT).show();
+                    boolean toApp = true;
+                    moduleApproval.UpdateDataFB(UsersPhone.get(i),whichTask,i, toApp);
+                    UsersPhone.remove(i);
                     AddRow("","-1",i);
                     indexForDel++;
 
@@ -180,7 +181,9 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onGotUser(LinkedList<String> name, LinkedList<String> phone) {
                 tableLayout = findViewById(R.id.tableLayout);
+                UsersPhone = phone;
                 for (int i = 0; i < name.size(); i++) {
+
                     AddRow(name.get(i),phone.get(i),i);
                 }
             }

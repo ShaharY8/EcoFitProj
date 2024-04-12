@@ -6,6 +6,7 @@
     android:id="@+id/drawerlayout"
     android:layoutDirection="rtl"
     android:layout_gravity="start"
+
     >
 
 

@@ -12,6 +12,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -37,11 +38,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomePage extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener{
     private ModuleHome moduleHome;
-    private Button task1, task2, task3;
+    private Button task1, task2, task3 , helpBtn1;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView menu;
     private TextView nameOfUser,tvCoinNumber;
+    private RelativeLayout homePageId;
 
 
 
@@ -53,6 +55,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
 
         tvCoinNumber = findViewById(R.id.tvCoinNumber);
+        homePageId = findViewById(R.id.homePageId);
         task1 = findViewById(R.id.task1);
         task1.setOnClickListener(this);
         task2 = findViewById(R.id.task2);
@@ -79,19 +82,26 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         ChangeName();
         changeNumberOfCoins();
 
-        //AddApprovalButton();
+        AddApprovalButton();
 
 
 
     }
     public void AddApprovalButton(){
-        String phone = moduleHome.GetNameByPhone();
-        Intent intent = new Intent(HomePage.this, ApprovalPage.class);
-        startActivity(intent);
+        String phone = moduleHome.getPhoneNumber();
 
-        if("0549044534" == "0549044534"){
-            Button helpBtn1 = new Button(this);
 
+        if(phone.equals("0549044534")){
+            helpBtn1 = new Button(this);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(300, 250);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            helpBtn1.setLayoutParams(layoutParams);
+            helpBtn1.setText("אישור משתמשים");
+            helpBtn1.setTextSize(20);
+            helpBtn1.setTextColor(Color.BLACK);
+            helpBtn1.setOnClickListener(this);
+            homePageId.addView(helpBtn1);
         }
     }
     public void ChangeName(){
@@ -123,6 +133,10 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         {
             drawerLayout.openDrawer(GravityCompat.START);
 
+        }
+        if(helpBtn1 == view){
+            Intent intent = new Intent(HomePage.this, ApprovalPage.class);
+            startActivity(intent);
         }
     }
 

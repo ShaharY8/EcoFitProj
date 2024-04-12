@@ -26,9 +26,9 @@ public class ModuleSignUp {
     public void saveAtSharedPreferences(String phone){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("UserPhone", phone);
-        editor.putString("UserName", rep.GetNameByPhone(phone));
-        editor.putString("UserLname", rep.getlLnameByPhone(phone));
-        editor.putString("UserPass", rep.getPassByPhone(phone));
+        editor.putString("UserName", rep.GetNameByPhoneSQL(phone));
+        editor.putString("UserLname", rep.getlLnameByPhoneSQL(phone));
+        editor.putString("UserPass", rep.getPassByPhoneSQL(phone));
         editor.apply();
     }
     public void addUser(String name,String Lname,String pass, String phone, int price){

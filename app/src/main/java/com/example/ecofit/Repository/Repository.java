@@ -29,26 +29,26 @@ public class Repository {
     }
 
     public boolean CheckIfExist(String phone, String pass) {
-        return myDatabaseHelper.CheckIfExist(myDatabaseHelper.getIDByPhone(phone), pass);
+        return myDatabaseHelper.CheckIfExist(phone, pass);
     }
 
-    public String GetNameByPhone(String phone) {
+    public String GetNameByPhoneSQL(String phone) {
         return myDatabaseHelper.getNameByPhone(phone);
     }
 
-    public String getPassByPhone(String phone) {
+    public String getPassByPhoneSQL(String phone) {
         return myDatabaseHelper.getPassByPhone(phone);
     }
 
-    public String getlLnameByPhone(String phone) {
+    public String getlLnameByPhoneSQL(String phone) {
         return myDatabaseHelper.getlLnameByPhone(phone);
     }
 
-    public void updateUser(String row_id, String name, String Lname, String pass, String phone, int price) {
+    public void updateUserSQL(String row_id, String name, String Lname, String pass, String phone, int price) {
         myDatabaseHelper.updateUser(row_id, name, Lname, pass, phone, price);
     }
 
-    public String getIDByPhone(String phone) {
+    public String getIDByPhoneSQL(String phone) {
         return myDatabaseHelper.getIDByPhone(phone);
     }
 
@@ -72,5 +72,9 @@ public class Repository {
 
     public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback) {
         myFireBaseHelper.GetNumberOfCoinsByPhone( phone, callback);
+    }
+
+    public void UpdateDataFB(String phone , String name, String lname, String pass, int price, String whichTask, int idToDel,boolean toApp){
+        myFireBaseHelper.GetDataToUpdate(phone,name,lname,pass,price,whichTask,idToDel,toApp);
     }
 }

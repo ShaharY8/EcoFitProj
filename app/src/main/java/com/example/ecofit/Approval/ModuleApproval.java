@@ -27,4 +27,8 @@ public class ModuleApproval {
     public void DelFromFireStore(String whichTask, int idToDel){
         rep.DelFromFireStore(whichTask,idToDel);
     }
+
+    public void UpdateDataFB(String phone, String whichTask, int idToDel, boolean toApp){
+        rep.UpdateDataFB(phone,"" ,"" ,"" ,0, whichTask,idToDel,toApp);
+    }
 }

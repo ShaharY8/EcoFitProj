@@ -48,6 +48,9 @@ public class LogInPage extends AppCompatActivity {
                     Intent intent = new Intent(LogInPage.this, HomePage.class);
                     startActivity(intent);
                 }
+                else {
+                    Toast.makeText(LogInPage.this, "not exist", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         tvSignUpLink.setOnClickListener(new View.OnClickListener() {

@@ -20,15 +20,15 @@ public class ModuleLogIn {
     public void saveAtSharedPreferences(String phone){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("UserPhone", phone);
-        editor.putString("UserName", rep.GetNameByPhone(phone));
-        editor.putString("UserLname", rep.getlLnameByPhone(phone));
-        editor.putString("UserPass", rep.getPassByPhone(phone));
+        editor.putString("UserName", rep.GetNameByPhoneSQL(phone));
+        editor.putString("UserLname", rep.getlLnameByPhoneSQL(phone));
+        editor.putString("UserPass", rep.getPassByPhoneSQL(phone));
         editor.apply();
     }
     public boolean CheckIfExist(String phone, String pass){
         return rep.CheckIfExist(phone,pass);
     }
 
-    public String GetName(String phone) { return rep.GetNameByPhone(phone);}
+    public String GetName(String phone) { return rep.GetNameByPhoneSQL(phone);}
 
 }

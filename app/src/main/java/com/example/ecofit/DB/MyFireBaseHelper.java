@@ -23,6 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -152,7 +153,62 @@ public class MyFireBaseHelper {
                         }
                     }
                 });
+
+
     }
+
+
+    public void GetDataToUpdate(String phone , String name, String lname, String pass, int price, String whichTask, int idToDel, boolean toApp){
+        db.collection("UsersList")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> taskUserList) {
+
+                        if (taskUserList.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : taskUserList.getResult()) {
+                                if(document.getData().get("phone").toString().equals(phone)){
+
+                                    Map<String,Object> userData = new HashMap<>();
+                                    if(toApp == true){
+                                        userData.put("name", document.getData().get("name").toString());
+                                        userData.put("Lname",  document.getData().get("Lname").toString());
+                                        userData.put("pass",  document.getData().get("pass").toString());
+                                        userData.put("phone", phone);
+                                        userData.put("price",  Integer.valueOf(document.getData().get("price").toString()+5));
+                                    }
+                                    else{
+                                        userData.put("name", name);
+                                        userData.put("Lname", lname);
+                                        userData.put("pass", pass);
+                                        userData.put("phone", phone);
+                                        userData.put("price", price );
+                                    }
+
+
+
+                                    db.collection("UsersList").document(document.getId()).update(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()) {
+                                                DelFromFireStore(whichTask,idToDel);
+                                            }
+                                        }
+                                    });
+
+                                }
+                            }
+
+                        } else {
+                            Log.w(TAG, "Error getting documents.", taskUserList.getException());
+                        }
+                    }
+                });
+
+
+    }
+
     private int coin = 0;
     public interface gotCoin
     {

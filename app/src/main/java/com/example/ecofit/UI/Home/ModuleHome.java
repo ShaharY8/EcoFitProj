@@ -27,10 +27,8 @@ import java.util.Objects;
 public class ModuleHome {
     private Context context;
     private SharedPreferences sharedPreferences;
-    private FirebaseFirestore db;
     private Repository rep;
     public ModuleHome(Context c){
-        db = FirebaseFirestore.getInstance();
         context = c;
         rep = new Repository(context);
         sharedPreferences = context.getSharedPreferences("UserInfo", MODE_PRIVATE);
