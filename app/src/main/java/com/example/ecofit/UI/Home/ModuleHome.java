@@ -44,34 +44,23 @@ public class ModuleHome {
     {
          rep.GetNumberOfCoinsByPhone(phone, callback);
     }
-    public void Button1(){
+
+    public void checkIfTaskExists(String whichTask, String phone, MyFireBaseHelper.UserExistenceCallback callback){
+        rep.checkIfUserExists(whichTask,phone,callback);
+    }
+    public void Button1(String whichTask, String title, String details){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("האם אתה רוצה להגיע?");
-        builder.setMessage("מישמה: ניקוי יער בן שמן\n" +
-                "\n" +
-                "תיאור המישמה:\n" +
-                "המישמה לניקוי יער בן שמן היא פעילות משמעותית המתבצעת במטרה לשמור על איכות הסביבה ולשמור על בריאותו של היער והמערכת האקולוגית שבו. הפעילות כוללת את הסרת פסולת, פסולת אורגנית ולא אורגנית, אבנים וקרצופים, ענפים ועצים נפלים, פריחת צמחים ממותקים ומשאבי אנרגיה לא אחראיים, כמו גם כל פעילות אחרת המפריעה לאיזון האקולוגי של היער. פעילות זו מתבצעת באמצעות מתנדבים, מארגנים מקומיים, ולעיתים גם על ידי מוסדות וחברות המתעסקות בשימור הסביבה. המישמה מקדמת מודעות סביבתית ומשפיעה ישירות על שיפור איכות האוויר והסביבה הטבעית באזור."
-                + "\n" + " בתאריך ה- 23.4.2024"
-                + "\n" + "בשעה 8:00");
+        builder.setMessage( title +
+                "\n" + details);
 
 
 
         builder.setCancelable(false);
 
-        builder.setPositiveButton("כן", new AAA());
-        builder.setNegativeButton("לא", new AAA());
+        builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        dialog.getButton(-1).setTextColor(Color.BLUE);
-        dialog.getButton(-2).setTextColor(Color.RED);
-    }
-
-    private class AAA implements DialogInterface.OnClickListener {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-            if(i == -1){
                 String str = "שלום ותודה שברחרת להשתתף במשימה ...";
                 SmsManager smsManager = SmsManager.getDefault();
                 String phone = getPhoneNumber();
@@ -81,15 +70,22 @@ public class ModuleHome {
                 Map<String, Object> taskUserList = new HashMap<>();
                 taskUserList.put("name", name);
                 taskUserList.put("phone", phone);
-                rep.AddDocument(taskUserList,"CleanForest");
-
+                rep.AddDocument(taskUserList,whichTask);
 
 
             }
-            if(i == -2){
-                Toast.makeText(context, "לא", Toast.LENGTH_SHORT).show();
+        });
+
+        builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
             }
-        }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        dialog.getButton(-1).setTextColor(Color.BLUE);
+        dialog.getButton(-2).setTextColor(Color.RED);
     }
     public void LogOut(){
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -97,6 +93,14 @@ public class ModuleHome {
         editor.commit();
         Toast.makeText(context, "Log Out successfully", Toast.LENGTH_SHORT).show();
     }
+
+    public void GetAllTasks(MyFireBaseHelper.getTasks callback){
+        rep.GetAllTasks(callback);
+    }
+    public void AddDocument(Map<String, Object> taskUser, String whichTask) {
+        rep.AddDocument(taskUser, whichTask);
+    }
+
 
 }
 

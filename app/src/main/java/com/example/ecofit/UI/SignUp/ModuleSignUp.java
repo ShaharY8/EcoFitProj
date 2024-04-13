@@ -45,8 +45,8 @@ public class ModuleSignUp {
         UsersList.put("price", 0);
         rep.AddDocument(UsersList,"UsersList");
     }
-    public void checkIfUserExists(String phone, MyFireBaseHelper.UserExistenceCallback callback){
-        rep.checkIfUserExists(phone,callback);
+    public void checkIfUserExists(String whichTask, String phone, MyFireBaseHelper.UserExistenceCallback callback){
+        rep.checkIfUserExists(whichTask,phone,callback);
     }
 
     public void ReadDocument(String whichTask, MyFireBaseHelper.gotUser callback) {

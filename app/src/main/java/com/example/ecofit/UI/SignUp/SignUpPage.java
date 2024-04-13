@@ -99,7 +99,7 @@ public class SignUpPage extends AppCompatActivity {
         // Reset isValid to true before performing checks
         isValid = true;
         // Check if user exists
-        moduleSignUp.checkIfUserExists(phone, new MyFireBaseHelper.UserExistenceCallback() {
+        moduleSignUp.checkIfUserExists("UsersList",phone, new MyFireBaseHelper.UserExistenceCallback() {
             @Override
             public void onUserExistenceChecked(boolean userExists) {
                 if (userExists) {

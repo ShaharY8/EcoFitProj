@@ -66,8 +66,8 @@ public class Repository {
         myFireBaseHelper.DelFromFireStore(whichTask,idToDel);
     }
 
-    public void checkIfUserExists(String phone,MyFireBaseHelper.UserExistenceCallback callback) {
-        myFireBaseHelper.checkIfUserExists(phone, callback);
+    public void checkIfUserExists(String whichTask,String phone,MyFireBaseHelper.UserExistenceCallback callback) {
+        myFireBaseHelper.checkIfUserExists(whichTask,phone, callback);
     }
 
     public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback) {
@@ -76,5 +76,8 @@ public class Repository {
 
     public void UpdateDataFB(String phone , String name, String lname, String pass, int price, String whichTask, int idToDel,boolean toApp){
         myFireBaseHelper.GetDataToUpdate(phone,name,lname,pass,price,whichTask,idToDel,toApp);
+    }
+    public void GetAllTasks(MyFireBaseHelper.getTasks callback){
+        myFireBaseHelper.GetAllTasks(callback);
     }
 }

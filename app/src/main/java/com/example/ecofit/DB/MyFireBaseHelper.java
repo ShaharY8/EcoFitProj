@@ -93,36 +93,100 @@ public class MyFireBaseHelper {
 
     }
 
+    public interface getTasks
+    {
+        void onGetTasks(LinkedList<String> TaskName,LinkedList<String> title, LinkedList<String> details);
+    }
+    public void GetAllTasks(getTasks callback) {
+
+        db.collection("AllTasks")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> taskUserList) {
+
+                        LinkedList<String> tempList1, tempList2,tempList3;
+                        tempList1 = new LinkedList<>();
+                        tempList2 = new LinkedList<>();
+                        tempList3 = new LinkedList<>();
+
+                        if (taskUserList.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : taskUserList.getResult()) {
+
+                                tempList1.add(document.getData().get("title").toString());
+                                tempList2.add(document.getData().get("details").toString());
+                                tempList3.add(document.getData().get("TaskName").toString());
+                            }
+                            callback.onGetTasks(tempList3, tempList1, tempList2);
+                        } else {
+                            Log.w(TAG, "Error getting documents.", taskUserList.getException());
+                        }
+                    }
+                });
+
+    }
+
     public interface UserExistenceCallback {
         void onUserExistenceChecked(boolean userExists);
     }
 
-    public void checkIfUserExists( String phone, UserExistenceCallback callback) {
+    public void checkIfUserExists(String whichTask,String phone, UserExistenceCallback callback) {
 
 
-        Query query = db.collection("UsersList").whereEqualTo("phone", phone);
+        if(whichTask == "UsersList"){
+
+            Query query = db.collection(whichTask).whereEqualTo("phone", phone);
 
 
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                boolean phoneExists = false;
-                for (DocumentSnapshot document : task.getResult()) {
-                    if (document.exists()) {
-                        // Phone exists
-                        callback.onUserExistenceChecked(true);
-                        phoneExists = true;
-                        break; // exit loop since phone is found
+            query.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    boolean phoneExists = false;
+                    for (DocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            // Phone exists
+                            callback.onUserExistenceChecked(true);
+                            phoneExists = true;
+                            break; // exit loop since phone is found
+                        }
                     }
+                    if (!phoneExists) {
+                        // Phone doesn't exist
+                        callback.onUserExistenceChecked(false);
+                    }
+                } else {
+                    // Error retrieving documents
+                    callback.onUserExistenceChecked(false); // Indicate failure to check existence
                 }
-                if (!phoneExists) {
-                    // Phone doesn't exist
-                    callback.onUserExistenceChecked(false);
+            });
+        }
+        else if(whichTask == "AllTasks"){
+            Query query = db.collection(whichTask).whereEqualTo("TaskName", phone);
+
+            query.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    boolean phoneExists = false;
+                    for (DocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            // Phone exists
+                            callback.onUserExistenceChecked(true);
+                            phoneExists = true;
+                            break; // exit loop since phone is found
+                        }
+                    }
+                    if (!phoneExists) {
+                        // Phone doesn't exist
+                        callback.onUserExistenceChecked(false);
+                    }
+                } else {
+                    // Error retrieving documents
+                    callback.onUserExistenceChecked(false); // Indicate failure to check existence
                 }
-            } else {
-                // Error retrieving documents
-                callback.onUserExistenceChecked(false); // Indicate failure to check existence
-            }
-        });
+            });
+        }
+        else{
+            Toast.makeText(context, "error", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
     public void DelFromFireStore(String whichTask, int idToDel){
@@ -176,7 +240,7 @@ public class MyFireBaseHelper {
                                         userData.put("Lname",  document.getData().get("Lname").toString());
                                         userData.put("pass",  document.getData().get("pass").toString());
                                         userData.put("phone", phone);
-                                        userData.put("price",  Integer.valueOf(document.getData().get("price").toString()+5));
+                                        userData.put("price",  Integer.valueOf(document.getData().get("price").toString())+5);
                                     }
                                     else{
                                         userData.put("name", name);
@@ -209,7 +273,6 @@ public class MyFireBaseHelper {
 
     }
 
-    private int coin = 0;
     public interface gotCoin
     {
         public void onGotCoin(int coin);
@@ -228,9 +291,8 @@ public class MyFireBaseHelper {
                                 }
 
                             }
-                            callback.onGotCoin(0000);
                         } else {
-                            callback.onGotCoin(0000);
+                            callback.onGotCoin(-99);
                         }
 
                     }
