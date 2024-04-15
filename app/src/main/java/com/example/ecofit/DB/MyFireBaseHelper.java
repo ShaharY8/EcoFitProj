@@ -241,6 +241,14 @@ public class MyFireBaseHelper {
                                         userData.put("pass",  document.getData().get("pass").toString());
                                         userData.put("phone", phone);
                                         userData.put("price",  Integer.valueOf(document.getData().get("price").toString())+5);
+                                        db.collection("UsersList").document(document.getId()).update(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()) {
+                                                    DelFromFireStore(whichTask,idToDel);
+                                                }
+                                            }
+                                        });
                                     }
                                     else{
                                         userData.put("name", name);
@@ -248,18 +256,19 @@ public class MyFireBaseHelper {
                                         userData.put("pass", pass);
                                         userData.put("phone", phone);
                                         userData.put("price", price );
+                                        db.collection("UsersList").document(document.getId()).update(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()) {
+
+                                                    Toast.makeText(context, "המשתמש עודכן בהצלחה", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
                                     }
 
 
 
-                                    db.collection("UsersList").document(document.getId()).update(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()) {
-                                                DelFromFireStore(whichTask,idToDel);
-                                            }
-                                        }
-                                    });
 
                                 }
                             }

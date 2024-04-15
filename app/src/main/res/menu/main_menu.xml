@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:title="Home Page"
+        android:id="@+id/_homePage"
+        android:icon="@drawable/home_screen"
+        />
+    <item
         android:title="Profile"
         android:id="@+id/_profile"
         android:icon="@drawable/default_profile_image"

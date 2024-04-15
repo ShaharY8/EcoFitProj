@@ -1,35 +1,53 @@
 package com.example.ecofit.UI.UpdateUser;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecofit.Approval.ApprovalPage;
+import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.R;
 import com.example.ecofit.UI.Home.HomePage;
 import com.example.ecofit.UI.Login.LogInPage;
+import com.example.ecofit.UI.Main.MainActivity;
+import com.example.ecofit.UI.Shop.Shop;
 import com.example.ecofit.UI.SignUp.ModuleSignUp;
+import com.google.android.material.navigation.NavigationView;
 
-public class UpdateUserInfo extends AppCompatActivity {
+public class UpdateUserInfo extends AppCompatActivity implements View.OnClickListener , NavigationView.OnNavigationItemSelectedListener {
 
-    private EditText editTextFirstName , editTextLastName , editTextPassword,editTextPhoneNumber;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ImageView menu;
+    private EditText editTextFirstName , editTextLastName , editTextPassword;
     private Button updateButton;
-    private TextView tvLoginLink;
+
     private SharedPreferences sharedPreferences;
     private ModuleUpdateUserInfo moduleUpdateUserInfo;
     private String oldPhoneNumber;
+
+    private TextView tvCoinNumber,tvNameOfUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_user_info);
 
+
+        tvCoinNumber = findViewById(R.id.coinNumber);
+        tvNameOfUser = findViewById(R.id.nameOfUser);
 
         moduleUpdateUserInfo = new ModuleUpdateUserInfo(this);
 
@@ -40,8 +58,21 @@ public class UpdateUserInfo extends AppCompatActivity {
         editTextFirstName = findViewById(R.id.firstNameEditText);
         editTextLastName = findViewById(R.id.lastNameEditText);
         editTextPassword = findViewById(R.id.passwordEditText);
-        editTextPhoneNumber = findViewById(R.id.phoneNumberEditText);
+
         updateButton = findViewById(R.id.updateButton);
+
+
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+
+
+        menu = findViewById(R.id.hamburgerIcon);
+        menu.setOnClickListener(this);
+
+
+        navigationView = findViewById(R.id.nav_drawer);
+        navigationView.setItemIconTintList(null);
+        navigationView.setNavigationItemSelectedListener(this);
 
         addDefaultUserInfo();
 
@@ -50,18 +81,59 @@ public class UpdateUserInfo extends AppCompatActivity {
             public void onClick(View view) {
                 if(isValidInput()){
                     if(oldPhoneNumber != null){
-                        moduleUpdateUserInfo.updateUser(moduleUpdateUserInfo.getIdByPhoneNumber(oldPhoneNumber),editTextFirstName.getText().toString(),editTextLastName.getText().toString()
-                                , editTextPassword.getText().toString()
-                                ,editTextPhoneNumber.getText().toString(),0);
+                        if(isValidInput()){
+
+                            moduleUpdateUserInfo.GetNumberOfCoinsByPhone(moduleUpdateUserInfo.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
+                                @Override
+                                public void onGotCoin(int coin) {
+
+                                    moduleUpdateUserInfo.updateUser(moduleUpdateUserInfo.getIdByPhoneNumber(oldPhoneNumber),editTextFirstName.getText().toString(),editTextLastName.getText().toString()
+                                            , editTextPassword.getText().toString()
+                                            ,moduleUpdateUserInfo.getPhoneNumber(),coin);
+
+                                    moduleUpdateUserInfo.saveAtSharedPreferences(editTextFirstName.getText().toString(),editTextLastName.getText().toString()
+                                            , editTextPassword.getText().toString());
+
+
+                                    moduleUpdateUserInfo.UpdateDataFB(oldPhoneNumber,editTextFirstName.getText().toString(),editTextLastName.getText().toString(),
+                                            editTextPassword.getText().toString(),coin ,  "UsersList" , 0, false);
+                                }
+                            });
+
+
+
+                        }
                     }
                     else
                     {
                         Toast.makeText(UpdateUserInfo.this, "Error", Toast.LENGTH_SHORT).show();
                     }
-                    moduleUpdateUserInfo.saveAtSharedPreferences(editTextPhoneNumber.getText().toString());
                     Intent intent = new Intent(UpdateUserInfo.this, HomePage.class);
                     startActivity(intent);
                 }
+            }
+        });
+
+
+        changeNumberOfCoins();
+        ChangeName();
+    }
+
+    public void ChangeName(){
+
+        String name = moduleUpdateUserInfo.GetNameByPhone();
+        if(name != null){
+            tvNameOfUser.setText(name + "");
+        }
+        else {
+            tvNameOfUser.setText("Error");
+        }
+    }
+    public void changeNumberOfCoins(){
+        moduleUpdateUserInfo.GetNumberOfCoinsByPhone(moduleUpdateUserInfo.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
+            @Override
+            public void onGotCoin(int coin) {
+                tvCoinNumber.setText("your coins \n number is: " + coin);
             }
         });
     }
@@ -69,7 +141,6 @@ public class UpdateUserInfo extends AppCompatActivity {
         editTextFirstName.setText(sharedPreferences.getString("UserName",null));
         editTextLastName.setText(sharedPreferences.getString("UserLname",null));
         editTextPassword.setText(sharedPreferences.getString("UserPass",null));
-        editTextPhoneNumber.setText(sharedPreferences.getString("UserPhone",null));
     }
     private boolean isValidInput() {
         // Add your validation checks here
@@ -89,11 +160,39 @@ public class UpdateUserInfo extends AppCompatActivity {
             editTextPassword.setError("Please enter a password");
             isValid = false;
         }
-        if (TextUtils.isEmpty(editTextPhoneNumber.getText().toString())) {
-            editTextPhoneNumber.setError("Please enter your phone number");
-            isValid = false;
-        }
 
         return isValid;
+    }
+
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id._homePage){
+            Intent intent = new Intent(UpdateUserInfo.this, HomePage.class);
+            startActivity(intent);
+        }
+        else if (id == R.id._profile) {
+            Intent intent = new Intent(UpdateUserInfo.this, UpdateUserInfo.class);
+            startActivity(intent);
+        } else if (id == R.id._Shop) {
+            Intent intent = new Intent(UpdateUserInfo.this, Shop.class);
+            startActivity(intent);
+        }
+        else if (id == R.id._logOut) {
+            moduleUpdateUserInfo.LogOut();
+            Intent intent = new Intent(UpdateUserInfo.this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        return false; // Return true to indicate that the item click has been handled
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (menu == view)
+        {
+            drawerLayout.openDrawer(GravityCompat.START);
+
+        }
     }
 }

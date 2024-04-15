@@ -139,7 +139,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                                             taskInfo.put("title", Title);
                                             taskInfo.put("details", Details);
 
-                                            //moduleHome.AddDocument(taskInfo,"AllTasks");
+                                            moduleHome.AddDocument(taskInfo,"AllTasks");
                                             dialog.dismiss();
 
                                         } else {
@@ -284,7 +284,10 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id._profile) {
+        if(id == R.id._homePage){
+            Toast.makeText(this, "אתה כבר עכשיו בדף הבית", Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id._profile) {
             Intent intent = new Intent(HomePage.this, UpdateUserInfo.class);
             startActivity(intent);
         } else if (id == R.id._Shop) {
