@@ -39,6 +39,7 @@
                 android:textSize="25dp" />
 
             <TextView
+                android:id="@+id/tvCoinNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:layout_gravity="center"
@@ -47,33 +48,18 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn1"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/containerFragment"
+            android:name="com.example.ecofit.UI.Shop.MainShopPage"
             android:layout_below="@+id/Top"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/fix_button"
-            android:text="תוכנית אימון בבית" />
-
-        <Button
-            android:id="@+id/btn2"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_below="@+id/btn1"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/fix_button"
-            android:text="תוכנית אימון בבית ובמכון" />
+            android:layout_height="wrap_content"
+            />
 
-        <Button
-            android:id="@+id/btn3"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_below="@+id/btn2"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/fix_button"
-            android:text="תוכנית אימון רק למכון" />
     </RelativeLayout>
+
+
 
     <include layout="@layout/nav_drawer"/>
 

@@ -34,8 +34,8 @@ public class ModuleUpdateUserInfo {
         return rep.getIDByPhoneSQL(phone);
     }
 
-    public void UpdateDataFB(String phone, String name, String lname, String pass, int price, String whichTask, int idToDel, boolean toApp){
-        rep.UpdateDataFB(phone,name ,lname ,pass ,price, whichTask,idToDel,toApp);
+    public void UpdateDataFB(String phone, String name, String lname, String pass, int price, String whichTask, int idToDel, int toApp, MyFireBaseHelper.whenDone callBck){
+        rep.UpdateDataFB(phone,name ,lname ,pass ,price, whichTask,idToDel,toApp,callBck);
     }
 
     public String GetNameByPhone()

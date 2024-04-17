@@ -4,10 +4,15 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.R;
 
 /**
@@ -57,10 +62,31 @@ public class Home_gymWorkoutPlanFragment extends Fragment {
         }
     }
 
+    private ImageView btnGoBack;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_gym_workout_plan, container, false);
+        View v =  inflater.inflate(R.layout.fragment_home_gym_workout_plan, container, false);
+
+        Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
+
+
+        btnGoBack = v.findViewById(R.id.go_back);
+
+        btnGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainShopPage mainShopPage = new MainShopPage();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,mainShopPage)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+
+        return v;
     }
+
+
 }

@@ -39,8 +39,8 @@ public class ModuleApproval {
         rep.DelFromFireStore(whichTask,idToDel);
     }
 
-    public void UpdateDataFB(String phone, String whichTask, int idToDel, boolean toApp){
-        rep.UpdateDataFB(phone,"" ,"" ,"" ,0, whichTask,idToDel,toApp);
+    public void UpdateDataFB(String phone, String whichTask, int idToDel, int toApp, MyFireBaseHelper.whenDone callBack){
+        rep.UpdateDataFB(phone,"" ,"" ,"" ,0, whichTask,idToDel,toApp,callBack);
     }
     public String GetNameByPhone()
     {

@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Shop.Home_gymWorkoutPlanFragment">
+    tools:context=".UI.Shop.Home_gymWorkoutPlanFragment"
+    android:id="@+id/HomeAndGymFragment"
+    >
 
     <ImageView
         android:id="@+id/go_back"

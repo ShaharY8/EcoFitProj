@@ -11,7 +11,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.R;
 import com.example.ecofit.UI.Home.HomePage;
 import com.example.ecofit.UI.Home.ModuleHome;
@@ -24,15 +27,15 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Nav
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView menu;
-    private SharedPreferences sharedPreferences;
     private ModuleShop moduleShop;
+
+    private TextView tvNameOfUser,tvCoinNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
-        sharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         drawerLayout = findViewById(R.id.drawerlayout);
         moduleShop = new ModuleShop(this);
 
@@ -44,6 +47,12 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Nav
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
 
+        tvNameOfUser = findViewById(R.id.nameOfUser);
+        tvCoinNumber = findViewById(R.id.tvCoinNumber);
+
+        ChangeName();
+        changeNumberOfCoins();
+
 
     }
 
@@ -52,7 +61,6 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Nav
         if (menu == view)
         {
             drawerLayout.openDrawer(GravityCompat.START);
-
         }
     }
 
@@ -64,11 +72,32 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Nav
         if (id == R.id._profile) {
             Intent intent = new Intent(Shop.this, UpdateUserInfo.class);
             startActivity(intent);
+        } else if (id == R.id._homePage) {
+            Intent intent = new Intent(Shop.this, HomePage.class);
+            startActivity(intent);
         } else if (id == R.id._logOut) {
             moduleShop.LogOut();
             Intent intent = new Intent(Shop.this, MainActivity.class);
             startActivity(intent);
         }
         return false;
+    }
+    public void ChangeName(){
+
+        String name = moduleShop.GetNameByPhone();
+        if(name != null){
+            tvNameOfUser.setText(name + "");
+        }
+        else {
+            tvNameOfUser.setText("Error");
+        }
+    }
+    public void changeNumberOfCoins(){
+        moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
+            @Override
+            public void onGotCoin(int coin) {
+                tvCoinNumber.setText("your coins \n number is: " + coin);
+            }
+        });
     }
 }

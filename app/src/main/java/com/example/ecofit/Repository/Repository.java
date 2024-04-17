@@ -74,8 +74,8 @@ public class Repository {
         myFireBaseHelper.GetNumberOfCoinsByPhone( phone, callback);
     }
 
-    public void UpdateDataFB(String phone , String name, String lname, String pass, int price, String whichTask, int idToDel,boolean toApp){
-        myFireBaseHelper.GetDataToUpdate(phone,name,lname,pass,price,whichTask,idToDel,toApp);
+    public void UpdateDataFB(String phone , String name, String lname, String pass, int price, String whichTask, int idToDel,int toApp, MyFireBaseHelper.whenDone callBack){
+        myFireBaseHelper.GetDataToUpdate(phone,name,lname,pass,price,whichTask,idToDel,toApp,callBack);
     }
     public void GetAllTasks(MyFireBaseHelper.getTasks callback){
         myFireBaseHelper.GetAllTasks(callback);

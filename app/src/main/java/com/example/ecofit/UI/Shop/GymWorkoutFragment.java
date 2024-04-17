@@ -1,5 +1,6 @@
 package com.example.ecofit.UI.Shop;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +8,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.R;
 
 /**
@@ -57,10 +63,31 @@ public class GymWorkoutFragment extends Fragment {
         }
     }
 
+
+    private ImageView btnGoBack;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gym_workout, container, false);
+        View v = inflater.inflate(R.layout.fragment_gym_workout, container, false);
+
+        btnGoBack = v.findViewById(R.id.go_back);
+        Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
+
+
+        btnGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainShopPage mainShopPage = new MainShopPage();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,mainShopPage)
+                        .addToBackStack(null).commit();
+            }
+        });
+
+
+        return v;
     }
+
+
 }

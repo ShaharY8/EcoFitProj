@@ -203,8 +203,12 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
                     btnDelete.remove(i);
                     btnUpdateCoin.remove(i);
                     Toast.makeText(this, "" + UsersPhone.get(i), Toast.LENGTH_SHORT).show();
-                    boolean toApp = true;
-                    moduleApproval.UpdateDataFB(UsersPhone.get(i),whichTask,i, toApp);
+                    moduleApproval.UpdateDataFB(UsersPhone.get(i), whichTask, i, -1, new MyFireBaseHelper.whenDone() {
+                        @Override
+                        public void whenDoneToUpdate() {
+
+                        }
+                    });
                     UsersPhone.remove(i);
                     AddRow("","-1",i);
                     indexForDel++;

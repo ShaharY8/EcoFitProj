@@ -95,8 +95,13 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
                                             , editTextPassword.getText().toString());
 
 
-                                    moduleUpdateUserInfo.UpdateDataFB(oldPhoneNumber,editTextFirstName.getText().toString(),editTextLastName.getText().toString(),
-                                            editTextPassword.getText().toString(),coin ,  "UsersList" , 0, false);
+                                    moduleUpdateUserInfo.UpdateDataFB(oldPhoneNumber, editTextFirstName.getText().toString(), editTextLastName.getText().toString(),
+                                            editTextPassword.getText().toString(), coin, "UsersList", 0, 1, new MyFireBaseHelper.whenDone() {
+                                                @Override
+                                                public void whenDoneToUpdate() {
+
+                                                }
+                                            });
                                 }
                             });
 

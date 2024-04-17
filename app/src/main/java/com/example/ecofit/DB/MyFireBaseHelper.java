@@ -222,7 +222,10 @@ public class MyFireBaseHelper {
     }
 
 
-    public void GetDataToUpdate(String phone , String name, String lname, String pass, int price, String whichTask, int idToDel, boolean toApp){
+    public interface whenDone {
+        void whenDoneToUpdate();
+    }
+    public void GetDataToUpdate(String phone , String name, String lname, String pass, int price, String whichTask, int idToDel, int toApp, whenDone callBack){
         db.collection("UsersList")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -235,7 +238,7 @@ public class MyFireBaseHelper {
                                 if(document.getData().get("phone").toString().equals(phone)){
 
                                     Map<String,Object> userData = new HashMap<>();
-                                    if(toApp == true){
+                                    if(toApp == -1){
                                         userData.put("name", document.getData().get("name").toString());
                                         userData.put("Lname",  document.getData().get("Lname").toString());
                                         userData.put("pass",  document.getData().get("pass").toString());
@@ -249,8 +252,24 @@ public class MyFireBaseHelper {
                                                 }
                                             }
                                         });
+                                    } else if (toApp == 0) {
+                                       // Toast.makeText(context, "bbbbbbbbbbbbbbbbbbb", Toast.LENGTH_SHORT).show();
+                                        userData.put("name", document.getData().get("name").toString());
+                                        userData.put("Lname",  document.getData().get("Lname").toString());
+                                        userData.put("pass",  document.getData().get("pass").toString());
+                                        userData.put("phone", phone);
+                                        userData.put("price",  Integer.valueOf(document.getData().get("price").toString())-35);
+                                        db.collection("UsersList").document(document.getId()).update(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()) {
+                                                   // Toast.makeText(context, "bbbbbbbbbbbbbbbbbbb", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                        callBack.whenDoneToUpdate();
                                     }
-                                    else{
+                                    else if(toApp == 1){
                                         userData.put("name", name);
                                         userData.put("Lname", lname);
                                         userData.put("pass", pass);
