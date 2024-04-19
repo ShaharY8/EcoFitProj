@@ -14,7 +14,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     Context context;
     private static final String DATABASE_NAME = "ComputerList.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_NAME = "Users";
     private static final String COLUMN_ID = "_id";
@@ -23,9 +23,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_PASS = "_pass";
     private static final String COLUMN_PHONE = "_phone";
     private static final String COLUMN_PRICE = "_price";
-//    private static final String COLUMN_BTN1 = "_btn1";
-//    private static final String COLUMN_BTN2 = "_btn2";
-//    private static final String COLUMN_BTN3 = "_btn3";
+    private static final String COLUMN_IsGym = "_IsGym";
+    private static final String COLUMN_IsHome = "_IsHome";
+    private static final String COLUMN_IsHomeAndGym = "_IsHomeAndGym";
 
     public MyDatabaseHelper(@Nullable Context context)
     {
@@ -34,15 +34,30 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db)
-    {
+//    public void onCreate(SQLiteDatabase db)
+//    {
+//        String query = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_ID +
+//                " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                COLUMN_NAME + " TEXT, " +
+//                COLUMN_LASTNAME + " TEXT, " +
+//                COLUMN_PASS + " TEXT, " +
+//                COLUMN_PHONE+ " TEXT, " +
+//                COLUMN_PRICE + " INTEGER);";
+//
+//        db.execSQL(query);
+//    }
+
+    public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_ID +
                 " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME + " TEXT, " +
                 COLUMN_LASTNAME + " TEXT, " +
                 COLUMN_PASS + " TEXT, " +
-                COLUMN_PHONE+ " TEXT, " +
-                COLUMN_PRICE + " INTEGER);";
+                COLUMN_PHONE + " TEXT, " +
+                COLUMN_PRICE + " INTEGER, " +
+                COLUMN_IsGym + " INTEGER DEFAULT 0, " + // Default value is false
+                COLUMN_IsHome + " INTEGER DEFAULT 0, " + // Default value is false
+                COLUMN_IsHomeAndGym + " INTEGER DEFAULT 0)"; // Default value is false
 
         db.execSQL(query);
     }
@@ -172,7 +187,49 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+    public void updatePlan(String row_id, boolean IsGym, boolean IsHome, boolean IsHomeAndGym)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
 
+
+        cv.put(COLUMN_IsGym, IsGym);
+        cv.put(COLUMN_IsHome,IsHome);
+        cv.put(COLUMN_IsHomeAndGym,IsHomeAndGym);
+
+
+        long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
+
+        if(result == -1)
+        {
+            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    ////////////////////////////////// 777                 "IsHome"
+    public boolean CheckIfPlanBought(String phone, String whichPlan)
+    {
+        String query = "";
+        if(whichPlan.equals("IsGym")){
+            query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "' AND " + COLUMN_IsGym + " = 1";
+
+        }
+        else if(whichPlan.equals("IsHome")){
+            query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "' AND " + COLUMN_IsHome + " = 1";
+        }
+        else{
+            // HomeAndGym
+            query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "' AND " + COLUMN_IsHomeAndGym + " = 1";        }
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        return cursor.getCount() == 1;
+    }
     public void deleteOneRow(String row_id)
     {
         SQLiteDatabase db = this.getWritableDatabase();

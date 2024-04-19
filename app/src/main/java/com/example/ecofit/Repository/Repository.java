@@ -51,8 +51,9 @@ public class Repository {
     public String getIDByPhoneSQL(String phone) {
         return myDatabaseHelper.getIDByPhone(phone);
     }
-
-
+    public void updatePlan(String row_id, boolean IsGym, boolean IsHome, boolean IsHomeAndGym){ myDatabaseHelper.updatePlan(row_id,IsGym,IsHome,IsHomeAndGym);}
+    public boolean CheckIfPlanBought(String phone, String whichPlan)
+    {return myDatabaseHelper.CheckIfPlanBought(phone,whichPlan);}
     //////////////////////////  FireBase
     public void AddDocument(Map<String, Object> taskUser, String whichTask) {
         myFireBaseHelper.AddDocument(taskUser, whichTask);

@@ -89,19 +89,28 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
             moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
                 @Override
                 public void onGotCoin(int coin) {
-                    if(coin < 35){
-                        Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
+                    if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsHomeAndGym")){
+                        Home_gymWorkoutPlanFragment homeGymWorkoutPlanFragment = new Home_gymWorkoutPlanFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,homeGymWorkoutPlanFragment)
+                                .addToBackStack(null).commit();
                     }
                     else{
-                        moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
-                            @Override
-                            public void whenDoneToUpdate() {
-                                Home_gymWorkoutPlanFragment homeGymWorkoutPlanFragment = new Home_gymWorkoutPlanFragment();
-                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,homeGymWorkoutPlanFragment)
-                                        .addToBackStack(null).commit();
-                            }
-                        });
+                        if(coin < 35){
+                            Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
+                                @Override
+                                public void whenDoneToUpdate() {
+                                    moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), false,false,true);
+                                    Home_gymWorkoutPlanFragment homeGymWorkoutPlanFragment = new Home_gymWorkoutPlanFragment();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,homeGymWorkoutPlanFragment)
+                                            .addToBackStack(null).commit();
+                                }
+                            });
+                        }
                     }
+
                 }
             });
         }
@@ -109,19 +118,28 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
             moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
                 @Override
                 public void onGotCoin(int coin) {
-                    if(coin < 35){
-                        Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
+                    if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsHome")){
+                        WorkoutPlanHomeFragment workoutPlanHomeFragment = new WorkoutPlanHomeFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,workoutPlanHomeFragment)
+                                .addToBackStack(null).commit();
                     }
                     else{
-                        moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
-                            @Override
-                            public void whenDoneToUpdate() {
-                                WorkoutPlanHomeFragment workoutPlanHomeFragment = new WorkoutPlanHomeFragment();
-                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,workoutPlanHomeFragment)
-                                        .addToBackStack(null).commit();
-                            }
-                        });
+                        if(coin < 35){
+                            Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
+                                @Override
+                                public void whenDoneToUpdate() {
+                                    moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), false,true,false);
+                                    WorkoutPlanHomeFragment workoutPlanHomeFragment = new WorkoutPlanHomeFragment();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,workoutPlanHomeFragment)
+                                            .addToBackStack(null).commit();
+                                }
+                            });
+                        }
                     }
+
                 }
             });
         }
@@ -129,20 +147,30 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
             moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
                 @Override
                 public void onGotCoin(int coin) {
-                    if(coin < 35){
-                        Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
+                    if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsGym")){
+                        GymWorkoutFragment gymWorkoutFragment = new GymWorkoutFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,gymWorkoutFragment)
+                                .addToBackStack(null).commit();
                     }
                     else{
+                        if(coin < 35){
+                            Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
 
-                        moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
-                            @Override
-                            public void whenDoneToUpdate() {
-                                GymWorkoutFragment gymWorkoutFragment = new GymWorkoutFragment();
-                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,gymWorkoutFragment)
-                                        .addToBackStack(null).commit();
-                            }
-                        });
+                            moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
+                                @Override
+                                public void whenDoneToUpdate() {
+                                    moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), true,false,false);
+
+                                    GymWorkoutFragment gymWorkoutFragment = new GymWorkoutFragment();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,gymWorkoutFragment)
+                                            .addToBackStack(null).commit();
+                                }
+                            });
+                        }
                     }
+
                 }
             });
         }

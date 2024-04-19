@@ -43,4 +43,10 @@ public class ModuleShop {
     public void UpdateDataFB(String phone, String whichTask, int idToDel, int toApp, MyFireBaseHelper.whenDone callBack){
         rep.UpdateDataFB(phone,"" ,"" ,"" ,0, whichTask,idToDel,toApp,callBack);
     }
+    public void updatePlan(String row_id, boolean IsGym, boolean IsHome, boolean IsHomeAndGym){ rep.updatePlan(row_id,IsGym,IsHome,IsHomeAndGym);}
+    public String getIdByPhoneNumber(){
+        return rep.getIDByPhoneSQL(sharedPreferences.getString("UserPhone", "0000000"));
+    }
+    public boolean CheckIfPlanBought(String phone, String whichPlan)
+    {return rep.CheckIfPlanBought(phone,whichPlan);}
 }
