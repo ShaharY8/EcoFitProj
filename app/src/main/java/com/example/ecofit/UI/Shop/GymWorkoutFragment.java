@@ -73,7 +73,7 @@ public class GymWorkoutFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_gym_workout, container, false);
 
         btnGoBack = v.findViewById(R.id.go_back);
-        Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
+
 
 
         btnGoBack.setOnClickListener(new View.OnClickListener() {

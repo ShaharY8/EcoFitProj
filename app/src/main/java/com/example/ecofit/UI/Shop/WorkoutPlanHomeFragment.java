@@ -68,7 +68,6 @@ public class WorkoutPlanHomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_workout_plan_home, container, false);
 
-        Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
         btnGoBack = v.findViewById(R.id.go_back);
 
         btnGoBack.setOnClickListener(new View.OnClickListener() {

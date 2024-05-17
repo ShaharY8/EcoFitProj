@@ -102,6 +102,7 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
                             moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
                                 @Override
                                 public void whenDoneToUpdate() {
+                                    Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
                                     moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), false,false,true);
                                     Home_gymWorkoutPlanFragment homeGymWorkoutPlanFragment = new Home_gymWorkoutPlanFragment();
                                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,homeGymWorkoutPlanFragment)
@@ -131,6 +132,7 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
                             moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
                                 @Override
                                 public void whenDoneToUpdate() {
+                                    Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
                                     moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), false,true,false);
                                     WorkoutPlanHomeFragment workoutPlanHomeFragment = new WorkoutPlanHomeFragment();
                                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,workoutPlanHomeFragment)
@@ -161,6 +163,7 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
                             moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
                                 @Override
                                 public void whenDoneToUpdate() {
+                                    Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
                                     moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), true,false,false);
 
                                     GymWorkoutFragment gymWorkoutFragment = new GymWorkoutFragment();

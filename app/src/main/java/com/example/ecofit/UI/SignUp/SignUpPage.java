@@ -120,7 +120,7 @@ public class SignUpPage extends AppCompatActivity {
                     editTextLastName.setError("תמלא שם משפחה");
                     isValid = false;
                 }
-                if (lname.length() > 10) {
+                if (lname.length() > 15) {
                     editTextLastName.setError("שם משפחה ארוך מידי");
                     isValid = false;
                 }
@@ -134,6 +134,10 @@ public class SignUpPage extends AppCompatActivity {
                 }
                 if (phone.length() == 0) {
                     editTextPhoneNumber.setError("תכניס מספר טלפון");
+                    isValid = false;
+                }
+                if (phone.length() != 10) {
+                    editTextPhoneNumber.setError("מספר טלפון לא תקין");
                     isValid = false;
                 }
 

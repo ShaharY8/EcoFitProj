@@ -141,6 +141,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
                                             moduleHome.AddDocument(taskInfo,"AllTasks");
                                             dialog.dismiss();
+                                            finish();
+                                            startActivity(getIntent());
 
                                         } else {
                                             Toast.makeText(HomePage.this, "המשימה קיימת כבר", Toast.LENGTH_SHORT).show();
