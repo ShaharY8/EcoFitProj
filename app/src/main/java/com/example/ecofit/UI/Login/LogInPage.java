@@ -34,23 +34,30 @@ public class LogInPage extends AppCompatActivity {
         moduleLogIn = new ModuleLogIn(this);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
-        if(editTextPhoneNumber.getText().toString().length() == 0){
-            editTextPhoneNumber.setError("Please enter your Phone number");
-
-        }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean b = moduleLogIn.CheckIfExist(editTextPhoneNumber.getText().toString(), editTextPassword.getText().toString());
-                if(b){
-                    moduleLogIn.saveAtSharedPreferences(editTextPhoneNumber.getText().toString());
-                    Intent intent = new Intent(LogInPage.this, HomePage.class);
-                    startActivity(intent);
+
+                if(editTextPhoneNumber.getText().toString().length() == 0){
+                    editTextPhoneNumber.setError("תכניס מספר טלפון");
+
                 }
-                else {
-                    Toast.makeText(LogInPage.this, "not exist", Toast.LENGTH_SHORT).show();
+                else if(editTextPassword.getText().toString().length() == 0){
+                    editTextPhoneNumber.setError("תכניס סיסמא");
                 }
+                else{
+                    boolean b = moduleLogIn.CheckIfExist(editTextPhoneNumber.getText().toString(), editTextPassword.getText().toString());
+                    if(b){
+                        moduleLogIn.saveAtSharedPreferences(editTextPhoneNumber.getText().toString());
+                        Intent intent = new Intent(LogInPage.this, HomePage.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(LogInPage.this, "not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
             }
         });
         tvSignUpLink.setOnClickListener(new View.OnClickListener() {

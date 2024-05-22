@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     private LinkedList<String> TaskNameFromFb;
     private LinkedList<String> titleTasks;
     private LinkedList<String> detailOfTasks;
+    private LinearLayout TaskHolder;
 
 
 
@@ -71,7 +73,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         tvCoinNumber = findViewById(R.id.tvCoinNumber);
         homePageId = findViewById(R.id.homePageId);
         nameOfUser = findViewById(R.id.nameOfUser);
-
+        TaskHolder = findViewById(R.id.TaskHolder);
         moduleHome = new ModuleHome(this);
 
         drawerLayout = findViewById(R.id.drawerlayout);
@@ -167,7 +169,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         }
         for (int i = 0; i < TaskNameFromFb.size(); i++) {
             if(findViewById(customIdMap.get(TaskNameFromFb.get(i).toString())) == view){
-                ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.SEND_SMS},1);
+                ActivityCompat.requestPermissions((Activity) this,
+                        new String[]{Manifest.permission.SEND_SMS},1);
                 moduleHome.Button1(TaskNameFromFb.get(i).toString(),titleTasks.get(i).toString(),detailOfTasks.get(i).toString());
             }
         }
@@ -231,7 +234,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                     // Set layout rules for positioning
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) button.getLayoutParams();
                     if (i == 0) {
-                        params.addRule(RelativeLayout.BELOW, R.id.Top);
+                        params.addRule(RelativeLayout.BELOW, R.id.txt);
                     } else {
                         params.addRule(RelativeLayout.BELOW, customIdMap.get(TaskNameFromFb.get(i-1).toString()));
                     }
@@ -239,7 +242,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                     button.setLayoutParams(params);
                     button.setOnClickListener(HomePage.this);
                     // Add button to layout container
-                    homePageId.addView(button);
+                    TaskHolder.addView(button);
 
                 }
 
@@ -251,12 +254,12 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
         if(phone.equals("0549044534")){
             helpBtn1 = new Button(this);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(300, 250);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(300, 200);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             helpBtn1.setLayoutParams(layoutParams);
             helpBtn1.setText("אישור משתמשים");
-            helpBtn1.setTextSize(20);
+            helpBtn1.setTextSize(15);
             helpBtn1.setTextColor(Color.BLACK);
             helpBtn1.setOnClickListener(this);
             homePageId.addView(helpBtn1);

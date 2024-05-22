@@ -17,15 +17,18 @@
         android:id="@+id/editTextFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="First Name"/>
+        android:gravity="right"
+        android:hint="שם פרטי"/>
 
     <EditText
         android:id="@+id/editTextLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="right"
+
         android:layout_below="@id/editTextFirstName"
         android:layout_marginTop="8dp"
-        android:hint="Last Name"/>
+        android:hint="שם משפחה"/>
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -34,7 +37,9 @@
         android:layout_below="@id/editTextLastName"
         android:layout_marginTop="8dp"
         android:inputType="textPassword"
-        android:hint="Password"/>
+        android:gravity="right"
+
+        android:hint="סיסמא"/>
 
     <EditText
         android:id="@+id/editTextConfirmPassword"
@@ -42,8 +47,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextPassword"
         android:layout_marginTop="8dp"
+        android:gravity="right"
+
         android:inputType="textPassword"
-        android:hint="Confirm Password"/>
+        android:hint="אימות סיסמא"/>
 
 
     <EditText
@@ -53,7 +60,9 @@
         android:layout_below="@id/editTextConfirmPassword"
         android:layout_marginTop="8dp"
         android:inputType="phone"
-        android:hint="Phone Number"/>
+        android:gravity="right"
+
+        android:hint="מספר טלפון"/>
 
     <Button
         android:id="@+id/btnSignUp"
@@ -61,14 +70,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextPhoneNumber"
         android:layout_marginTop="16dp"
-        android:text="Sign Up"/>
+        android:text="הרשמה"/>
 
     <TextView
         android:id="@+id/tvLoginLink"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="right"
         android:layout_below="@id/btnSignUp"
         android:layout_marginTop="16dp"
-        android:text="Already have an account? Log in here"
+        android:text="יש לך כבר משתמש? לחץ לכניסה."
         android:textColor="@android:color/holo_blue_dark" />
 </RelativeLayout>

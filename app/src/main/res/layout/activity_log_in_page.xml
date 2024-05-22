@@ -17,7 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Phone Number"/>
+        android:gravity="right"
+        android:inputType="phone"
+        android:hint="מספר טלפון"/>
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -26,7 +28,8 @@
         android:layout_below="@id/editTextPhoneNumber"
         android:layout_marginTop="8dp"
         android:inputType="textPassword"
-        android:hint="Password"/>
+        android:gravity="right"
+        android:hint="סיסמא"/>
 
     <Button
         android:id="@+id/btnLogIn"
@@ -34,14 +37,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextPassword"
         android:layout_marginTop="16dp"
-        android:text="Log In"/>
+        android:text="כניסה"/>
 
     <TextView
         android:id="@+id/tvSignUpLink"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="right"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnLogIn"
         android:layout_marginTop="16dp"
-        android:text="Don't have an account? Sign up here"
+        android:text="אין לך משתמש? תירשם כאן."
         android:textColor="@android:color/holo_blue_dark"/>
 </RelativeLayout>

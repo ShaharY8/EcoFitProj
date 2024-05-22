@@ -50,32 +50,38 @@
 
         </LinearLayout>
 
-<!--        <Button-->
-<!--            android:id="@+id/task1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="90dp"-->
-<!--            android:layout_below="@+id/Top"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:background="@drawable/fix_button"-->
-<!--            android:text="ניקוי יערות" />-->
+        <TextView
+            android:id="@+id/txt"
+            android:layout_below="@id/Top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="משימות לבחירה"
+            android:gravity="center"
+            android:textSize="30dp"
+            />
 
-<!--        <Button-->
-<!--            android:id="@+id/task2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="90dp"-->
-<!--            android:layout_below="@+id/task1"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:background="@drawable/fix_button"-->
-<!--            android:text="משימה מספר 2" />-->
 
-<!--        <Button-->
-<!--            android:id="@+id/task3"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="90dp"-->
-<!--            android:layout_below="@+id/task2"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:background="@drawable/fix_button"-->
-<!--            android:text="משימה מספר 3" />-->
+        <ScrollView
+            android:layout_below="@id/txt"
+            android:id="@+id/scrollViewTasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnAdd"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/TaskHolder"
+                android:orientation="vertical"
+                >
+
+
+            </LinearLayout>
+
+
+
+        </ScrollView>
+
 
         <Button
             android:id="@+id/btnAdd"
