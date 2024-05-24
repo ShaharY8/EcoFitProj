@@ -7,4 +7,17 @@
     app:menu="@menu/main_menu"
     android:layout_gravity="start">
 
+
+
+    <ImageButton
+        android:id="@+id/profile_image_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_button_for_pic"
+        android:backgroundTint="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_profile_image" />
+
 </com.google.android.material.navigation.NavigationView>

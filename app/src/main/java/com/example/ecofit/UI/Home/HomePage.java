@@ -1,5 +1,9 @@
 package com.example.ecofit.UI.Home;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,17 +15,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -61,7 +69,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     private LinkedList<String> detailOfTasks;
     private LinearLayout TaskHolder;
 
-
+    private ImageButton profileButton;
+    private Bitmap photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +106,54 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         AddApprovalButton();
 
 
+
+
+
+        profileButton = findViewById(R.id.profile_image_button);
+        profileButton.setOnClickListener(this);
+
+
+
+
+
+        changePhoto();
     }
+
+    public void changePhoto(){
+        photo = moduleHome.getImageFromSharedPreferences();
+        if(photo != null){
+            profileButton.setImageBitmap(photo);
+        }
+
+
+
+
+    }
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        photo = (Bitmap) data.getExtras().get("data");
+                        profileButton.setImageBitmap(photo);
+                        moduleHome.SavePhotoAtSharedPreferences(photo);
+
+                    }
+                }
+            });
+
     @Override
     public void onClick(View view) {
         if (menu == view)
         {
             drawerLayout.openDrawer(GravityCompat.START);
-
+        }
+        if(profileButton == view){
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            someActivityResultLauncher.launch(intent);
         }
         if(helpBtn1 == view){
             Intent intent = new Intent(HomePage.this, ApprovalPage.class);
@@ -127,7 +177,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                         btnSend.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                validateInputAndCheckUserExistence(etTaskName.getText().toString().trim(),new HomePage.ValidationCallback() {
+                                validateInputAndCheckTaskExistence(etTaskName.getText().toString().trim(),new HomePage.ValidationCallback() {
                                     @Override
                                     public void onValidationResult(boolean isValid) {
 
@@ -179,19 +229,15 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     public  interface ValidationCallback {
         void onValidationResult(boolean isValid);
     }
-    private void validateInputAndCheckUserExistence(String taskName, HomePage.ValidationCallback callback) {
+    private void validateInputAndCheckTaskExistence(String taskName, HomePage.ValidationCallback callback) {
 
 
         // Reset isValid to true before performing checks
         isValid = true;
-        // Check if user exists
+
         moduleHome.checkIfTaskExists("AllTasks",taskName, new MyFireBaseHelper.UserExistenceCallback() {
             @Override
             public void onUserExistenceChecked(boolean userExists) {
-
-                Toast.makeText(HomePage.this, "" + userExists, Toast.LENGTH_SHORT).show();
-
-                // Pass the validation result to the callback
                 if(userExists == true){
                     isValid = false;
                 }
@@ -202,6 +248,16 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
     private Map<String, Integer> customIdMap = new HashMap<>();
     public void AddTasks(){
+
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Progress Dialog");
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+
+
+
         moduleHome.GetAllTasks(new MyFireBaseHelper.getTasks() {
             @Override
             public void onGetTasks(LinkedList<String> TaskName, LinkedList<String> title, LinkedList<String> details) {
@@ -245,6 +301,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                     TaskHolder.addView(button);
 
                 }
+                progressDialog.dismiss();
 
             }
         });
@@ -267,7 +324,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     }
     public void ChangeName(){
 
-        String name = moduleHome.GetNameByPhone();
+        String name = moduleHome.GetName();
         if(name != null){
             nameOfUser.setText(name + "");
         }
@@ -279,7 +336,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         moduleHome.GetNumberOfCoinsByPhone(moduleHome.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
             @Override
             public void onGotCoin(int coin) {
-                tvCoinNumber.setText("your coins \n number is: " + coin);
+                tvCoinNumber.setText("מספר המטבעות \n שלך הוא: " + coin);
             }
         });
     }

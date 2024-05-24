@@ -99,22 +99,19 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
                                             editTextPassword.getText().toString(), coin, "UsersList", 0, 1, new MyFireBaseHelper.whenDone() {
                                                 @Override
                                                 public void whenDoneToUpdate() {
-
+                                                    Intent intent = new Intent(UpdateUserInfo.this, HomePage.class);
+                                                    startActivity(intent);
                                                 }
                                             });
                                 }
                             });
-
-
-
                         }
                     }
                     else
                     {
                         Toast.makeText(UpdateUserInfo.this, "Error", Toast.LENGTH_SHORT).show();
                     }
-                    Intent intent = new Intent(UpdateUserInfo.this, HomePage.class);
-                    startActivity(intent);
+
                 }
             }
         });

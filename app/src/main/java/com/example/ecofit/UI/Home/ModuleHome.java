@@ -7,9 +7,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.provider.Telephony;
 import android.telephony.SmsManager;
+import android.util.Base64;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +22,7 @@ import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.Repository.Repository;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -36,7 +40,7 @@ public class ModuleHome {
     public String getPhoneNumber(){
         return sharedPreferences.getString("UserPhone", "0000000");
     }
-    public String GetNameByPhone()
+    public String GetName()
     {
         return sharedPreferences.getString("UserName", "0000000");
     }
@@ -44,16 +48,41 @@ public class ModuleHome {
     {
          rep.GetNumberOfCoinsByPhone(phone, callback);
     }
+    public void SavePhotoAtSharedPreferences(Bitmap photo)
+    {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] byteArray = baos.toByteArray();
+
+        // המרת ה-byte array למחרוזת Base64
+        String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        // שמירת המחרוזת ב-SharedPreferences
+        editor.putString("Photo", encodedImage);
+        editor.apply();
+    }
+    public Bitmap getImageFromSharedPreferences() {
+        String encodedImage = sharedPreferences.getString("Photo", null);
+        if (encodedImage != null) {
+            // המרת המחרוזת Base64 ל-byte array
+            byte[] byteArray = Base64.decode(encodedImage, Base64.DEFAULT);
+            // המרת ה-byte array ל-Bitmap
+            return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        }
+        return null;
+    }
 
     public void checkIfTaskExists(String whichTask, String phone, MyFireBaseHelper.UserExistenceCallback callback){
         rep.checkIfUserExists(whichTask,phone,callback);
     }
+
     public void Button1(String whichTask, String title, String details){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("האם אתה רוצה להגיע?");
         builder.setMessage( title +
                 "\n" + details);
-
 
 
         builder.setCancelable(false);

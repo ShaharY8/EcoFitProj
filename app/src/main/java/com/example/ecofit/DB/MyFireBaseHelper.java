@@ -264,11 +264,12 @@ public class MyFireBaseHelper {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()) {
+                                                    callBack.whenDoneToUpdate();
                                                    // Toast.makeText(context, "bbbbbbbbbbbbbbbbbbb", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         });
-                                        callBack.whenDoneToUpdate();
+
                                     }
                                     else if(toApp == 1){
                                         userData.put("name", name);
@@ -280,7 +281,7 @@ public class MyFireBaseHelper {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()) {
-
+                                                    callBack.whenDoneToUpdate();
                                                     Toast.makeText(context, "המשתמש עודכן בהצלחה", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
