@@ -1,0 +1,388 @@
+@startuml
+class com.example.ecofit.UI.UpdateUser.ModuleUpdateUserInfo {
+- Context context
+- SharedPreferences sharedPreferences
+- Repository rep
++ void saveAtSharedPreferences(String,String,String)
++ void updateUser(String,String,String,String,String,int)
++ String getIdByPhoneNumber(String)
++ void UpdateDataFB(String,String,String,String,int,String,int,int,MyFireBaseHelper.whenDone)
++ String GetNameByPhone()
++ void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
++ String getPhoneNumber()
++ void LogOut()
+}
+
+
+class com.example.ecofit.UI.Main.MainActivity {
+- Button btnLogIn
+- ModuleMainActivity moduleMainActivity
+# void onCreate(Bundle)
++ void CheckIfUserLoggedIn()
+}
+
+
+class com.example.ecofit.UI.SignUp.ModuleSignUp {
+- Context context
+- SharedPreferences sharedPreferences
+- Repository rep
++ void saveAtSharedPreferences(String)
++ void addUser(String,String,String,String,int)
++ void AddDocument(String,String,String,String,int)
++ void checkIfUserExists(String,String,MyFireBaseHelper.UserExistenceCallback)
++ void ReadDocument(String,MyFireBaseHelper.gotUser)
+}
+
+
+class com.example.ecofit.Repository.Repository {
+~ MyDatabaseHelper myDatabaseHelper
+~ MyFireBaseHelper myFireBaseHelper
++ void addUser(String,String,String,String,int)
++ boolean CheckIfExist(String,String)
++ String GetNameByPhoneSQL(String)
++ String getPassByPhoneSQL(String)
++ String getlLnameByPhoneSQL(String)
++ void updateUserSQL(String,String,String,String,String,int)
++ String getIDByPhoneSQL(String)
++ void updatePlan(String,boolean,boolean,boolean)
++ boolean CheckIfPlanBought(String,String)
++ void AddDocument(Map<String,Object>,String)
++ void ReadDocument(String,MyFireBaseHelper.gotUser)
++ void DelFromFireStore(String,int)
++ void checkIfUserExists(String,String,MyFireBaseHelper.UserExistenceCallback)
++ void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
++ void UpdateDataFB(String,String,String,String,int,String,int,int,MyFireBaseHelper.whenDone)
++ void GetAllTasks(MyFireBaseHelper.getTasks)
+}
+
+
+class com.example.ecofit.UI.Shop.Shop {
+- DrawerLayout drawerLayout
+- NavigationView navigationView
+- ImageView menu
+- ModuleShop moduleShop
+- TextView tvNameOfUser
+# void onCreate(Bundle)
++ void onClick(View)
++ boolean onNavigationItemSelected(MenuItem)
++ void ChangeName()
++ void changeNumberOfCoins()
+}
+
+
+class com.example.ecofit.UI.Shop.WorkoutPlanHomeFragment {
+- {static} String ARG_PARAM1
+- {static} String ARG_PARAM2
+- String mParam1
+- String mParam2
+- ImageView btnGoBack
++ {static} WorkoutPlanHomeFragment newInstance(String,String)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+
+
+class com.example.ecofit.UI.Login.LogInPage {
+- Button btnLogin
+- TextView tvSignUpLink
+- SharedPreferences sharedPreferences
+- ModuleLogIn moduleLogIn
+- EditText editTextPhoneNumber
+# void onCreate(Bundle)
+}
+
+
+class com.example.ecofit.UI.Shop.ModuleShop {
+- Context context
+- SharedPreferences sharedPreferences
+- Repository rep
++ void LogOut()
++ void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
++ String getPhoneNumber()
++ String GetNameByPhone()
++ void UpdateDataFB(String,String,int,int,MyFireBaseHelper.whenDone)
++ void updatePlan(String,boolean,boolean,boolean)
++ String getIdByPhoneNumber()
++ boolean CheckIfPlanBought(String,String)
+}
+
+
+class com.example.ecofit.UI.UpdateUser.UpdateUserInfo {
+- DrawerLayout drawerLayout
+- NavigationView navigationView
+- ImageView menu
+- EditText editTextFirstName
+- Button updateButton
+- SharedPreferences sharedPreferences
+- ModuleUpdateUserInfo moduleUpdateUserInfo
+- String oldPhoneNumber
+- TextView tvCoinNumber
+# void onCreate(Bundle)
++ void onClick(View)
++ void addDefaultUserInfo()
+- boolean isValidInput()
++ boolean onNavigationItemSelected(MenuItem)
++ void ChangeName()
++ void changeNumberOfCoins()
+}
+
+
+class com.example.ecofit.Approval.ModuleApproval {
+- Context context
+~ Repository rep
+- SharedPreferences sharedPreferences
++ void LogOut()
++ void ReadDocument(String,MyFireBaseHelper.gotUser)
++ void GetAllTasks(MyFireBaseHelper.getTasks)
++ void DelFromFireStore(String,int)
++ void UpdateDataFB(String,String,int,int,MyFireBaseHelper.whenDone)
++ String GetNameByPhone()
++ void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
++ String getPhoneNumber()
+}
+
+
+class com.example.ecofit.DB.MyFireBaseHelper {
+- Context context
+- FirebaseFirestore db
++ void AddDocument(Map<String,Object>,String)
++ void ReadDocument(String,gotUser)
++ void GetAllTasks(getTasks)
++ void checkIfUserExists(String,String,UserExistenceCallback)
++ void DelFromFireStore(String,int)
++ void GetDataToUpdate(String,String,String,String,int,String,int,int,whenDone)
++ void GetNumberOfCoinsByPhone(String,gotCoin)
+}
+
+
+interface com.example.ecofit.DB.MyFireBaseHelper$gotUser {
+~ void onGotUser(LinkedList<String>,LinkedList<String>)
+}
+
+interface com.example.ecofit.DB.MyFireBaseHelper$getTasks {
+~ void onGetTasks(LinkedList<String>,LinkedList<String>,LinkedList<String>)
+}
+
+interface com.example.ecofit.DB.MyFireBaseHelper$UserExistenceCallback {
+~ void onUserExistenceChecked(boolean)
+}
+
+interface com.example.ecofit.DB.MyFireBaseHelper$whenDone {
+~ void whenDoneToUpdate()
+}
+
+interface com.example.ecofit.DB.MyFireBaseHelper$gotCoin {
++ void onGotCoin(int)
+}
+
+class com.example.ecofit.Approval.ApprovalPage {
+- DrawerLayout drawerLayout
+- NavigationView navigationView
+- ImageView menu
+- ModuleApproval moduleApproval
+- ScrollView scrollView
+- RelativeLayout mainRelativeLayout
+- String whichTask
+- TextView textView
+- int indexForDel
+- LinkedList<String> UsersPhone
+- LinkedList<String> TaskNameFromFb
+- TextView tvCoinNumber
+- TableLayout tableLayout
+- List<Button> btnUpdateCoin
+- List<Button> btnDelete
+- Map<String,Integer> customIdMap
+# void onCreate(Bundle)
++ void onClick(View)
++ void AddTasks()
++ void removeAllTask()
++ void TakeListOfUsers(String)
++ void AddRow(String,String,int)
++ boolean onNavigationItemSelected(MenuItem)
++ void ChangeName()
++ void changeNumberOfCoins()
+}
+
+
+class com.example.ecofit.DB.MyDatabaseHelper {
+~ Context context
+- {static} String DATABASE_NAME
+- {static} int DATABASE_VERSION
+- {static} String TABLE_NAME
+- {static} String COLUMN_ID
+- {static} String COLUMN_NAME
+- {static} String COLUMN_LASTNAME
+- {static} String COLUMN_PASS
+- {static} String COLUMN_PHONE
+- {static} String COLUMN_PRICE
+- {static} String COLUMN_IsGym
+- {static} String COLUMN_IsHome
+- {static} String COLUMN_IsHomeAndGym
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
++ void addUser(String,String,String,String,int)
++ Cursor readAllData()
++ boolean CheckIfExist(String,String)
++ String getIDByPhone(String)
++ String getNameByPhone(String)
++ String getPassByPhone(String)
++ String getlLnameByPhone(String)
++ void updateUser(String,String,String,String,String,int)
++ void updatePlan(String,boolean,boolean,boolean)
++ boolean CheckIfPlanBought(String,String)
++ void deleteOneRow(String)
++ void deleteAllData()
+}
+
+
+class com.example.ecofit.UI.Home.ModuleHome {
+- Context context
+- SharedPreferences sharedPreferences
+- Repository rep
++ String getPhoneNumber()
++ String GetName()
++ void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
++ void SavePhotoAtSharedPreferences(Bitmap)
++ Bitmap getImageFromSharedPreferences()
++ void checkIfTaskExists(String,String,MyFireBaseHelper.UserExistenceCallback)
++ void Button1(String,String,String)
++ void LogOut()
++ void GetAllTasks(MyFireBaseHelper.getTasks)
++ void AddDocument(Map<String,Object>,String)
+}
+
+
+class com.example.ecofit.UI.Login.ModuleLogIn {
+- Repository rep
+- SharedPreferences sharedPreferences
+- Context context
++ void saveAtSharedPreferences(String)
++ boolean CheckIfExist(String,String)
++ String GetName(String)
+}
+
+
+class com.example.ecofit.UI.Shop.Home_gymWorkoutPlanFragment {
+- {static} String ARG_PARAM1
+- {static} String ARG_PARAM2
+- String mParam1
+- String mParam2
+- ImageView btnGoBack
++ {static} Home_gymWorkoutPlanFragment newInstance(String,String)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+
+
+class com.example.ecofit.UI.Shop.MainShopPage {
+- {static} String ARG_PARAM1
+- {static} String ARG_PARAM2
+- String mParam1
+- String mParam2
+- Button btnGym
+- ModuleShop moduleShop
++ {static} MainShopPage newInstance(String,String)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onClick(View)
+}
+
+
+class com.example.ecofit.UI.SignUp.SignUpPage {
+- EditText editTextFirstName
+- Button btnSignUp
+- TextView tvLoginLink
+- ModuleSignUp moduleSignUp
+~ boolean isValid
+# void onCreate(Bundle)
+- void validateInputAndCheckUserExistence(ValidationCallback)
+}
+
+
+interface com.example.ecofit.UI.SignUp.SignUpPage$ValidationCallback {
+~ void onValidationResult(boolean)
+}
+
+class com.example.ecofit.UI.Main.ModuleMainActivity {
+- Context context
+- SharedPreferences sharedPreferences
++ boolean CheckIfUserLoggedIn()
+}
+
+
+class com.example.ecofit.UI.Shop.GymWorkoutFragment {
+- {static} String ARG_PARAM1
+- {static} String ARG_PARAM2
+- String mParam1
+- String mParam2
+- ImageView btnGoBack
++ {static} GymWorkoutFragment newInstance(String,String)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+
+
+class com.example.ecofit.UI.Home.HomePage {
+- ModuleHome moduleHome
+- Button helpBtn1
+- DrawerLayout drawerLayout
+- NavigationView navigationView
+- ImageView menu
+- TextView nameOfUser
+- RelativeLayout homePageId
+- LinkedList<String> TaskNameFromFb
+- LinkedList<String> titleTasks
+- LinkedList<String> detailOfTasks
+- LinearLayout TaskHolder
+- ImageButton profileButton
+- Bitmap photo
+~ ActivityResultLauncher<Intent> someActivityResultLauncher
+~ boolean isValid
+- Map<String,Integer> customIdMap
+# void onCreate(Bundle)
++ void changePhoto()
++ void onClick(View)
+- void validateInputAndCheckTaskExistence(String,HomePage.ValidationCallback)
++ void AddTasks()
++ void AddApprovalButton()
++ void ChangeName()
++ void changeNumberOfCoins()
++ boolean onNavigationItemSelected(MenuItem)
+}
+
+
+interface com.example.ecofit.UI.Home.HomePage$ValidationCallback {
+~ void onValidationResult(boolean)
+}
+
+
+
+androidx.appcompat.app.AppCompatActivity <|-- com.example.ecofit.UI.Main.MainActivity
+com.example.ecofit.UI.Shop.OnClickListener <|.. com.example.ecofit.UI.Shop.Shop
+com.example.ecofit.UI.Shop.OnNavigationItemSelectedListener <|.. com.example.ecofit.UI.Shop.Shop
+androidx.appcompat.app.AppCompatActivity <|-- com.example.ecofit.UI.Shop.Shop
+androidx.fragment.app.Fragment <|-- com.example.ecofit.UI.Shop.WorkoutPlanHomeFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.ecofit.UI.Login.LogInPage
+com.example.ecofit.UI.UpdateUser.OnClickListener <|.. com.example.ecofit.UI.UpdateUser.UpdateUserInfo
+com.example.ecofit.UI.UpdateUser.OnNavigationItemSelectedListener <|.. com.example.ecofit.UI.UpdateUser.UpdateUserInfo
+androidx.appcompat.app.AppCompatActivity <|-- com.example.ecofit.UI.UpdateUser.UpdateUserInfo
+com.example.ecofit.DB.MyFireBaseHelper +.. com.example.ecofit.DB.MyFireBaseHelper$gotUser
+com.example.ecofit.DB.MyFireBaseHelper +.. com.example.ecofit.DB.MyFireBaseHelper$getTasks
+com.example.ecofit.DB.MyFireBaseHelper +.. com.example.ecofit.DB.MyFireBaseHelper$UserExistenceCallback
+com.example.ecofit.DB.MyFireBaseHelper +.. com.example.ecofit.DB.MyFireBaseHelper$whenDone
+com.example.ecofit.DB.MyFireBaseHelper +.. com.example.ecofit.DB.MyFireBaseHelper$gotCoin
+com.example.ecofit.Approval.OnClickListener <|.. com.example.ecofit.Approval.ApprovalPage
+com.example.ecofit.Approval.OnNavigationItemSelectedListener <|.. com.example.ecofit.Approval.ApprovalPage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.ecofit.Approval.ApprovalPage
+android.database.sqlite.SQLiteOpenHelper <|-- com.example.ecofit.DB.MyDatabaseHelper
+androidx.fragment.app.Fragment <|-- com.example.ecofit.UI.Shop.Home_gymWorkoutPlanFragment
+com.example.ecofit.UI.Shop.OnClickListener <|.. com.example.ecofit.UI.Shop.MainShopPage
+androidx.fragment.app.Fragment <|-- com.example.ecofit.UI.Shop.MainShopPage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.ecofit.UI.SignUp.SignUpPage
+com.example.ecofit.UI.SignUp.SignUpPage +.. com.example.ecofit.UI.SignUp.SignUpPage$ValidationCallback
+androidx.fragment.app.Fragment <|-- com.example.ecofit.UI.Shop.GymWorkoutFragment
+com.example.ecofit.UI.Home.OnClickListener <|.. com.example.ecofit.UI.Home.HomePage
+com.example.ecofit.UI.Home.OnNavigationItemSelectedListener <|.. com.example.ecofit.UI.Home.HomePage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.ecofit.UI.Home.HomePage
+com.example.ecofit.UI.Home.HomePage +.. com.example.ecofit.UI.Home.HomePage$ValidationCallback
+@enduml
