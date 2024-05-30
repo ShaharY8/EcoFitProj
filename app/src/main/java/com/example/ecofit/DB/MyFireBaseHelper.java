@@ -42,6 +42,7 @@ public class MyFireBaseHelper {
     }
 
     // Add a new document with a generated ID
+    //פעולה אשר מוסיפה משתמש לטבלה המתאימה
     public void AddDocument(Map<String,Object> taskUserList,String whichTask){
 
         db.collection(whichTask)
@@ -66,7 +67,7 @@ public class MyFireBaseHelper {
     {
         void onGotUser(LinkedList<String> name, LinkedList<String> phone);
     }
-
+    //פעולה אשר מחזירה שני רשימות אחד עם שם המשתמש ואחד עם טלפון של המשתמש
     public void ReadDocument(String whichTask, gotUser callback) {
 
         db.collection(whichTask)
@@ -97,6 +98,7 @@ public class MyFireBaseHelper {
     {
         void onGetTasks(LinkedList<String> TaskName,LinkedList<String> title, LinkedList<String> details);
     }
+    //פעולה אשר מחזירה לי את כל המשימות הקיימות באפליקציה
     public void GetAllTasks(getTasks callback) {
 
         db.collection("AllTasks")
@@ -189,6 +191,34 @@ public class MyFireBaseHelper {
 
 
     }
+    public void checkIfUserSignToATask(String whichTask,String phone, UserExistenceCallback callback) {
+
+
+        Query query = db.collection(whichTask).whereEqualTo("phone", phone);
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                boolean phoneExists = false;
+                for (DocumentSnapshot document : task.getResult()) {
+                    if (document.exists()) {
+                        // Phone exists
+                        callback.onUserExistenceChecked(true);
+                        phoneExists = true;
+                        break; // exit loop since phone is found
+                    }
+                }
+                if (!phoneExists) {
+                    // Phone doesn't exist
+                    callback.onUserExistenceChecked(false);
+                }
+            } else {
+                // Error retrieving documents
+                callback.onUserExistenceChecked(false); // Indicate failure to check existence
+            }
+        });
+
+
+    }
     public void DelFromFireStore(String whichTask, int idToDel){
         db.collection(whichTask)
                 .get()
@@ -254,7 +284,7 @@ public class MyFireBaseHelper {
                                             }
                                         });
                                     } else if (toApp == 0) {
-                                       // Toast.makeText(context, "bbbbbbbbbbbbbbbbbbb", Toast.LENGTH_SHORT).show();
+
                                         userData.put("name", document.getData().get("name").toString());
                                         userData.put("Lname",  document.getData().get("Lname").toString());
                                         userData.put("pass",  document.getData().get("pass").toString());
@@ -328,7 +358,5 @@ public class MyFireBaseHelper {
                     }
                 });
     }
-
-
 
 }

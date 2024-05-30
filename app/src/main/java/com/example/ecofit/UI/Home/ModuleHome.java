@@ -90,16 +90,28 @@ public class ModuleHome {
         builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
-                String str = "שלום ותודה שברחרת להשתתף במשימה ...";
+                String str = "שלום ותודה שבחרת להשתתף במשימה," +
+                        " אם אתה מתחרט ואינך רוצה להגיע אתה לא צריך לשנות כלום פשוט אל תגיע.";
                 SmsManager smsManager = SmsManager.getDefault();
                 String phone = getPhoneNumber();
                 String name = sharedPreferences.getString("UserName","Error");
-                smsManager.sendTextMessage(phone,null,str,null,null);
 
                 Map<String, Object> taskUserList = new HashMap<>();
                 taskUserList.put("name", name);
                 taskUserList.put("phone", phone);
-                rep.AddDocument(taskUserList,whichTask);
+
+                rep.checkIfUserSignToATask(whichTask, phone, new MyFireBaseHelper.UserExistenceCallback() {
+                    @Override
+                    public void onUserExistenceChecked(boolean userExists) {
+                        if(userExists == false){
+                            rep.AddDocument(taskUserList,whichTask);
+                            smsManager.sendTextMessage(phone,null,str,null,null);
+                        }
+                        else{
+                            Toast.makeText(context, "כבר נרשמת למשימה הזאת", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
 
             }
@@ -112,7 +124,6 @@ public class ModuleHome {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-
         dialog.getButton(-1).setTextColor(Color.BLUE);
         dialog.getButton(-2).setTextColor(Color.RED);
     }
@@ -129,6 +140,7 @@ public class ModuleHome {
     public void AddDocument(Map<String, Object> taskUser, String whichTask) {
         rep.AddDocument(taskUser, whichTask);
     }
+
 
 
 }

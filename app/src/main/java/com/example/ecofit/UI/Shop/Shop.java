@@ -96,7 +96,7 @@ public class Shop extends AppCompatActivity implements View.OnClickListener, Nav
         moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
             @Override
             public void onGotCoin(int coin) {
-                tvCoinNumber.setText("your coins \n number is: " + coin);
+                tvCoinNumber.setText("מספר המטבעות \n שלך הוא: " + coin);
             }
         });
     }

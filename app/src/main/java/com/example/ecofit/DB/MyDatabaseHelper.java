@@ -33,20 +33,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         this.context = context;
     }
 
-    @Override
-//    public void onCreate(SQLiteDatabase db)
-//    {
-//        String query = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_ID +
-//                " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                COLUMN_NAME + " TEXT, " +
-//                COLUMN_LASTNAME + " TEXT, " +
-//                COLUMN_PASS + " TEXT, " +
-//                COLUMN_PHONE+ " TEXT, " +
-//                COLUMN_PRICE + " INTEGER);";
-//
-//        db.execSQL(query);
-//    }
 
+    // פעולה שיוצרת את הטבלה של המשתמשים
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + " (" + COLUMN_ID +
                 " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -68,6 +56,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // מוסיפה משתמש לטבלה
     public void addUser(String name,String Lname,String pass, String phone, int price)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -107,8 +96,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public boolean CheckIfExist(String phone, String pass)
-    {
+
+    // בודק אם משתמש קיים
+    public boolean CheckIfExist(String phone, String pass){
+
         String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "' AND " + COLUMN_PASS + " = '" + pass +"'";
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -116,7 +107,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         return cursor.getCount() == 1;
     }
-
+    // פעולה שמחזירה את ה- ID של המשתמש
     public String getIDByPhone(String phone)
     {
         String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "'";
@@ -126,6 +117,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         return cursor.getString(0);
     }
+    // פעולה שמחזירה את השם של המשתמש
     public String getNameByPhone(String phone)
     {
         String query = "SELECT " + COLUMN_NAME + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "'";
@@ -138,6 +130,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor.getString(0);
     }
+    // פעולה המחזירה את הסיסמא של המשתמש
     public String getPassByPhone(String phone)
     {
         String query = "SELECT " + COLUMN_PASS + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "'";
@@ -150,6 +143,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor.getString(0);
     }
+    // פעולה המחזירה את שם המשפחה של המשתמש
     public String getlLnameByPhone(String phone)
     {
         String query = "SELECT " + COLUMN_LASTNAME + " FROM " + TABLE_NAME + " WHERE " + COLUMN_PHONE + " = '" + phone + "'";
@@ -162,7 +156,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor.getString(0);
     }
-
+    //פעולה שמעדכנת את הפרטים של המשתמש
     public void updateUser(String row_id,String name, String Lname, String pass, String phone, int price)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -187,6 +181,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+    // פעולה אשר מעדכנת קנייה של תוכנית אימון
     public void updatePlan(String row_id, boolean IsGym, boolean IsHome, boolean IsHomeAndGym)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -210,7 +205,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
-    ////////////////////////////////// 777                 "IsHome"
+    //פעולה הבודקת אם המשתמש קנה בעבר תוכנית אימון
     public boolean CheckIfPlanBought(String phone, String whichPlan)
     {
         String query = "";

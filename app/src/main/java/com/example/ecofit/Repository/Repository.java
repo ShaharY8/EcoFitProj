@@ -73,6 +73,9 @@ public class Repository {
         myFireBaseHelper.checkIfUserExists(whichTask,phone, callback);
     }
 
+    public void checkIfUserSignToATask(String whichTask,String phone,MyFireBaseHelper.UserExistenceCallback callback) {
+        myFireBaseHelper.checkIfUserSignToATask(whichTask,phone, callback);
+    }
     public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback) {
         myFireBaseHelper.GetNumberOfCoinsByPhone( phone, callback);
     }

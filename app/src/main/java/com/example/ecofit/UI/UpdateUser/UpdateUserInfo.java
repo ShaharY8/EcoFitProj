@@ -121,23 +121,12 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
         ChangeName();
     }
 
-    public void ChangeName(){
+    public void onClick(View view) {
+        if (menu == view)
+        {
+            drawerLayout.openDrawer(GravityCompat.START);
 
-        String name = moduleUpdateUserInfo.GetNameByPhone();
-        if(name != null){
-            tvNameOfUser.setText(name + "");
         }
-        else {
-            tvNameOfUser.setText("Error");
-        }
-    }
-    public void changeNumberOfCoins(){
-        moduleUpdateUserInfo.GetNumberOfCoinsByPhone(moduleUpdateUserInfo.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
-            @Override
-            public void onGotCoin(int coin) {
-                tvCoinNumber.setText("your coins \n number is: " + coin);
-            }
-        });
     }
     public void addDefaultUserInfo(){
         editTextFirstName.setText(sharedPreferences.getString("UserName",null));
@@ -166,6 +155,7 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
         return isValid;
     }
 
+
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
@@ -189,12 +179,24 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
         return false; // Return true to indicate that the item click has been handled
     }
 
-    @Override
-    public void onClick(View view) {
-        if (menu == view)
-        {
-            drawerLayout.openDrawer(GravityCompat.START);
+    public void ChangeName(){
 
+        String name = moduleUpdateUserInfo.GetNameByPhone();
+        if(name != null){
+            tvNameOfUser.setText(name + "");
+        }
+        else {
+            tvNameOfUser.setText("Error");
         }
     }
+    public void changeNumberOfCoins(){
+        moduleUpdateUserInfo.GetNumberOfCoinsByPhone(moduleUpdateUserInfo.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
+            @Override
+            public void onGotCoin(int coin) {
+                tvCoinNumber.setText("מספר המטבעות \n שלך הוא: " + coin);
+            }
+        });
+    }
+
+
 }

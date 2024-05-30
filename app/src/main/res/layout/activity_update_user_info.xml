@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:layout_gravity="center"
-                android:text="coins number"
+                android:text="משפר מטבעות"
                 android:textSize="15dp"
                 android:id="@+id/coinNumber"
                 />
@@ -55,7 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="First Name"
+            android:hint="שם פרטי"
+            android:gravity="right"
             android:inputType="textPersonName"
             android:padding="8dp" />
 
@@ -65,8 +66,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/firstNameEditText"
             android:layout_marginTop="8dp"
-            android:hint="Last Name"
+            android:hint="שם משפחה"
             android:inputType="textPersonName"
+            android:gravity="right"
             android:padding="8dp" />
 
         <EditText
@@ -75,7 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/lastNameEditText"
             android:layout_marginTop="8dp"
-            android:hint="Password"
+            android:hint="סיסמא"
+            android:gravity="right"
             android:inputType="textPassword"
             android:padding="8dp" />
 
