@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,8 +16,10 @@ import android.telephony.SmsManager;
 import android.util.Base64;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.ecofit.DB.MyFireBaseHelper;
 import com.example.ecofit.Repository.Repository;
@@ -24,25 +27,25 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
 
 
 public class ModuleHome {
     private Context context;
-    private SharedPreferences sharedPreferences;
+
     private Repository rep;
     public ModuleHome(Context c){
         context = c;
         rep = new Repository(context);
-        sharedPreferences = context.getSharedPreferences("UserInfo", MODE_PRIVATE);
     }
     public String getPhoneNumber(){
-        return sharedPreferences.getString("UserPhone", "0000000");
+        return rep.getPhoneNumberSharedPreferences();
     }
     public String GetName()
     {
-        return sharedPreferences.getString("UserName", "0000000");
+        return rep.getNameSharedPreferences();
     }
     public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback)
     {
@@ -50,7 +53,6 @@ public class ModuleHome {
     }
     public void SavePhotoAtSharedPreferences(Bitmap photo)
     {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -60,11 +62,10 @@ public class ModuleHome {
         String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
         // שמירת המחרוזת ב-SharedPreferences
-        editor.putString("Photo", encodedImage);
-        editor.apply();
+        rep.SaveDataAtSharedPreferences(encodedImage);
     }
     public Bitmap getImageFromSharedPreferences() {
-        String encodedImage = sharedPreferences.getString("Photo", null);
+        String encodedImage = rep.GetEncodedImageSharedPreference();
         if (encodedImage != null) {
             // המרת המחרוזת Base64 ל-byte array
             byte[] byteArray = Base64.decode(encodedImage, Base64.DEFAULT);
@@ -92,20 +93,27 @@ public class ModuleHome {
 
                 String str = "שלום ותודה שבחרת להשתתף במשימה," +
                         " אם אתה מתחרט ואינך רוצה להגיע אתה לא צריך לשנות כלום פשוט אל תגיע.";
-                SmsManager smsManager = SmsManager.getDefault();
+                // SmsManager smsManager = SmsManager.getDefault();
                 String phone = getPhoneNumber();
-                String name = sharedPreferences.getString("UserName","Error");
+                Toast.makeText(context, "" + phone, Toast.LENGTH_SHORT).show();
+                String name = rep.getNameSharedPreferences();
 
                 Map<String, Object> taskUserList = new HashMap<>();
                 taskUserList.put("name", name);
                 taskUserList.put("phone", phone);
 
+
+
+
                 rep.checkIfUserSignToATask(whichTask, phone, new MyFireBaseHelper.UserExistenceCallback() {
                     @Override
                     public void onUserExistenceChecked(boolean userExists) {
                         if(userExists == false){
-                            rep.AddDocument(taskUserList,whichTask);
-                            smsManager.sendTextMessage(phone,null,str,null,null);
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.SEND_SMS}, 1);
+                            } else {
+                                sendSmsAndRegisterUser(phone, str, taskUserList, whichTask);
+                            }
                         }
                         else{
                             Toast.makeText(context, "כבר נרשמת למשימה הזאת", Toast.LENGTH_SHORT).show();
@@ -127,11 +135,25 @@ public class ModuleHome {
         dialog.getButton(-1).setTextColor(Color.BLUE);
         dialog.getButton(-2).setTextColor(Color.RED);
     }
+
+    private void sendSmsAndRegisterUser(String phone, String message, Map<String, Object> taskUserList, String whichTask) {
+        rep.checkIfUserSignToATask(whichTask, phone, new MyFireBaseHelper.UserExistenceCallback() {
+            @Override
+            public void onUserExistenceChecked(boolean userExists) {
+                if (!userExists) {
+                    rep.AddDocument(taskUserList, whichTask);
+                    String message = "תודה שנרשמת למשימה אם אתה לא יכול להגיע לא צריך להודיע יום טוב";
+                    SmsManager.getDefault().sendTextMessage(phone, null, message, null, null);
+                    Toast.makeText(context, "הודעת אישור נשלחה לטלפון הזה: " + phone + " אם זה לא הטלפון שלך אנא פתח משתמש עם הטלפון שלך", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "כבר נרשמת למשימה הזאת", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     public void LogOut(){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
-        Toast.makeText(context, "Log Out successfully", Toast.LENGTH_SHORT).show();
+        rep.LogOut();
     }
 
     public void GetAllTasks(MyFireBaseHelper.getTasks callback){

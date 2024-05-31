@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,6 +85,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         nameOfUser = findViewById(R.id.nameOfUser);
         TaskHolder = findViewById(R.id.TaskHolder);
         moduleHome = new ModuleHome(this);
+
 
         drawerLayout = findViewById(R.id.drawerlayout);
 
@@ -219,9 +221,11 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         }
         for (int i = 0; i < TaskNameFromFb.size(); i++) {
             if(findViewById(customIdMap.get(TaskNameFromFb.get(i).toString())) == view){
+
                 ActivityCompat.requestPermissions((Activity) this,
                         new String[]{Manifest.permission.SEND_SMS},1);
-                moduleHome.Button1(TaskNameFromFb.get(i).toString(),titleTasks.get(i).toString(),detailOfTasks.get(i).toString());
+
+                moduleHome.Button1(TaskNameFromFb.get(i).toString(), titleTasks.get(i).toString(), detailOfTasks.get(i).toString());
             }
         }
     }

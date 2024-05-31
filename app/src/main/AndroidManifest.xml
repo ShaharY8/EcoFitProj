@@ -6,7 +6,9 @@
         android:name="android.hardware.telephony"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -19,26 +21,39 @@
         android:theme="@style/Theme.EcoFit"
         tools:targetApi="31">
         <activity
+            android:screenOrientation="portrait"
             android:name=".Approval.ApprovalPage"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+
             android:name=".UI.UpdateUser.UpdateUserInfo"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+
             android:name=".UI.Home.HomePage"
             android:exported="false"
             android:label="@string/title_activity_home_page"
             android:theme="@style/Theme.EcoFit" />
         <activity
+            android:screenOrientation="portrait"
+
             android:name=".UI.Shop.Shop"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+
             android:name=".UI.SignUp.SignUpPage"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+
             android:name=".UI.Login.LogInPage"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+
             android:name=".UI.Main.MainActivity"
             android:exported="true">
             <intent-filter>

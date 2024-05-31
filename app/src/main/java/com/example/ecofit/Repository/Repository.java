@@ -1,14 +1,19 @@
 package com.example.ecofit.Repository;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.example.ecofit.DB.MyDatabaseHelper;
 import com.example.ecofit.DB.MyFireBaseHelper;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.net.ContentHandler;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,10 +23,13 @@ public class Repository {
     ////////////////////////   SQLite
     MyDatabaseHelper myDatabaseHelper;
     MyFireBaseHelper myFireBaseHelper;
-
+    SharedPreferences sharedPreferences;
+    Context context;
     public Repository(Context context) {
+        this.context = context;
         myDatabaseHelper = new MyDatabaseHelper(context);
         myFireBaseHelper = new MyFireBaseHelper(context);
+        sharedPreferences = context.getSharedPreferences("UserInfo", MODE_PRIVATE);
     }
 
     public void addUser(String name, String Lname, String pass, String phone, int price) {
@@ -85,5 +93,31 @@ public class Repository {
     }
     public void GetAllTasks(MyFireBaseHelper.getTasks callback){
         myFireBaseHelper.GetAllTasks(callback);
+    }
+
+    //////////////////////////////////////////////////
+    //////////////////////////////////////////////////  SharedPreferences
+    /////////////////////////////////////////////////
+
+    public void SaveDataAtSharedPreferences(String encodedImage){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("Photo", encodedImage);
+        editor.apply();
+    }
+    public String getPhoneNumberSharedPreferences(){
+        return sharedPreferences.getString("UserPhone", "0000000");
+    }
+    public String getNameSharedPreferences(){
+        return sharedPreferences.getString("UserName", "0000000");
+    }
+    public String GetEncodedImageSharedPreference(){
+        return sharedPreferences.getString("Photo", null);
+    }
+    public void LogOut(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+        Toast.makeText(context, "Log Out successfully", Toast.LENGTH_SHORT).show();
     }
 }
