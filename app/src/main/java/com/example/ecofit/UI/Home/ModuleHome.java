@@ -79,7 +79,7 @@ public class ModuleHome {
         rep.checkIfUserExists(whichTask,phone,callback);
     }
 
-    public void Button1(String whichTask, String title, String details){
+    public void Task(String whichTask, String title, String details){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("האם אתה רוצה להגיע?");
         builder.setMessage( title +

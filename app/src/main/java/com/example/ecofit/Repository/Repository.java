@@ -120,4 +120,30 @@ public class Repository {
         editor.commit();
         Toast.makeText(context, "Log Out successfully", Toast.LENGTH_SHORT).show();
     }
+
+    public void saveAtSharedPreferencesFromLogIn(String phone){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UserPhone", phone);
+        editor.putString("UserName", GetNameByPhoneSQL(phone));
+        editor.putString("UserLname", getlLnameByPhoneSQL(phone));
+        editor.putString("UserPass", getPassByPhoneSQL(phone));
+        editor.apply();
+    }
+    public boolean CheckIfUserLoggedInInSharedPreferences(){
+        String PhoneNumber = sharedPreferences.getString("UserPhone",null);
+        String UserName = sharedPreferences.getString("UserName",null);
+
+        if(PhoneNumber != null || UserName != null){
+            return true;
+        }
+        return false;
+    }
+    public void UpdateSharedPreference(String name, String lname, String pass){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("UserName", name);
+        editor.putString("UserLname", lname);
+        editor.putString("UserPass", pass);
+        editor.apply();
+    }
 }

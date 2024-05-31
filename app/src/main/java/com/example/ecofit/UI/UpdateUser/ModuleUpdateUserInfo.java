@@ -11,21 +11,14 @@ import com.example.ecofit.Repository.Repository;
 
 public class ModuleUpdateUserInfo {
     private Context context;
-    private SharedPreferences sharedPreferences;
     private Repository rep;
     public ModuleUpdateUserInfo(Context c){
         context = c;
         rep = new Repository(c);
-        sharedPreferences = context.getSharedPreferences("UserInfo", MODE_PRIVATE);
     }
 
     public void saveAtSharedPreferences(String name, String lname, String pass){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString("UserName", name);
-        editor.putString("UserLname", lname);
-        editor.putString("UserPass", pass);
-        editor.apply();
+        rep.UpdateSharedPreference(name,lname,pass);
     }
     public void updateUser(String row_id,String name,String Lname,String pass, String phone, int price){
         rep.updateUserSQL(row_id,name,Lname,pass ,phone,0);
@@ -38,22 +31,19 @@ public class ModuleUpdateUserInfo {
         rep.UpdateDataFB(phone,name ,lname ,pass ,price, whichTask,idToDel,toApp,callBck);
     }
 
-    public String GetNameByPhone()
+    public String GetName()
     {
-        return sharedPreferences.getString("UserName", "0000000");
+        return rep.getNameSharedPreferences();
     }
     public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback)
     {
         rep.GetNumberOfCoinsByPhone(phone, callback);
     }
     public String getPhoneNumber(){
-        return sharedPreferences.getString("UserPhone", "0000000");
+        return rep.getPhoneNumberSharedPreferences();
     }
 
     public void LogOut(){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
-        Toast.makeText(context, "Log Out successfully", Toast.LENGTH_SHORT).show();
+        rep.LogOut();
     }
 }

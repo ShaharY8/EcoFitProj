@@ -181,7 +181,7 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
 
     public void ChangeName(){
 
-        String name = moduleUpdateUserInfo.GetNameByPhone();
+        String name = moduleUpdateUserInfo.GetName();
         if(name != null){
             tvNameOfUser.setText(name + "");
         }

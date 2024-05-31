@@ -224,8 +224,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
                 ActivityCompat.requestPermissions((Activity) this,
                         new String[]{Manifest.permission.SEND_SMS},1);
-
-                moduleHome.Button1(TaskNameFromFb.get(i).toString(), titleTasks.get(i).toString(), detailOfTasks.get(i).toString());
+                moduleHome.Task(TaskNameFromFb.get(i).toString(), titleTasks.get(i).toString(), detailOfTasks.get(i).toString());
             }
         }
     }

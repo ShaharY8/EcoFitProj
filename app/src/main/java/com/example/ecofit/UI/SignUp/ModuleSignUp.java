@@ -15,21 +15,14 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModuleSignUp {
     private Context context;
-    private SharedPreferences sharedPreferences;
     private Repository rep;
     public ModuleSignUp(Context c){
         context = c;
-        sharedPreferences = context.getSharedPreferences("UserInfo", MODE_PRIVATE);
         rep = new Repository(c);
     }
 
     public void saveAtSharedPreferences(String phone){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("UserPhone", phone);
-        editor.putString("UserName", rep.GetNameByPhoneSQL(phone));
-        editor.putString("UserLname", rep.getlLnameByPhoneSQL(phone));
-        editor.putString("UserPass", rep.getPassByPhoneSQL(phone));
-        editor.apply();
+        rep.saveAtSharedPreferencesFromLogIn(phone);
     }
     public void addUser(String name,String Lname,String pass, String phone, int price){
         rep.addUser(name,Lname,pass ,phone,0);
@@ -49,7 +42,4 @@ public class ModuleSignUp {
         rep.checkIfUserExists(whichTask,phone,callback);
     }
 
-    public void ReadDocument(String whichTask, MyFireBaseHelper.gotUser callback) {
-        rep.ReadDocument(whichTask, callback);
-    }
 }

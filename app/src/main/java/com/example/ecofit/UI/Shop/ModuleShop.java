@@ -12,19 +12,14 @@ import com.example.ecofit.Repository.Repository;
 public class ModuleShop {
 
     private Context context;
-    private SharedPreferences sharedPreferences;
     private Repository rep;
     public ModuleShop(Context c){
         context = c;
         rep = new Repository(c);
-        sharedPreferences = context.getSharedPreferences("UserInfo", MODE_PRIVATE);
     }
 
     public void LogOut(){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
-        Toast.makeText(context, "Log Out successfully", Toast.LENGTH_SHORT).show();
+        rep.LogOut();
     }
 
 
@@ -33,11 +28,11 @@ public class ModuleShop {
         rep.GetNumberOfCoinsByPhone(phone, callback);
     }
     public String getPhoneNumber(){
-        return sharedPreferences.getString("UserPhone", "0000000");
+        return  rep.getPhoneNumberSharedPreferences();
     }
     public String GetNameByPhone()
     {
-        return sharedPreferences.getString("UserName", "0000000");
+        return rep.getNameSharedPreferences();
     }
 
     public void UpdateDataFB(String phone, String whichTask, int idToDel, int toApp, MyFireBaseHelper.whenDone callBack){
@@ -45,7 +40,7 @@ public class ModuleShop {
     }
     public void updatePlan(String row_id, boolean IsGym, boolean IsHome, boolean IsHomeAndGym){ rep.updatePlan(row_id,IsGym,IsHome,IsHomeAndGym);}
     public String getIdByPhoneNumber(){
-        return rep.getIDByPhoneSQL(sharedPreferences.getString("UserPhone", "0000000"));
+        return rep.getIDByPhoneSQL(rep.getPhoneNumberSharedPreferences());
     }
     public boolean CheckIfPlanBought(String phone, String whichPlan)
     {return rep.CheckIfPlanBought(phone,whichPlan);}
