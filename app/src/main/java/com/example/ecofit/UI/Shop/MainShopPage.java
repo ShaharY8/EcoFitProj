@@ -1,5 +1,11 @@
 package com.example.ecofit.UI.Shop;
 
+import static android.content.Intent.getIntent;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.ecofit.DB.MyFireBaseHelper;
@@ -63,6 +70,7 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
     private Button btnGym, btnHome_Gym, btnHome;
 
     private ModuleShop moduleShop;
+    private ImageView img1,img2,img3;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,8 +84,19 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
         btnHome.setOnClickListener(this);
         btnHome_Gym = v.findViewById(R.id.home_gym);
         btnHome_Gym.setOnClickListener(this);
+        img1 = v.findViewById(R.id.img1);
+        img2 = v.findViewById(R.id.img2);
+        img3 = v.findViewById(R.id.img3);
 
-
+        if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsHomeAndGym")){
+            img2.setImageResource(R.drawable.baseline_lock_open_24);
+        }
+        if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsHome")){
+            img1.setImageResource(R.drawable.baseline_lock_open_24);
+        }
+        if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsGym")){
+            img3.setImageResource(R.drawable.baseline_lock_open_24);
+        }
 
         return v;
     }
@@ -86,96 +105,182 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if(btnHome_Gym == view){
-            moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
-                @Override
-                public void onGotCoin(int coin) {
-                    if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsHomeAndGym")){
-                        Home_gymWorkoutPlanFragment homeGymWorkoutPlanFragment = new Home_gymWorkoutPlanFragment();
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,homeGymWorkoutPlanFragment)
-                                .addToBackStack(null).commit();
-                    }
-                    else{
-                        if(coin < 35){
-                            Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
-                                @Override
-                                public void whenDoneToUpdate() {
-                                    Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
-                                    moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), false,false,true);
-                                    Home_gymWorkoutPlanFragment homeGymWorkoutPlanFragment = new Home_gymWorkoutPlanFragment();
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,homeGymWorkoutPlanFragment)
-                                            .addToBackStack(null).commit();
-                                }
-                            });
-                        }
-                    }
 
-                }
-            });
+            if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsHomeAndGym")){
+                Home_gymWorkoutPlanFragment homeGymWorkoutPlanFragment = new Home_gymWorkoutPlanFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,homeGymWorkoutPlanFragment)
+                        .addToBackStack(null).commit();
+            }
+            else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("האם אתה רוצה לקנות תוכנית אימון זו?");
+                builder.setMessage("תוכנית זו עולה 35 מטבעות");
+                builder.setCancelable(false);
+
+                builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
+                            @Override
+                            public void onGotCoin(int coin) {
+
+
+                                if(coin < 35){
+                                    Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
+                                        @Override
+                                        public void whenDoneToUpdate() {
+                                            moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), false,false,true);
+                                            Activity activity = getActivity();
+                                            activity.finish();
+                                            activity.startActivity(activity.getIntent());
+                                        }
+                                    });
+                                }
+
+
+                            }
+                        });
+
+                    }
+                });
+
+                builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getButton(-1).setTextColor(Color.BLUE);
+                dialog.getButton(-2).setTextColor(Color.RED);
+            }
+
+
         }
         if(btnHome == view){
-            moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
-                @Override
-                public void onGotCoin(int coin) {
-                    if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsHome")){
-                        WorkoutPlanHomeFragment workoutPlanHomeFragment = new WorkoutPlanHomeFragment();
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,workoutPlanHomeFragment)
-                                .addToBackStack(null).commit();
-                    }
-                    else{
-                        if(coin < 35){
-                            Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
-                                @Override
-                                public void whenDoneToUpdate() {
-                                    Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
-                                    moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), false,true,false);
-                                    WorkoutPlanHomeFragment workoutPlanHomeFragment = new WorkoutPlanHomeFragment();
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,workoutPlanHomeFragment)
-                                            .addToBackStack(null).commit();
-                                }
-                            });
-                        }
-                    }
 
-                }
-            });
+            if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsHome")){
+                WorkoutPlanHomeFragment workoutPlanHomeFragment = new WorkoutPlanHomeFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,workoutPlanHomeFragment)
+                        .addToBackStack(null).commit();
+            }
+            else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("האם אתה רוצה לקנות תוכנית אימון זו?");
+                builder.setMessage("תוכנית זו עולה 35 מטבעות");
+                builder.setCancelable(false);
+
+                builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
+                            @Override
+                            public void onGotCoin(int coin) {
+                                if(coin < 35){
+                                    Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
+                                        @Override
+                                        public void whenDoneToUpdate() {
+                                            moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), false,true,false);
+                                            Activity activity = getActivity();
+                                            activity.finish();
+                                            activity.startActivity(activity.getIntent());
+                                        }
+                                    });
+                                }
+
+                            }
+                        });
+
+                    }
+                });
+
+                builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getButton(-1).setTextColor(Color.BLUE);
+                dialog.getButton(-2).setTextColor(Color.RED);
+            }
+
+
+
         }
         if(btnGym == view){
-            moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
-                @Override
-                public void onGotCoin(int coin) {
-                    if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsGym")){
-                        GymWorkoutFragment gymWorkoutFragment = new GymWorkoutFragment();
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,gymWorkoutFragment)
-                                .addToBackStack(null).commit();
-                    }
-                    else{
-                        if(coin < 35){
-                            Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
 
-                            moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
-                                @Override
-                                public void whenDoneToUpdate() {
-                                    Toast.makeText(getActivity(), "מספר המטבעות שלך יתעדכנו כאשר תחליף דף או תצא מהאפליקציה", Toast.LENGTH_SHORT).show();
-                                    moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), true,false,false);
+            if(moduleShop.CheckIfPlanBought(moduleShop.getPhoneNumber(),"IsGym")){
+                GymWorkoutFragment gymWorkoutFragment = new GymWorkoutFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,gymWorkoutFragment)
+                        .addToBackStack(null).commit();
+            }
+            else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("האם אתה רוצה לקנות תוכנית אימון זו?");
+                builder.setMessage("תוכנית זו עולה 35 מטבעות");
+                builder.setCancelable(false);
 
-                                    GymWorkoutFragment gymWorkoutFragment = new GymWorkoutFragment();
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.containerFragment,gymWorkoutFragment)
-                                            .addToBackStack(null).commit();
+                builder.setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        moduleShop.GetNumberOfCoinsByPhone(moduleShop.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
+                            @Override
+                            public void onGotCoin(int coin) {
+
+
+                                if(coin < 35){
+                                    Toast.makeText(getActivity(), "אין לך מספיק מטבעות צריך לפחות 35", Toast.LENGTH_SHORT).show();
                                 }
-                            });
-                        }
-                    }
+                                else{
 
-                }
-            });
+                                    moduleShop.UpdateDataFB(moduleShop.getPhoneNumber(), "---", 0, 0, new MyFireBaseHelper.whenDone() {
+                                        @Override
+                                        public void whenDoneToUpdate() {
+                                            moduleShop.updatePlan(moduleShop.getIdByPhoneNumber(), true,false,false);
+                                            Activity activity = getActivity();
+                                            activity.finish();
+                                            activity.startActivity(activity.getIntent());
+
+                                        }
+                                    });
+                                }
+
+
+                            }
+                        });
+
+                    }
+                });
+
+                builder.setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.getButton(-1).setTextColor(Color.BLUE);
+                dialog.getButton(-2).setTextColor(Color.RED);
+            }
+
+
+
         }
     }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentRefreshRequested();
+    }
+
 }

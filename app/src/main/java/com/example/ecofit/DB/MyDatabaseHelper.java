@@ -187,10 +187,16 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
+        if(IsGym){
+            cv.put(COLUMN_IsGym, IsGym);
+        } else if (IsHome) {
+            cv.put(COLUMN_IsHome,IsHome);
+        }
+        else if(IsHomeAndGym){
+            cv.put(COLUMN_IsHomeAndGym,IsHomeAndGym);
+        }
 
-        cv.put(COLUMN_IsGym, IsGym);
-        cv.put(COLUMN_IsHome,IsHome);
-        cv.put(COLUMN_IsHomeAndGym,IsHomeAndGym);
+
 
 
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
