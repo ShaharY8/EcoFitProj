@@ -21,12 +21,16 @@ public class ModuleSignUp {
         rep = new Repository(c);
     }
 
+    //SharedPreferences שומא נתונים ב
     public void saveAtSharedPreferences(String phone){
         rep.saveAtSharedPreferencesFromLogIn(phone);
     }
+
+    // מוסיף משתמש חדש
     public void addUser(String name,String Lname,String pass, String phone, int price){
         rep.addUser(name,Lname,pass ,phone,0);
     }
+    // מוסיף משתמש חדש ל FB
     public void AddDocument(String name,String Lname,String pass, String phone, int price) {
 
         ////////Add to fireStore
@@ -38,6 +42,7 @@ public class ModuleSignUp {
         UsersList.put("price", 0);
         rep.AddDocument(UsersList,"UsersList");
     }
+    // בודק אם משתמש קיים כבר
     public void checkIfUserExists(String whichTask, String phone, MyFireBaseHelper.UserExistenceCallback callback){
         rep.checkIfUserExists(whichTask,phone,callback);
     }

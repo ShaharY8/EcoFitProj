@@ -176,7 +176,7 @@ public class UpdateUserInfo extends AppCompatActivity implements View.OnClickLis
             startActivity(intent);
         }
 
-        return false; // Return true to indicate that the item click has been handled
+        return false;
     }
 
     public void ChangeName(){

@@ -16,6 +16,7 @@ public class ModuleMainActivity {
         rep = new Repository(context);
     }
 
+    // בודק אם משתמש כבר רשום
     public boolean CheckIfUserLoggedIn(){
         return rep.CheckIfUserLoggedInInSharedPreferences();
     }

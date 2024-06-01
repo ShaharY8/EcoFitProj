@@ -63,7 +63,6 @@ public class MyFireBaseHelper {
 
     }
 
-
     public interface gotUser
     {
         void onGotUser(LinkedList<String> name, LinkedList<String> phone);
@@ -132,7 +131,7 @@ public class MyFireBaseHelper {
     public interface UserExistenceCallback {
         void onUserExistenceChecked(boolean userExists);
     }
-
+    // בודק אם משתמש נרשם לאפליקציה או אם משימה כבר קיימת
     public void checkIfUserExists(String whichTask,String phone, UserExistenceCallback callback) {
 
 
@@ -192,6 +191,7 @@ public class MyFireBaseHelper {
 
 
     }
+    // בודק אם משתמש קיים במשימה מסויימת לפי מספר הטלפון
     public void checkIfUserSignToATask(String whichTask,String phone, UserExistenceCallback callback) {
 
 
@@ -220,6 +220,7 @@ public class MyFireBaseHelper {
 
 
     }
+    // מוחק מה FB
     public void DelFromFireStore(String whichTask, int idToDel){
         db.collection(whichTask)
                 .get()
@@ -257,6 +258,7 @@ public class MyFireBaseHelper {
     public interface whenDone {
         void whenDoneToUpdate();
     }
+    // toApp מעדכן את הפרופיל של המשתמש או את המשפר מטבות תלוי מה שווה ה
     public void GetDataToUpdate(String phone , String name, String lname, String pass, int price, String whichTask, int idToDel, int toApp, whenDone callBack){
         db.collection("UsersList")
                 .get()
@@ -350,6 +352,8 @@ public class MyFireBaseHelper {
     {
         public void onGotCoin(int coin);
     }
+
+    // מביא את מספר המטבעות של המשתמש
     public void GetNumberOfCoinsByPhone(String phone, gotCoin callback) {
         db.collection("UsersList").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

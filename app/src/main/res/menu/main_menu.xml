@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:title="Home Page"
+        android:title="דף הבית"
         android:id="@+id/_homePage"
         android:icon="@drawable/home_screen"
         />
     <item
-        android:title="Profile"
+        android:title="עדכון פרופיל"
         android:id="@+id/_profile"
         android:icon="@drawable/default_profile_image"
         />
     <item
-        android:title="Shop"
+        android:title="חנות"
         android:id="@+id/_Shop"
         android:icon="@drawable/baseline_shopping_cart_24"
         />
 
     <item
-        android:title="Log Out"
+        android:title="יציאה"
         android:id="@+id/_logOut"
         android:icon="@drawable/baseline_logout_24"
         />

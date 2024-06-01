@@ -40,17 +40,21 @@ public class ModuleHome {
         context = c;
         rep = new Repository(context);
     }
+    // מאחזר את מספר הטלפון של המשתמש מ-SharedPreferences דרך המודול.
     public String getPhoneNumber(){
         return rep.getPhoneNumberSharedPreferences();
     }
+    // מאחזר את שם המשתמש מ-SharedPreferences דרך המודול.
     public String GetName()
     {
         return rep.getNameSharedPreferences();
     }
+    // מאחזר את מספר המטבעות של המשתמש לפי מספר הטלפון דרך Firebase.
     public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback)
     {
          rep.GetNumberOfCoinsByPhone(phone, callback);
     }
+    // שומר תמונת Bitmap ב-SharedPreferences לאחר המרתה למחרוזת Base64.
     public void SavePhotoAtSharedPreferences(Bitmap photo)
     {
 
@@ -64,6 +68,7 @@ public class ModuleHome {
         // שמירת המחרוזת ב-SharedPreferences
         rep.SaveDataAtSharedPreferences(encodedImage);
     }
+    // מאחזר תמונה מקודדת מ-SharedPreferences וממיר אותה ל-Bitmap.
     public Bitmap getImageFromSharedPreferences() {
         String encodedImage = rep.GetEncodedImageSharedPreference();
         if (encodedImage != null) {
@@ -74,11 +79,12 @@ public class ModuleHome {
         }
         return null;
     }
-
+    // בודק אם משימה קיימת ב-Firebase לפי סוג המשימה ומספר הטלפון.
     public void checkIfTaskExists(String whichTask, String phone, MyFireBaseHelper.UserExistenceCallback callback){
         rep.checkIfUserExists(whichTask,phone,callback);
     }
 
+    // מציג דיאלוג לבדיקת אם המשתמש רוצה להשתתף במשימה.
     public void Task(String whichTask, String title, String details){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("האם אתה רוצה להגיע?");
@@ -136,6 +142,7 @@ public class ModuleHome {
         dialog.getButton(-2).setTextColor(Color.RED);
     }
 
+    // שולח SMS
     private void sendSmsAndRegisterUser(String phone, String message, Map<String, Object> taskUserList, String whichTask) {
         rep.checkIfUserSignToATask(whichTask, phone, new MyFireBaseHelper.UserExistenceCallback() {
             @Override
@@ -151,18 +158,22 @@ public class ModuleHome {
             }
         });
     }
-
+// מבצע התנתקות של המשתמש.
     public void LogOut(){
         rep.LogOut();
     }
+// מאחזר את כל המשימות מ-Firebase.
 
     public void GetAllTasks(MyFireBaseHelper.getTasks callback){
         rep.GetAllTasks(callback);
     }
+
+    // מוסיף משימה חדשה ל-Firebase.
     public void AddDocument(Map<String, Object> taskUser, String whichTask) {
         rep.AddDocument(taskUser, whichTask);
     }
 
+    // מעדכן נתונים ב-Firebase.
     public void UpdateDataFB(String phone, String whichTask, int idToDel, int toApp, MyFireBaseHelper.whenDone callBack){
         rep.UpdateDataFB(phone,"" ,"" ,"" ,0, whichTask,idToDel,toApp,callBack);
     }

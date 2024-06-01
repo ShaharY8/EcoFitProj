@@ -58,33 +58,6 @@
             android:layout_height="wrap_content"
             android:text="תבחר איזה משימה שאתה רוצה לאשר בה אנשים"
             />
-<!--        <Button-->
-<!--            android:id="@+id/task1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="90dp"-->
-<!--            android:layout_below="@+id/headText"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:background="@drawable/fix_button"-->
-<!--            android:text="ניקוי יערות" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/task2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="90dp"-->
-<!--            android:layout_below="@+id/task1"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:background="@drawable/fix_button"-->
-<!--            android:text="משימה מספר 2" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/task3"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="90dp"-->
-<!--            android:layout_below="@+id/task2"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:background="@drawable/fix_button"-->
-<!--            android:text="משימה מספר 3" />-->
-
 
         <ScrollView
             android:id="@+id/UserList"
@@ -131,7 +104,6 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="מאושר "

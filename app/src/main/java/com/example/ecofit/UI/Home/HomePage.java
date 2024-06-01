@@ -121,6 +121,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         changePhoto();
     }
 
+    // משנה את התמונה הפרופיל לתמונה שמתקבלת מ-SharedPreferences אם קיימת.
+
     public void changePhoto(){
         photo = moduleHome.getImageFromSharedPreferences();
         if(photo != null){
@@ -131,6 +133,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
 
     }
+    // ActivityResultLauncher שמאזין לתוצאה מהפעולה של פתיחת מצלמה.
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -147,6 +150,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                 }
             });
 
+    // מאזין ללחיצות על כפתורים ומבצע פעולות בהתאם לכפתור שנלחץ.
     @Override
     public void onClick(View view) {
         if (menu == view)
@@ -263,6 +267,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
     }
 
     private Map<String, Integer> customIdMap = new HashMap<>();
+
+    // פונקציה להוספת משימות
     public void AddTasks(){
 
         ProgressDialog progressDialog = new ProgressDialog(this);
@@ -286,24 +292,23 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                     button.setLayoutParams(new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
                             getResources().getDimensionPixelSize(R.dimen.button_height))); // Set height dynamically
-                    //button.setId(View.generateViewId()); // Generate unique ID for the button
 
-                    // Generate unique ID for the button based on task title
+                    // יצירת מזהה ייחודי לכפתור לפי כותרת המשימה
                     int buttonId = View.generateViewId();
                     button.setId(buttonId);
 
-                    // Add task title and button ID to customIdMap
+                    // הוספת כותרת המשימה ומזהה הכפתור למפה customIdMap
                     customIdMap.put(TaskName.get(i), buttonId);
 
 
-                    // Set text for each button
-
+                    // הגדרת טקסט לכל כפתור
                     button.setText(title.get(i).toString());
 
 
-                    button.setBackgroundResource(R.drawable.fix_button); // Set background drawable
+                    // הגדרת רקע הכפתור
+                    button.setBackgroundResource(R.drawable.fix_button);
 
-                    // Set layout rules for positioning
+                    // הגדרת כללי המיקום בפריסת RelativeLayout
                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) button.getLayoutParams();
                     if (i == 0) {
                         params.addRule(RelativeLayout.BELOW, R.id.txt);
@@ -313,7 +318,8 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                     params.topMargin = getResources().getDimensionPixelSize(R.dimen.button_margin_top); // Set top margin dynamically
                     button.setLayoutParams(params);
                     button.setOnClickListener(HomePage.this);
-                    // Add button to layout container
+
+                    // הוספת הכפתור
                     TaskHolder.addView(button);
 
                 }
@@ -322,6 +328,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
             }
         });
     }
+    // פונקציה להוספת כפתור אישור
     public void AddApprovalButton(){
         String phone = moduleHome.getPhoneNumber();
 
@@ -338,6 +345,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
             homePageId.addView(helpBtn1);
         }
     }
+    // משנה את השם
     public void ChangeName(){
 
         String name = moduleHome.GetName();
@@ -348,6 +356,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
             nameOfUser.setText("Error");
         }
     }
+    // משנמה את מספר המטבעות.
     public void changeNumberOfCoins(){
         moduleHome.GetNumberOfCoinsByPhone(moduleHome.getPhoneNumber(), new MyFireBaseHelper.gotCoin() {
             @Override
@@ -357,7 +366,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
         });
     }
 
-
+    // מה קורה בעת לחיצה של כל אחד מהכפתורים בתפריט
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();

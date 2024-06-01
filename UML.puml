@@ -1,13 +1,12 @@
 @startuml
 class com.example.ecofit.UI.UpdateUser.ModuleUpdateUserInfo {
 - Context context
-- SharedPreferences sharedPreferences
 - Repository rep
 + void saveAtSharedPreferences(String,String,String)
 + void updateUser(String,String,String,String,String,int)
 + String getIdByPhoneNumber(String)
 + void UpdateDataFB(String,String,String,String,int,String,int,int,MyFireBaseHelper.whenDone)
-+ String GetNameByPhone()
++ String GetName()
 + void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
 + String getPhoneNumber()
 + void LogOut()
@@ -24,19 +23,19 @@ class com.example.ecofit.UI.Main.MainActivity {
 
 class com.example.ecofit.UI.SignUp.ModuleSignUp {
 - Context context
-- SharedPreferences sharedPreferences
 - Repository rep
 + void saveAtSharedPreferences(String)
 + void addUser(String,String,String,String,int)
 + void AddDocument(String,String,String,String,int)
 + void checkIfUserExists(String,String,MyFireBaseHelper.UserExistenceCallback)
-+ void ReadDocument(String,MyFireBaseHelper.gotUser)
 }
 
 
 class com.example.ecofit.Repository.Repository {
 ~ MyDatabaseHelper myDatabaseHelper
 ~ MyFireBaseHelper myFireBaseHelper
+~ SharedPreferences sharedPreferences
+~ Context context
 + void addUser(String,String,String,String,int)
 + boolean CheckIfExist(String,String)
 + String GetNameByPhoneSQL(String)
@@ -50,9 +49,18 @@ class com.example.ecofit.Repository.Repository {
 + void ReadDocument(String,MyFireBaseHelper.gotUser)
 + void DelFromFireStore(String,int)
 + void checkIfUserExists(String,String,MyFireBaseHelper.UserExistenceCallback)
++ void checkIfUserSignToATask(String,String,MyFireBaseHelper.UserExistenceCallback)
 + void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
 + void UpdateDataFB(String,String,String,String,int,String,int,int,MyFireBaseHelper.whenDone)
 + void GetAllTasks(MyFireBaseHelper.getTasks)
++ void SaveDataAtSharedPreferences(String)
++ String getPhoneNumberSharedPreferences()
++ String getNameSharedPreferences()
++ String GetEncodedImageSharedPreference()
++ void LogOut()
++ void saveAtSharedPreferencesFromLogIn(String)
++ boolean CheckIfUserLoggedInInSharedPreferences()
++ void UpdateSharedPreference(String,String,String)
 }
 
 
@@ -94,7 +102,6 @@ class com.example.ecofit.UI.Login.LogInPage {
 
 class com.example.ecofit.UI.Shop.ModuleShop {
 - Context context
-- SharedPreferences sharedPreferences
 - Repository rep
 + void LogOut()
 + void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
@@ -130,13 +137,12 @@ class com.example.ecofit.UI.UpdateUser.UpdateUserInfo {
 class com.example.ecofit.Approval.ModuleApproval {
 - Context context
 ~ Repository rep
-- SharedPreferences sharedPreferences
 + void LogOut()
 + void ReadDocument(String,MyFireBaseHelper.gotUser)
 + void GetAllTasks(MyFireBaseHelper.getTasks)
 + void DelFromFireStore(String,int)
 + void UpdateDataFB(String,String,int,int,MyFireBaseHelper.whenDone)
-+ String GetNameByPhone()
++ String GetName()
 + void GetNumberOfCoinsByPhone(String,MyFireBaseHelper.gotCoin)
 + String getPhoneNumber()
 }
@@ -149,6 +155,7 @@ class com.example.ecofit.DB.MyFireBaseHelper {
 + void ReadDocument(String,gotUser)
 + void GetAllTasks(getTasks)
 + void checkIfUserExists(String,String,UserExistenceCallback)
++ void checkIfUserSignToATask(String,String,UserExistenceCallback)
 + void DelFromFireStore(String,int)
 + void GetDataToUpdate(String,String,String,String,int,String,int,int,whenDone)
 + void GetNumberOfCoinsByPhone(String,gotCoin)
@@ -230,14 +237,11 @@ class com.example.ecofit.DB.MyDatabaseHelper {
 + void updateUser(String,String,String,String,String,int)
 + void updatePlan(String,boolean,boolean,boolean)
 + boolean CheckIfPlanBought(String,String)
-+ void deleteOneRow(String)
-+ void deleteAllData()
 }
 
 
 class com.example.ecofit.UI.Home.ModuleHome {
 - Context context
-- SharedPreferences sharedPreferences
 - Repository rep
 + String getPhoneNumber()
 + String GetName()
@@ -245,20 +249,20 @@ class com.example.ecofit.UI.Home.ModuleHome {
 + void SavePhotoAtSharedPreferences(Bitmap)
 + Bitmap getImageFromSharedPreferences()
 + void checkIfTaskExists(String,String,MyFireBaseHelper.UserExistenceCallback)
-+ void Button1(String,String,String)
++ void Task(String,String,String)
+- void sendSmsAndRegisterUser(String,String,Map<String,Object>,String)
 + void LogOut()
 + void GetAllTasks(MyFireBaseHelper.getTasks)
 + void AddDocument(Map<String,Object>,String)
++ void UpdateDataFB(String,String,int,int,MyFireBaseHelper.whenDone)
 }
 
 
 class com.example.ecofit.UI.Login.ModuleLogIn {
 - Repository rep
-- SharedPreferences sharedPreferences
 - Context context
 + void saveAtSharedPreferences(String)
 + boolean CheckIfExist(String,String)
-+ String GetName(String)
 }
 
 
@@ -281,6 +285,7 @@ class com.example.ecofit.UI.Shop.MainShopPage {
 - String mParam2
 - Button btnGym
 - ModuleShop moduleShop
+- ImageView img1
 + {static} MainShopPage newInstance(String,String)
 + void onCreate(Bundle)
 + View onCreateView(LayoutInflater,ViewGroup,Bundle)
@@ -296,6 +301,7 @@ class com.example.ecofit.UI.SignUp.SignUpPage {
 ~ boolean isValid
 # void onCreate(Bundle)
 - void validateInputAndCheckUserExistence(ValidationCallback)
++ boolean isHebrewName(String)
 }
 
 
@@ -305,7 +311,7 @@ interface com.example.ecofit.UI.SignUp.SignUpPage$ValidationCallback {
 
 class com.example.ecofit.UI.Main.ModuleMainActivity {
 - Context context
-- SharedPreferences sharedPreferences
+~ Repository rep
 + boolean CheckIfUserLoggedIn()
 }
 

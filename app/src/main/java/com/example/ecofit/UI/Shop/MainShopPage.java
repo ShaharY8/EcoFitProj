@@ -102,6 +102,7 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
     }
 
 
+    // פעולות של הכפתורים
     @Override
     public void onClick(View view) {
         if(btnHome_Gym == view){
@@ -279,8 +280,5 @@ public class MainShopPage extends Fragment implements View.OnClickListener {
         }
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentRefreshRequested();
-    }
 
 }
