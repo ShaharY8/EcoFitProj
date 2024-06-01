@@ -112,16 +112,24 @@ public class SignUpPage extends AppCompatActivity {
                     editTextFirstName.setError("תמלא שם פרטי");
                     isValid = false;
                 }
-                if (name.length() > 10) {
-                    editTextFirstName.setError("שם פרטי ארוך מידי");
+                if (name.length() < 2) {
+                    editTextFirstName.setError("שם פרטי קצר מידי");
+                    isValid = false;
+                }
+                if(isHebrewName(name) == false){
+                    editTextFirstName.setError("שם רק בעברית");
                     isValid = false;
                 }
                 if (lname.isEmpty()) {
                     editTextLastName.setError("תמלא שם משפחה");
                     isValid = false;
                 }
-                if (lname.length() > 15) {
-                    editTextLastName.setError("שם משפחה ארוך מידי");
+                if (lname.length() < 2) {
+                    editTextLastName.setError("שם משפחה קצר מידי");
+                    isValid = false;
+                }
+                if(isHebrewName(lname) == false){
+                    editTextLastName.setError("שם משפחה רק בעברית");
                     isValid = false;
                 }
                 if (pass.length() < 3 || pass.length() > 20) {
@@ -147,6 +155,10 @@ public class SignUpPage extends AppCompatActivity {
         });
     }
 
-
+    public boolean isHebrewName(String name) {
+        // תווך התווים בעברית לפי Unicode
+        String hebrewPattern = "^[\\u0590-\\u05FF]+$";
+        return name.matches(hebrewPattern);
+    }
 
 }

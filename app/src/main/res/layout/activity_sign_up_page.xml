@@ -18,14 +18,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:hint="שם פרטי"/>
+        android:hint="שם פרטי"
+        android:maxLength="10"
+        />
 
     <EditText
         android:id="@+id/editTextLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-
+        android:maxLength="15"
         android:layout_below="@id/editTextFirstName"
         android:layout_marginTop="8dp"
         android:hint="שם משפחה"/>
@@ -38,7 +40,7 @@
         android:layout_marginTop="8dp"
         android:inputType="textPassword"
         android:gravity="right"
-
+        android:maxLength="20"
         android:hint="סיסמא"/>
 
     <EditText
@@ -48,7 +50,7 @@
         android:layout_below="@id/editTextPassword"
         android:layout_marginTop="8dp"
         android:gravity="right"
-
+        android:maxLength="20"
         android:inputType="textPassword"
         android:hint="אימות סיסמא"/>
 
@@ -61,7 +63,7 @@
         android:layout_marginTop="8dp"
         android:inputType="phone"
         android:gravity="right"
-
+        android:maxLength="10"
         android:hint="מספר טלפון"/>
 
     <Button

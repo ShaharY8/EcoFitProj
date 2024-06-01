@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.ecofit.UI.UpdateUser.UpdateUserInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,7 +51,7 @@ public class MyFireBaseHelper {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -316,9 +317,21 @@ public class MyFireBaseHelper {
                                                 }
                                             }
                                         });
+                                    } else if (toApp == 2) {
+                                        userData.put("name", document.getData().get("name").toString());
+                                        userData.put("Lname",  document.getData().get("Lname").toString());
+                                        userData.put("pass",  document.getData().get("pass").toString());
+                                        userData.put("phone", phone);
+                                        userData.put("price",  Integer.valueOf(document.getData().get("price").toString())-15);
+                                        db.collection("UsersList").document(document.getId()).update(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()) {
+                                                    callBack.whenDoneToUpdate();
+                                                }
+                                            }
+                                        });
                                     }
-
-
 
 
                                 }

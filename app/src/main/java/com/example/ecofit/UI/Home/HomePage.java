@@ -171,10 +171,12 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
 
                         dialog.setContentView(R.layout.creat_new_task);
 
-                        EditText etTaskName = dialog.findViewById(R.id.TaskName);
+                        EditText etTaskName = dialog.findViewById(R.id.title);
                         EditText etTitle = dialog.findViewById(R.id.title);
-                        EditText etDetails = dialog.findViewById(R.id.title);
+                        EditText etDetails = dialog.findViewById(R.id.details);
                         Button btnSend = dialog.findViewById(R.id.btnSend);
+
+
 
                         btnSend.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -184,19 +186,29 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                                     public void onValidationResult(boolean isValid) {
 
                                         if (isValid) {
-                                            String TaskName = etTaskName.getText().toString().trim();
-                                            String Title = etTitle.getText().toString().trim();
-                                            String Details =  etDetails.getText().toString().trim();
+                                            if(etTaskName.length() == 0|| etDetails.length() == 0){
+                                                Toast.makeText(HomePage.this, "חלק מהשדות ריקים", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else{
+                                                String TaskName = etTaskName.getText().toString().trim();
+                                                String Title = etTitle.getText().toString().trim();
+                                                String Details =  etDetails.getText().toString().trim();
 
-                                            Map<String,Object> taskInfo = new HashMap<>();
-                                            taskInfo.put("TaskName", TaskName);
-                                            taskInfo.put("title", Title);
-                                            taskInfo.put("details", Details);
+                                                Map<String,Object> taskInfo = new HashMap<>();
+                                                taskInfo.put("TaskName", TaskName);
+                                                taskInfo.put("title", Title);
+                                                taskInfo.put("details", Details);
 
-                                            moduleHome.AddDocument(taskInfo,"AllTasks");
-                                            dialog.dismiss();
-                                            finish();
-                                            startActivity(getIntent());
+                                                moduleHome.AddDocument(taskInfo,"AllTasks");
+                                                dialog.dismiss();
+                                                moduleHome.UpdateDataFB(moduleHome.getPhoneNumber(), "", -10, 2, new MyFireBaseHelper.whenDone() {
+                                                    @Override
+                                                    public void whenDoneToUpdate() {
+                                                        finish();
+                                                        startActivity(getIntent());
+                                                    }
+                                                });
+                                            }
 
                                         } else {
                                             Toast.makeText(HomePage.this, "המשימה קיימת כבר", Toast.LENGTH_SHORT).show();
@@ -244,6 +256,7 @@ public class HomePage extends AppCompatActivity implements View.OnClickListener,
                 if(userExists == true){
                     isValid = false;
                 }
+
                 callback.onValidationResult(isValid);
             }
         });

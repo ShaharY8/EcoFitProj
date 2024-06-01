@@ -15,18 +15,14 @@ public class ModuleApproval {
 
     private Context context;
     Repository rep;
-    private SharedPreferences sharedPreferences;
+
     public ModuleApproval(Context c){
         context = c;
         rep = new Repository(context);
-        sharedPreferences = context.getSharedPreferences("UserInfo", MODE_PRIVATE);
     }
 
     public void LogOut(){
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.commit();
-        Toast.makeText(context, "Log Out successfully", Toast.LENGTH_SHORT).show();
+        rep.LogOut();
     }
 
     public void ReadDocument(String whichTask, MyFireBaseHelper.gotUser callback) {
@@ -42,15 +38,15 @@ public class ModuleApproval {
     public void UpdateDataFB(String phone, String whichTask, int idToDel, int toApp, MyFireBaseHelper.whenDone callBack){
         rep.UpdateDataFB(phone,"" ,"" ,"" ,0, whichTask,idToDel,toApp,callBack);
     }
-    public String GetNameByPhone()
+    public String GetName()
     {
-        return sharedPreferences.getString("UserName", "0000000");
+        return rep.getNameSharedPreferences();
     }
     public void GetNumberOfCoinsByPhone(String phone, MyFireBaseHelper.gotCoin callback)
     {
         rep.GetNumberOfCoinsByPhone(phone, callback);
     }
     public String getPhoneNumber(){
-        return sharedPreferences.getString("UserPhone", "0000000");
+        return rep.getPhoneNumberSharedPreferences();
     }
 }

@@ -163,7 +163,9 @@ public class ModuleHome {
         rep.AddDocument(taskUser, whichTask);
     }
 
-
+    public void UpdateDataFB(String phone, String whichTask, int idToDel, int toApp, MyFireBaseHelper.whenDone callBack){
+        rep.UpdateDataFB(phone,"" ,"" ,"" ,0, whichTask,idToDel,toApp,callBack);
+    }
 
 }
 

@@ -70,20 +70,14 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
 
         tvCoinNumber = findViewById(R.id.coinNumber);
         tvNameOfUser = findViewById(R.id.nameOfUser);
-
         indexForDel = 1;
         scrollView = findViewById(R.id.UserList);
-
         mainRelativeLayout = findViewById(R.id.mainRelativeLayout);
-
         mainRelativeLayout.removeView(scrollView);
-
         moduleApproval = new ModuleApproval(this);
-
         textView = findViewById(R.id.headText);
+
         AddTasks();
-
-
 
         drawerLayout = findViewById(R.id.drawerlayout);
 
@@ -134,7 +128,6 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
                 if(i == btnUpdateCoin.size()-indexForDel){
                     btnDelete.remove(i);
                     btnUpdateCoin.remove(i);
-                    Toast.makeText(this, "" + UsersPhone.get(i), Toast.LENGTH_SHORT).show();
                     moduleApproval.UpdateDataFB(UsersPhone.get(i), whichTask, i, -1, new MyFireBaseHelper.whenDone() {
                         @Override
                         public void whenDoneToUpdate() {
@@ -161,9 +154,6 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
                 TakeListOfUsers(whichTask);
                 mainRelativeLayout.addView(scrollView);
                 removeAllTask();
-                if(UsersPhone == null){
-                    Toast.makeText(this, "אין משתמשים שנרשמו", Toast.LENGTH_SHORT).show();
-                }
             }
         }
     }
@@ -249,11 +239,21 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
             public void onGotUser(LinkedList<String> name, LinkedList<String> phone) {
                 tableLayout = findViewById(R.id.tableLayout);
                 UsersPhone = phone;
-                for (int i = 0; i < name.size(); i++) {
 
-                    AddRow(name.get(i),phone.get(i),i);
+                if(phone.size() == 0){
+                    Toast.makeText(getApplicationContext(), "אין משתמשים שנרשמו", Toast.LENGTH_SHORT).show();
                 }
+                else{
+
+                    for (int i = 0; i < name.size(); i++) {
+
+                        AddRow(name.get(i),phone.get(i),i);
+                    }
+                }
+
+
             }
+
         });
     }
 
@@ -336,7 +336,7 @@ public class ApprovalPage extends AppCompatActivity implements View.OnClickListe
     // משנה שם
     public void ChangeName(){
 
-        String name = moduleApproval.GetNameByPhone();
+        String name = moduleApproval.GetName();
         if(name != null){
             tvNameOfUser.setText(name + "");
         }
