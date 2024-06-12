@@ -117,6 +117,7 @@ public class ModuleHome {
                         if(userExists == false){
                             if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                                 ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.SEND_SMS}, 1);
+                                Toast.makeText(context, "כדי להירשם למישמה אתה צריך לאפשר שליחת הודעה", Toast.LENGTH_SHORT).show();
                             } else {
                                 sendSmsAndRegisterUser(phone, str, taskUserList, whichTask);
                             }
