@@ -101,7 +101,6 @@ public class ModuleHome {
                         " אם אתה מתחרט ואינך רוצה להגיע אתה לא צריך לשנות כלום פשוט אל תגיע.";
                 // SmsManager smsManager = SmsManager.getDefault();
                 String phone = getPhoneNumber();
-                Toast.makeText(context, "" + phone, Toast.LENGTH_SHORT).show();
                 String name = rep.getNameSharedPreferences();
 
                 Map<String, Object> taskUserList = new HashMap<>();
